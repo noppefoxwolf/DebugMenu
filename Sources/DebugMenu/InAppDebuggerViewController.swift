@@ -21,24 +21,8 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
     
     init(debuggerItems: [DebugMenuPresentable]) {
         self.debuggerItems = debuggerItems
-        let collectionViewLayout = UICollectionViewCompositionalLayout { (section, environment) -> NSCollectionLayoutSection? in
-            switch Section(rawValue: section) {
-            case .items:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .estimated(44))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = .init(top: 1, leading: 0, bottom: 0, trailing: 0)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                       heightDimension: .fractionalHeight(1.0))
-                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
-                                                               subitems: [item])
-                let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .none
-                return section
-            default:
-                return nil
-            }
-        }
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: collectionViewLayout
@@ -142,22 +126,11 @@ extension InAppDebuggerViewController: UICollectionViewDelegate, UICollectionVie
 
 extension InAppDebugger {
     class ItemCollectionViewCell: CollectionViewCell {
-        private let separatorView: UIView = .init(frame: .zero)
         private let titleLabel: UILabel = UILabel(frame: .zero)
         
         override init(frame: CGRect) {
             super.init(frame: frame)
             contentView.backgroundColor = .tertiarySystemBackground
-            
-            separatorView.backgroundColor = .separator
-            separatorView.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addSubview(separatorView)
-            NSLayoutConstraint.activate([
-                separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
-                separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                separatorView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-                separatorView.heightAnchor.constraint(equalToConstant: 1)
-            ])
             
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview(titleLabel)
