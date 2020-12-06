@@ -5,7 +5,7 @@
 ```swift
 #if DEBUG
 DebugMenu.install(windowScene: windowScene, items: [
-    ViewControllerDebugItem<ColorViewController>(builder: { $0.init(color: .blue) }),
+    ViewControllerDebugItem<ColorViewController>(),
     ClearCacheDebugItem(),
     UserDefaultsResetDebugItem(),
     CustomDebugItem()
