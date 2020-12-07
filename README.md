@@ -1,5 +1,7 @@
 # DebugMenu
 
+![](https://github.com/noppefoxwolf/DebugMenu/blob/main/.github/example.gif)
+
 ## Installation
 
 Select File > Swift Packages > Add Package Dependency. Enter https://github.com/noppefoxwolf/DebugMenu in the "Choose Package Repository" dialog.
