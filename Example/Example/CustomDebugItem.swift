@@ -10,7 +10,13 @@ import DebugMenu
 
 struct CustomDebugItem: DebugMenuPresentable {
     let debuggerItemTitle: String = "Custom item"
-    func didSelectedDebuggerItem(_ controller: UIViewController, completionHandler: @escaping (InAppDebuggerResult) -> Void) {
-        completionHandler(.success(message: "OK"))
+    let action: DebugMenuAction = .toggle { UserDefaults.standard.bool(forKey: "key") } action: { (isOn, completions) in
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(isOn, forKey: "key")
+        if userDefaults.synchronize() {
+            completions(.success(message: "Switch to \(isOn)"))
+        } else {
+            completions(.failure(message: "Failed to save"))
+        }
     }
 }

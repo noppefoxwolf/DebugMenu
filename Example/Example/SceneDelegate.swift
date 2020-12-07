@@ -23,7 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ViewControllerDebugItem<ColorViewController>(builder: { $0.init(color: .blue) }),
             ClearCacheDebugItem(),
             UserDefaultsResetDebugItem(),
-            CustomDebugItem()
+            CustomDebugItem(),
+            
         ])
         #endif
     }

@@ -11,16 +11,16 @@ public struct ClearCacheDebugItem: DebugMenuPresentable {
     public init() {}
     
     public let debuggerItemTitle: String = "Clear Cache"
-    public func didSelectedDebuggerItem(_ controller: UIViewController, completionHandler: @escaping (InAppDebuggerResult) -> Void) {
+    public let action: DebugMenuAction = .didSelect { (controller, completions) in
         do {
-            try clearCache()
-            completionHandler(.success())
+            try ClearCacheDebugItem.clearCache()
+            completions(.success())
         } catch {
-            completionHandler(.failure(message: "\(error)"))
+            completions(.failure(message: "\(error)"))
         }
     }
     
-    func clearCache() throws {
+    static func clearCache() throws {
         let cacheURL =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
         let fileManager = FileManager.default
         // Get the directory contents urls (including subfolders urls)

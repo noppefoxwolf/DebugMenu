@@ -10,9 +10,9 @@ import UIKit
 public struct UserDefaultsResetDebugItem: DebugMenuPresentable {
     public init() {}
     
-    public var debuggerItemTitle: String { "Reset UserDefaults" }
+    public let debuggerItemTitle: String = "Reset UserDefaults"
     
-    public func didSelectedDebuggerItem(_ controller: UIViewController, completionHandler: @escaping (InAppDebuggerResult) -> Void) {
+    public let action: DebugMenuAction = .didSelect { (_, _) in
         let appDomain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: appDomain)
         exit(0)

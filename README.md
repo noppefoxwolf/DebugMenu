@@ -1,5 +1,9 @@
 # DebugMenu
 
+## Installation
+
+Select File > Swift Packages > Add Package Dependency. Enter https://github.com/noppefoxwolf/DebugMenu in the "Choose Package Repository" dialog.
+
 ## Usage
 
 ```swift
@@ -18,12 +22,19 @@ DebugMenu.install(windowScene: windowScene, items: [
 ```swift
 struct CustomDebugItem: DebugMenuPresentable {
     let debuggerItemTitle: String = "Custom item"
-    func didSelectedDebuggerItem(_ controller: UIViewController, completionHandler: @escaping (InAppDebuggerResult) -> Void) {
-        completionHandler(.success(message: "OK"))
+    let action: DebugMenuAction = .toggle { UserDefaults.standard.bool(forKey: "key") } action: { (isOn, completions) in
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(isOn, forKey: "key")
+        if userDefaults.synchronize() {
+            completions(.success(message: "Switch to \(isOn)"))
+        } else {
+            completions(.failure(message: "Failed to save"))
+        }
     }
 }
 ```
 
 ## License
 
-MIT
+License
+DebugMenu is released under the MIT license. See LICENSE for details.

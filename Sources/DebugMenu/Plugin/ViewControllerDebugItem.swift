@@ -14,24 +14,20 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugMenuPresentable
     }
     
     public init(presentationMode: PresentationMode = .push, builder: @escaping ((T.Type) -> T) = { $0.init() }) {
-        self.presentationMode = presentationMode
-        self.builder = builder
+        action = .didSelect { (controller, completions) in
+            let viewController = builder(T.self)
+            switch presentationMode {
+            case .present:
+                controller.present(viewController, animated: true, completion: {
+                    completions(.success())
+                })
+            case .push:
+                controller.navigationController?.pushViewController(viewController, animated: true)
+                completions(.success())
+            }
+        }
     }
     
     public var debuggerItemTitle: String { String(describing: T.self) }
-    private let presentationMode: PresentationMode
-    private let builder: (T.Type) -> T
-    
-    public func didSelectedDebuggerItem(_ controller: UIViewController, completionHandler: @escaping (InAppDebuggerResult) -> Void) {
-        let viewController = builder(T.self)
-        switch presentationMode {
-        case .present:
-            controller.present(viewController, animated: true, completion: {
-                completionHandler(.success())
-            })
-        case .push:
-            controller.navigationController?.pushViewController(viewController, animated: true)
-            completionHandler(.success())
-        }
-    }
+    public let action: DebugMenuAction
 }
