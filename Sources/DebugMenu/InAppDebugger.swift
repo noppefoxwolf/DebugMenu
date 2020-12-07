@@ -8,19 +8,19 @@
 import UIKit
 import Combine
 
-class InAppDebuggerWindow: UIWindow {
+public class InAppDebuggerWindow: UIWindow {
     fileprivate static var shared: InAppDebuggerWindow!
     fileprivate var needsThroughTouches: Bool = true
     
-    static func install(windowScene: UIWindowScene? = nil, debuggerItems: [DebugMenuPresentable]) {
+    internal static func install(windowScene: UIWindowScene? = nil, debuggerItems: [DebugMenuPresentable]) {
         install({ windowScene.map(InAppDebuggerWindow.init(windowScene:)) ?? InAppDebuggerWindow(frame: UIScreen.main.bounds) }, debuggerItems: debuggerItems)
     }
     
-    override init(windowScene: UIWindowScene) {
+    internal override init(windowScene: UIWindowScene) {
         super.init(windowScene: windowScene)
     }
     
-    override init(frame: CGRect) {
+    internal override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
@@ -33,9 +33,9 @@ class InAppDebuggerWindow: UIWindow {
         keyWindow?.makeKeyAndVisible()
     }
     
-    required init?(coder: NSCoder) { fatalError() }
+    internal required init?(coder: NSCoder) { fatalError() }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if InAppDebuggerWindow.shared.needsThroughTouches {
             return super.hitTest(point, with: event) as? FloatingButton
         } else {
