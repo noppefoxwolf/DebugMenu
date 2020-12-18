@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ClearCacheDebugItem(),
             UserDefaultsResetDebugItem(),
             CustomDebugItem(),
-            
+            RangeDebugItem(title: "Attack Rate", current: { 0.1 }, range: 0.0...100.0, onChange: { value in print(value) })
         ])
         #endif
     }

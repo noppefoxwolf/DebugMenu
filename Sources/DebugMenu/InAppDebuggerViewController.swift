@@ -29,24 +29,53 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
     required init?(coder: NSCoder) { fatalError() }
     
     lazy var dataSource = UICollectionViewDiffableDataSource<Section, AnyDebugItem>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
-        let cellRegistration = UICollectionView.CellRegistration { (cell: UICollectionViewListCell, indexPath, item: DebugMenuPresentable) in
+        let selectCellRegstration = UICollectionView.CellRegistration { (cell: UICollectionViewListCell, indexPath, title: String) in
             var content = cell.defaultContentConfiguration()
-            content.text = item.debuggerItemTitle
+            content.text = title
             cell.contentConfiguration = content
-            switch item.action {
-            case .didSelect:
-                cell.accessories = [.disclosureIndicator()]
-            case let .toggle(current, action):
-                let toggle = UISwitch()
-                toggle.isOn = current()
-                toggle.tag = indexPath.row
-                toggle.addTarget(self, action: #selector(self.onValueChangeToggle(_:)), for: .valueChanged)
-                let configuration = UICellAccessory.CustomViewConfiguration(customView: toggle, placement: .trailing())
-                cell.accessories = [.customView(configuration: configuration)]
-            }
+            cell.accessories = [.disclosureIndicator()]
         }
-        let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
-        return cell
+        let toggleCellRegstration = UICollectionView.CellRegistration { (cell: ToggleCell, indexPath, item: (title: String, current: () -> Bool, onChange: (Bool) -> Void)) in
+            var content = cell.defaultContentConfiguration()
+            content.text = item.title
+            cell.contentConfiguration = content
+            cell.current = item.current
+            cell.onChange = item.onChange
+        }
+        let sliderCellRegstration = UICollectionView.CellRegistration { (cell: SliderCell, indexPath, item: (title: String, current: () -> Double, range: ClosedRange<Double>, onChange: (Double) -> Void)) in
+            cell.title = item.title
+            cell.current = item.current
+            cell.range = item.range
+            cell.onChange = item.onChange
+        }
+        switch item.action {
+        case .didSelect:
+            return collectionView.dequeueConfiguredReusableCell(
+                using: selectCellRegstration,
+                for: indexPath,
+                item: item.debuggerItemTitle
+            )
+        case let .toggle(current, onChange):
+            return collectionView.dequeueConfiguredReusableCell(
+                using: toggleCellRegstration,
+                for: indexPath,
+                item: (item.debuggerItemTitle, current, { [weak self] (value) in
+                    onChange(value, { [weak self] (result) in
+                        self?.onCompleteAction(result)
+                    })
+                })
+            )
+        case let .slider(current, range, onChange):
+            return collectionView.dequeueConfiguredReusableCell(
+                using: sliderCellRegstration,
+                for: indexPath,
+                item: (item.debuggerItemTitle, current, range, { [weak self] (value) in
+                    onChange(value, { [weak self] (result) in
+                        self?.onCompleteAction(result)
+                    })
+                })
+            )
+        }
     })
     
     override func loadView() {
@@ -99,14 +128,6 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
         self.dismiss(animated: true)
     }
     
-    @objc private func onValueChangeToggle(_ toggle: UISwitch) {
-        let item = debuggerItems[toggle.tag]
-        guard case let .toggle(_, action) = item.action else { return }
-        action(toggle.isOn) { [weak self] (result) in
-            self?.onCompleteAction(result)
-        }
-    }
-    
     private func onCompleteAction(_ result: DebugMenuResult) {
         switch result {
         case .success(let message) where message != nil:
@@ -129,7 +150,7 @@ extension InAppDebuggerViewController: UICollectionViewDelegate {
                 action(self) { [weak self] (result) in
                     self?.onCompleteAction(result)
                 }
-            case .toggle:
+            case .toggle, .slider:
                 break
             }
         default:
