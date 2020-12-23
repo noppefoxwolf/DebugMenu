@@ -100,6 +100,24 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
             let rightItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(onTapRightBarButtonItem))
             navigationItem.rightBarButtonItem = rightItem
         }
+        
+        toolbar: do {
+            let label = UILabel(frame: .null)
+            label.font = UIFont.preferredFont(forTextStyle: .caption1)
+            label.textColor = UIColor.label
+            label.text = "\(Application.current.appName) \(Application.current.version) (\(Application.current.build))"
+            let bundleIDLabel = UILabel(frame: .null)
+            bundleIDLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
+            bundleIDLabel.textColor = UIColor.secondaryLabel
+            bundleIDLabel.text = "\(Application.current.bundleIdentifier)"
+            let vStack = UIStackView(arrangedSubviews: [label, bundleIDLabel])
+            vStack.axis = .vertical
+            vStack.alignment = .center
+            let space = UIBarButtonItem.flexibleSpace()
+            let item = UIBarButtonItem(customView: vStack)
+            navigationController?.isToolbarHidden = false
+            toolbarItems = [space, item, space]
+        }
     }
     
     override func viewDidLoad() {
