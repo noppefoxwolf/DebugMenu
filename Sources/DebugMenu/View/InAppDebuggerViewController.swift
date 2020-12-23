@@ -17,7 +17,7 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
     
     init(debuggerItems: [DebugMenuPresentable]) {
         self.debuggerItems = debuggerItems.map(AnyDebugItem.init)
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         let collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView = UICollectionView(
             frame: .zero,
@@ -34,6 +34,11 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
             content.text = title
             cell.contentConfiguration = content
             cell.accessories = [.disclosureIndicator()]
+        }
+        let executableCellRegstration = UICollectionView.CellRegistration { (cell: UICollectionViewListCell, indexPath, title: String) in
+            var content = cell.defaultContentConfiguration()
+            content.text = title
+            cell.contentConfiguration = content
         }
         let toggleCellRegstration = UICollectionView.CellRegistration { (cell: ToggleCell, indexPath, item: (title: String, current: () -> Bool, onChange: (Bool) -> Void)) in
             var content = cell.defaultContentConfiguration()
@@ -52,6 +57,12 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
         case .didSelect:
             return collectionView.dequeueConfiguredReusableCell(
                 using: selectCellRegstration,
+                for: indexPath,
+                item: item.debuggerItemTitle
+            )
+        case .execute:
+            return collectionView.dequeueConfiguredReusableCell(
+                using: executableCellRegstration,
                 for: indexPath,
                 item: item.debuggerItemTitle
             )
@@ -81,7 +92,7 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
     override func loadView() {
         super.loadView()
         
-        navigationItem.title = Application.current.appName
+        navigationItem.title = "DebugMenu"
         navigationItem.largeTitleDisplayMode = .always
         
         collection: do {
@@ -97,7 +108,9 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
         }
         
         navigation: do {
-            let rightItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(onTapRightBarButtonItem))
+            let rightItem = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] (_) in
+                self?.dismiss(animated: true)
+            }), menu: nil)
             navigationItem.rightBarButtonItem = rightItem
         }
         
@@ -133,17 +146,7 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        collectionView.indexPathsForSelectedItems?.forEach { (indexPath) in
-            collectionView.deselectItem(at: indexPath, animated: true)
-        }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        dismiss(animated: true)
-    }
-    
-    @objc private func onTapRightBarButtonItem() {
-        self.dismiss(animated: true)
+        deselectSelectedItems()
     }
     
     private func onCompleteAction(_ result: DebugMenuResult) {
@@ -154,6 +157,12 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
             presentAlert(title: "Error", message: message)
         default:
             break
+        }
+    }
+    
+    private func deselectSelectedItems(animated: Bool = true) {
+        collectionView.indexPathsForSelectedItems?.forEach { (indexPath) in
+            collectionView.deselectItem(at: indexPath, animated: animated)
         }
     }
 }
@@ -168,8 +177,27 @@ extension InAppDebuggerViewController: UICollectionViewDelegate {
                 action(self) { [weak self] (result) in
                     self?.onCompleteAction(result)
                 }
+            case let .execute(action):
+                action { [weak self] (result) in
+                    self?.onCompleteAction(result)
+                }
             case .toggle, .slider:
                 break
+            }
+        default:
+            fatalError()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        switch Section(rawValue: indexPath.section) {
+        case .items:
+            let item = debuggerItems[indexPath.row]
+            switch item.action {
+            case .didSelect, .execute:
+                return true
+            case .toggle, .slider:
+                return false
             }
         default:
             fatalError()
@@ -179,7 +207,9 @@ extension InAppDebuggerViewController: UICollectionViewDelegate {
     private func presentAlert(title: String, message: String?) {
         DispatchQueue.main.async { [weak self] in
             let vc = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            vc.addAction(.init(title: "OK", style: .cancel, handler: nil))
+            vc.addAction(.init(title: "OK", style: .cancel, handler: { [weak self] _ in
+                self?.deselectSelectedItems()
+            }))
             self?.present(vc, animated: true, completion: nil)
         }
     }

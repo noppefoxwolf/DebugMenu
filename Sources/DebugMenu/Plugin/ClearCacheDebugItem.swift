@@ -11,10 +11,10 @@ public struct ClearCacheDebugItem: DebugMenuPresentable {
     public init() {}
     
     public let debuggerItemTitle: String = "Clear Cache"
-    public let action: DebugMenuAction = .didSelect { (controller, completions) in
+    public let action: DebugMenuAction = .execute { (completions) in
         do {
             try ClearCacheDebugItem.clearCache()
-            completions(.success())
+            completions(.success(message: "The cache completely cleared."))
         } catch {
             completions(.failure(message: "\(error)"))
         }

@@ -12,7 +12,7 @@ public struct UserDefaultsResetDebugItem: DebugMenuPresentable {
     
     public let debuggerItemTitle: String = "Reset UserDefaults"
     
-    public let action: DebugMenuAction = .didSelect { (_, _) in
+    public let action: DebugMenuAction = .execute { (_) in
         let appDomain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: appDomain)
         exit(0)

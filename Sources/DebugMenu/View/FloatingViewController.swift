@@ -1,52 +1,16 @@
 //
-//  InAppDebugger.swift
-//  App
+//  FloatingViewController.swift
+//  DebugMenu
 //
-//  Created by Tomoya Hirano on 2020/03/01.
+//  Created by Tomoya Hirano on 2020/12/23.
 //
 
 import UIKit
 import Combine
 
-public class InAppDebuggerWindow: UIWindow {
-    fileprivate static var shared: InAppDebuggerWindow!
-    fileprivate var needsThroughTouches: Bool = true
-    
-    internal static func install(windowScene: UIWindowScene? = nil, debuggerItems: [DebugMenuPresentable]) {
-        install({ windowScene.map(InAppDebuggerWindow.init(windowScene:)) ?? InAppDebuggerWindow(frame: UIScreen.main.bounds) }, debuggerItems: debuggerItems)
-    }
-    
-    internal override init(windowScene: UIWindowScene) {
-        super.init(windowScene: windowScene)
-    }
-    
-    internal override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    private static func install(_ factory: (() -> InAppDebuggerWindow), debuggerItems: [DebugMenuPresentable]) {
-        let keyWindow = UIApplication.shared.findKeyWindow()
-        shared = factory()
-        shared.windowLevel = UIWindow.Level.statusBar + 1
-        shared.rootViewController = FloatingViewController(debuggerItems: debuggerItems)
-        shared!.makeKeyAndVisible()
-        keyWindow?.makeKeyAndVisible()
-    }
-    
-    internal required init?(coder: NSCoder) { fatalError() }
-    
-    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if InAppDebuggerWindow.shared.needsThroughTouches {
-            return super.hitTest(point, with: event) as? FloatingButton
-        } else {
-            return super.hitTest(point, with: event)
-        }
-    }
-}
+internal class FloatingButton: UIButton {}
 
-fileprivate class FloatingButton: UIButton {}
-
-fileprivate class FloatingViewController: UIViewController {
+internal class FloatingViewController: UIViewController {
     private let floatingView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterialDark))
     private let floatingButton: FloatingButton = FloatingButton(frame: .zero)
     private let longPressGesture: UILongPressGestureRecognizer = UILongPressGestureRecognizer()
@@ -104,7 +68,8 @@ fileprivate class FloatingViewController: UIViewController {
         let nc = UINavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .fullScreen
         vc.delegate = self
-        self.present(nc, animated: true, completion: nil)
+        let ac = CustomActivityViewController(controller: nc)
+        self.present(ac, animated: true, completion: nil)
     }
     
     @objc private func onLongPress(_ gesture: UILongPressGestureRecognizer) {
@@ -122,33 +87,5 @@ fileprivate class FloatingViewController: UIViewController {
 extension FloatingViewController: InAppDebuggerViewControllerDelegate {
     func didDismiss(_ controller: InAppDebuggerViewControllerBase) {
         InAppDebuggerWindow.shared.needsThroughTouches = true
-    }
-}
-
-protocol InAppDebuggerViewControllerDelegate: class {
-    func didDismiss(_ controller: InAppDebuggerViewControllerBase)
-}
-
-open class InAppDebuggerViewControllerBase: UIViewController {
-    weak var delegate: InAppDebuggerViewControllerDelegate? = nil
-    
-    override public func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        super.dismiss(animated: flag, completion: { [weak self] in
-            guard let self = self else { return }
-            self.delegate?.didDismiss(self)
-            completion?()
-        })
-    }
-}
-
-
-extension UIApplication {
-    func findKeyWindow() -> UIWindow? {
-        (connectedScenes
-            .filter({$0.activationState == .foregroundActive})
-            .compactMap({$0 as? UIWindowScene})
-            .first?.windows ?? windows)
-            .filter({ !($0 is InAppDebuggerWindow) })
-            .filter({$0.isKeyWindow}).first
     }
 }
