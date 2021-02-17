@@ -53,7 +53,7 @@ internal class FloatingViewController: UIViewController {
         
         gesture.moveInitialPosition()
         
-        floatingButton.addTarget(self, action: #selector(onTapFloatingView), for: .touchUpInside)
+        floatingButton.addTarget(self, action: #selector(onTapFloatingButton), for: .touchUpInside)
     }
     
     override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
@@ -63,12 +63,13 @@ internal class FloatingViewController: UIViewController {
         }
     }
     
-    @objc private func onTapFloatingView() {
+    @objc private func onTapFloatingButton(_ button: UIView) {
         let vc = InAppDebuggerViewController(debuggerItems: self.debuggerItems)
         let nc = UINavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .fullScreen
         vc.delegate = self
         let ac = CustomActivityViewController(controller: nc)
+        ac.popoverPresentationController?.sourceView = button
         self.present(ac, animated: true, completion: nil)
     }
     
