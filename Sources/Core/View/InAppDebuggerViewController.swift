@@ -20,7 +20,7 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
         let configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         let collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView = UICollectionView(
-            frame: .zero,
+            frame: .null,
             collectionViewLayout: collectionViewLayout
         )
         super.init(nibName: nil, bundle: nil)
@@ -28,7 +28,7 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
     
     required init?(coder: NSCoder) { fatalError() }
     
-    lazy var dataSource = UICollectionViewDiffableDataSource<Section, AnyDebugItem>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+    lazy var dataSource = UICollectionViewDiffableDataSource<Section, AnyDebugItem>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) in
         let selectCellRegstration = UICollectionView.CellRegistration { (cell: UICollectionViewListCell, indexPath, title: String) in
             var content = cell.defaultContentConfiguration()
             content.text = title
@@ -90,22 +90,14 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
     })
     
     override func loadView() {
-        super.loadView()
+        view = collectionView
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         navigationItem.title = "DebugMenu"
         navigationItem.largeTitleDisplayMode = .always
-        
-        collection: do {
-            collectionView.backgroundColor = .systemBackground
-            collectionView.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(collectionView)
-            NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-                collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            ])
-        }
         
         navigation: do {
             let rightItem = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] (_) in
@@ -131,10 +123,7 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
             navigationController?.isToolbarHidden = false
             toolbarItems = [space, item, space]
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        
         collectionView.delegate = self
         collectionView.dataSource = dataSource
         

@@ -7,6 +7,8 @@
 
 import UIKit
 import DebugMenu
+import DebugMenuConsole
+import Logging
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,8 +20,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        LoggingSystem.bootstrap({
+            MultiplexLogHandler([
+                StreamLogHandler.standardOutput(label: $0),
+                WriteLogHandler.output(label: $0)
+            ])
+        })
+        Logger(label: "dev.noppe.debugMenu.logger").info("Launch")
+        
         #if DEBUG
         DebugMenu.install(windowScene: windowScene, items: [
+            ConsoleDebugItem(),
             ViewControllerDebugItem<ColorViewController>(builder: { $0.init(color: .blue) }),
             ClearCacheDebugItem(),
             UserDefaultsResetDebugItem(),

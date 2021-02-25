@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D7D2ECDA25E807C3002B1CC6 /* DebugMenuConsole.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7D2ECD725E807C3002B1CC6 /* DebugMenuConsole.framework */; };
+		D7D2ECDB25E807C3002B1CC6 /* DebugMenuConsole.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D7D2ECD725E807C3002B1CC6 /* DebugMenuConsole.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D7F85945257CFE9800A7AFDF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F85944257CFE9800A7AFDF /* AppDelegate.swift */; };
 		D7F85947257CFE9800A7AFDF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F85946257CFE9800A7AFDF /* SceneDelegate.swift */; };
 		D7F85949257CFE9800A7AFDF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F85948257CFE9800A7AFDF /* ViewController.swift */; };
@@ -19,6 +21,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D7D2ECD625E807C3002B1CC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D7F85959257CFEF000A7AFDF /* DebugMenu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "DebugMenu::DebugMenuConsole::Product";
+			remoteInfo = DebugMenuConsole;
+		};
+		D7D2ECD825E807C3002B1CC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D7F85959257CFEF000A7AFDF /* DebugMenu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "swift-log::Logging::Product";
+			remoteInfo = Logging;
+		};
 		D7F85960257CFEF000A7AFDF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D7F85959257CFEF000A7AFDF /* DebugMenu.xcodeproj */;
@@ -43,6 +59,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				D7F8596D257CFF0900A7AFDF /* DebugMenu.framework in Embed Frameworks */,
+				D7D2ECDB25E807C3002B1CC6 /* DebugMenuConsole.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7F8596C257CFF0900A7AFDF /* DebugMenu.framework in Frameworks */,
+				D7D2ECDA25E807C3002B1CC6 /* DebugMenuConsole.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,7 +129,9 @@
 			isa = PBXGroup;
 			children = (
 				D7F85961257CFEF000A7AFDF /* DebugMenu.framework */,
+				D7D2ECD725E807C3002B1CC6 /* DebugMenuConsole.framework */,
 				D7F85963257CFEF000A7AFDF /* DebugMenuTests.xctest */,
+				D7D2ECD925E807C3002B1CC6 /* Logging.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -183,6 +203,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		D7D2ECD725E807C3002B1CC6 /* DebugMenuConsole.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DebugMenuConsole.framework;
+			remoteRef = D7D2ECD625E807C3002B1CC6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D7D2ECD925E807C3002B1CC6 /* Logging.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Logging.framework;
+			remoteRef = D7D2ECD825E807C3002B1CC6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		D7F85961257CFEF000A7AFDF /* DebugMenu.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

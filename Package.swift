@@ -7,22 +7,28 @@ let package = Package(
     name: "DebugMenu",
     platforms: [.iOS(.v14)],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "DebugMenu",
-            targets: ["DebugMenu"]),
+            targets: ["Core"]),
         .library(
-            name: "DebugMenu-Dynamic",
-            type: .dynamic,
-            targets: ["DebugMenu"]),
+            name: "DebugMenuConsole",
+            targets: ["Console"]),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.4.1"),
+    ],
     targets: [
         .target(
-            name: "DebugMenu",
+            name: "Core",
             dependencies: []),
+        .target(
+            name: "Console",
+            dependencies: [
+                "Core",
+                .product(name: "Logging", package: "swift-log")
+            ]),
         .testTarget(
             name: "DebugMenuTests",
-            dependencies: ["DebugMenu"]),
+            dependencies: ["Core"]),
     ]
 )

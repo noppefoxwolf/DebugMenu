@@ -12,7 +12,7 @@ internal class FloatingButton: UIButton {}
 
 internal class FloatingViewController: UIViewController {
     private let floatingView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterialDark))
-    private let floatingButton: FloatingButton = FloatingButton(frame: .zero)
+    private let floatingButton: FloatingButton = FloatingButton(frame: .null)
     private let longPressGesture: UILongPressGestureRecognizer = UILongPressGestureRecognizer()
     private let debuggerItems: [DebugMenuPresentable]
     private var cancellables: Set<AnyCancellable> = []

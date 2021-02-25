@@ -7,26 +7,26 @@
 
 import UIKit
 
-class Application {
-    static var current: Application = .init()
+public class Application {
+    public static var current: Application = .init()
     
-    var appName: String {
+    public var appName: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
     }
     
-    var version: String {
+    public var version: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     }
     
-    var build: String {
+    public var build: String {
         Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
     }
     
-    var buildNumber: Int {
+    public var buildNumber: Int {
         Int(build) ?? 0
     }
     
-    var bundleIdentifier: String {
+    public var bundleIdentifier: String {
         Bundle.main.bundleIdentifier ?? ""
     }
 }

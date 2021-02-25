@@ -37,13 +37,13 @@ class SliderCellView: UIView, UIContentView {
     
     init(configuration: SliderCellConfiguration) {
         self.configuration = configuration
-        super.init(frame: .zero)
+        super.init(frame: .null)
         
-        let titleLabel = UILabel(frame: .zero)
+        let titleLabel = UILabel(frame: .null)
         titleLabel.text = configuration.title
-        let valueLabel = UILabel(frame: .zero)
+        let valueLabel = UILabel(frame: .null)
         
-        let slider = UISlider(frame: .zero, primaryAction: UIAction(handler: { (action) in
+        let slider = UISlider(frame: .null, primaryAction: UIAction(handler: { (action) in
             if let slider = action.sender as? UISlider {
                 valueLabel.text = String(format: "%.2f", slider.value)
                 configuration.onChange(Double(slider.value))
