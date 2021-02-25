@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D7D2ED1325E81620002B1CC6 /* DebugMenu in Frameworks */ = {isa = PBXBuildFile; productRef = D7D2ED1225E81620002B1CC6 /* DebugMenu */; };
-		D7D2ED1525E81623002B1CC6 /* DebugMenuConsole in Frameworks */ = {isa = PBXBuildFile; productRef = D7D2ED1425E81623002B1CC6 /* DebugMenuConsole */; };
 		D7F85945257CFE9800A7AFDF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F85944257CFE9800A7AFDF /* AppDelegate.swift */; };
 		D7F85947257CFE9800A7AFDF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F85946257CFE9800A7AFDF /* SceneDelegate.swift */; };
 		D7F85949257CFE9800A7AFDF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F85948257CFE9800A7AFDF /* ViewController.swift */; };
@@ -50,7 +49,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7D2ED1325E81620002B1CC6 /* DebugMenu in Frameworks */,
-				D7D2ED1525E81623002B1CC6 /* DebugMenuConsole in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +114,6 @@
 			name = Example;
 			packageProductDependencies = (
 				D7D2ED1225E81620002B1CC6 /* DebugMenu */,
-				D7D2ED1425E81623002B1CC6 /* DebugMenuConsole */,
 			);
 			productName = Example;
 			productReference = D7F85941257CFE9800A7AFDF /* Example.app */;
@@ -382,10 +379,6 @@
 		D7D2ED1225E81620002B1CC6 /* DebugMenu */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DebugMenu;
-		};
-		D7D2ED1425E81623002B1CC6 /* DebugMenuConsole */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = DebugMenuConsole;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

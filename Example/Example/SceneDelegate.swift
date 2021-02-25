@@ -7,7 +7,6 @@
 
 import UIKit
 import Core
-import Console
 import Logging
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

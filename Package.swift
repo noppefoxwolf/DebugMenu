@@ -10,9 +10,6 @@ let package = Package(
         .library(
             name: "DebugMenu",
             targets: ["Core"]),
-        .library(
-            name: "DebugMenuConsole",
-            targets: ["Console"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.4.1"),
@@ -20,11 +17,7 @@ let package = Package(
     targets: [
         .target(
             name: "Core",
-            dependencies: []),
-        .target(
-            name: "Console",
             dependencies: [
-                "Core",
                 .product(name: "Logging", package: "swift-log")
             ]),
         .testTarget(
