@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import DebugMenu
-import DebugMenuConsole
+import Core
+import Console
 import Logging
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

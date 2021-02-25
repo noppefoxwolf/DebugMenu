@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import DebugMenu
+import Core
 
 struct CustomDebugItem: DebugMenuPresentable {
     let debuggerItemTitle: String = "Custom item"

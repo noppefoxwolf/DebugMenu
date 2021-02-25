@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import DebugMenu
+import Core
 
 public struct ConsoleDebugItem: DebugMenuPresentable {
     public var debuggerItemTitle: String { "Console" }
