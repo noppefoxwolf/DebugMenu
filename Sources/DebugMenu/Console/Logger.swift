@@ -7,7 +7,6 @@
 
 import Foundation
 import Logging
-import Core
 
 extension URL {
     static func makeDebugMenuURL() -> URL {
