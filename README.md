@@ -8,6 +8,8 @@ Select File > Swift Packages > Add Package Dependency. Enter https://github.com/
 
 ## Usage
 
+### UIKit based
+
 ```swift
 #if DEBUG
 DebugMenu.install(windowScene: windowScene, items: [
@@ -17,6 +19,30 @@ DebugMenu.install(windowScene: windowScene, items: [
     CustomDebugItem()
 ])
 #endif
+```
+
+### SwiftUI based
+
+```swift
+@main
+struct App: SwiftUI.App {    
+    var body: some Scene {
+        WindowGroup {
+            Root.View(
+                store: .init(
+                    initialState: .init(),
+                    reducer: Root.reducer,
+                    environment: .debug
+                )
+            ).debugMenu(debuggerItems: [
+                ViewControllerDebugItem<ColorViewController>(),
+                ClearCacheDebugItem(),
+                UserDefaultsResetDebugItem(),
+                CustomDebugItem()
+            ])
+        }
+    }
+}
 ```
 
 ## Custom debug item
