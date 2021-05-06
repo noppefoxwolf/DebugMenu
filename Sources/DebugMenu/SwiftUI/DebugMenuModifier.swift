@@ -57,11 +57,11 @@ struct DebugMenuModifier: ViewModifier {
 }
 
 public extension View {
-    func debugMenu(debuggerItems: [DebugMenuPresentable]) -> some View {
-        #if DEBUG
-        return modifier(DebugMenuModifier(debuggerItems: debuggerItems))
-        #else
-        return self
-        #endif
+    func debugMenu(debuggerItems: [DebugMenuPresentable], enabled: Bool = true) -> some View {
+        if enabled {
+            return modifier(DebugMenuModifier(debuggerItems: debuggerItems))
+        } else {
+            return self
+        }
     }
 }
