@@ -57,11 +57,12 @@ struct DebugMenuModifier: ViewModifier {
 }
 
 public extension View {
+    @ViewBuilder
     func debugMenu(debuggerItems: [DebugMenuPresentable], enabled: Bool = true) -> some View {
         if enabled {
-            return modifier(DebugMenuModifier(debuggerItems: debuggerItems))
+            modifier(DebugMenuModifier(debuggerItems: debuggerItems))
         } else {
-            return self
+            self
         }
     }
 }
