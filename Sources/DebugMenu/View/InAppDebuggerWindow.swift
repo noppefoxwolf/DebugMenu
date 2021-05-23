@@ -44,7 +44,7 @@ public class InAppDebuggerWindow: UIWindow {
     }
 }
 
-protocol InAppDebuggerViewControllerDelegate: class {
+protocol InAppDebuggerViewControllerDelegate: AnyObject {
     func didDismiss(_ controller: InAppDebuggerViewControllerBase)
 }
 
