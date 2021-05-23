@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "DebugMenu",
-        "repositoryURL": "https://github.com/noppefoxwolf/DebugMenu",
-        "state": {
-          "branch": null,
-          "revision": "50639dc202667871d74dca391c1145f9bfd3ead0",
-          "version": "1.0.0"
-        }
-      },
-      {
         "package": "swift-log",
         "repositoryURL": "https://github.com/apple/swift-log.git",
         "state": {

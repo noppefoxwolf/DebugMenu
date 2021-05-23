@@ -44,6 +44,9 @@ class EnvelopePreviewTableViewController: UITableViewController {
     
     private func presentAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(.init(title: "Copy", style: .default, handler: { _ in
+            UIPasteboard.general.string = message
+        }))
         alert.addAction(.init(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
