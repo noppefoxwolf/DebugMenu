@@ -9,9 +9,9 @@ import UIKit
 
 class EnvelopePreviewTableViewController: UITableViewController {
     var envelops: [Envelope] = []
-    var fetcher: ((_ completions: ([Envelope]) -> Void) -> Void)
+    var fetcher: ((_ completions: @escaping ([Envelope]) -> Void) -> Void)
     
-    init(fetcher: @escaping (_ completions: ([Envelope]) -> Void) -> Void) {
+    init(fetcher: @escaping (_ completions: @escaping ([Envelope]) -> Void) -> Void) {
         self.fetcher = fetcher
         super.init(style: .plain)
     }

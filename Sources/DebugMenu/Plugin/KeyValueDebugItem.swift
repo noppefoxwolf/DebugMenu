@@ -8,7 +8,7 @@
 import Foundation
 
 public struct KeyValueDebugItem: DebugMenuPresentable {
-    public init(title: String, fetcher: @escaping (_ completions: ([Envelope]) -> Void) -> Void) {
+    public init(title: String, fetcher: @escaping (_ completions: @escaping ([Envelope]) -> Void) -> Void) {
         self.title = title
         self.action = .didSelect(action: { parent, result in
             let vc = EnvelopePreviewTableViewController(fetcher: fetcher)
