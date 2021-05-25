@@ -8,6 +8,7 @@
 import UIKit
 import Logging
 import DebugMenu
+import Shared
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

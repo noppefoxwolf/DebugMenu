@@ -18,6 +18,7 @@ struct DebugMenuModifier: ViewModifier {
     let margin: CGFloat = 16
     @State var position: CGPoint = .init(x: 16 + 22, y: 16 + 22)
     @State var alignment: Alignment = .center
+    @State var isHidden: Bool = false
     
     func body(content: Content) -> some View {
         GeometryReader(content: { geometry in
@@ -28,8 +29,17 @@ struct DebugMenuModifier: ViewModifier {
                     .position(x: position.x, y: position.y)
                     .animation(.spring())
                     .gesture(dragGesture(parentSize: geometry.size))
+                    .gesture(longPressGesture())
+                    .isHidden(isHidden)
             }
         })
+    }
+    
+    func longPressGesture() -> some Gesture {
+        LongPressGesture()
+            .onEnded { _ in
+                isHidden = true
+            }
     }
     
     func dragGesture(parentSize: CGSize) -> some Gesture {

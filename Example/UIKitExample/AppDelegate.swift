@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  Example
+//  UIKitExample
 //
-//  Created by Tomoya Hirano on 2020/12/06.
+//  Created by Tomoya Hirano on 2021/05/26.
 //
 
 import UIKit
