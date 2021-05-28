@@ -34,7 +34,9 @@ struct App: SwiftUI.App {
                 KeyValueDebugItem(title: "UserDefaults", fetcher: { completions in
                     let envelops = UserDefaults.standard.dictionaryRepresentation().map({ Envelope(key: $0.key, value: "\($0.value)") })
                     completions(envelops)
-                })
+                }),
+                AppInfoDebugItem(),
+                DeviceInfoDebugItem(),
             ])
         }
     }

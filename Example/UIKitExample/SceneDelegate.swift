@@ -40,7 +40,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let envelops = UserDefaults.standard.dictionaryRepresentation().map({ Envelope(key: $0.key, value: "\($0.value)") })
                 completions(envelops)
             }),
-            AppInfoDebugItem()
+            AppInfoDebugItem(),
+            DeviceInfoDebugItem(),
         ])
         #endif
     }

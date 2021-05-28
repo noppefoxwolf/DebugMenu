@@ -18,7 +18,10 @@ public struct AppInfoDebugItem: DebugMenuPresentable {
                     "Version" : Application.current.version,
                     "Build" : Application.current.build,
                     "Bundle ID" : Application.current.bundleIdentifier,
-                    "App Size" : Application.current.size
+                    "App Size" : Application.current.size,
+                    "Locale" : Application.current.locale,
+                    "Localization" : Application.current.preferredLocalizations,
+                    "TestFlight?" : Application.current.isTestFlight ? "YES" : "NO"
                 ].map({ Envelope.init(key: $0.key, value: $0.value) })
                 DispatchQueue.main.async {
                     completions(envelops)

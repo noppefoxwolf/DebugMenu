@@ -30,6 +30,22 @@ public class Application {
         Bundle.main.bundleIdentifier ?? ""
     }
     
+    public var locale: String {
+        Locale.current.identifier
+    }
+    
+    public var preferredLocalizations: String {
+        Bundle.main.preferredLocalizations.joined(separator: ",")
+    }
+    
+    public var isTestFlight: Bool {
+        #if DEBUG
+        return false
+        #else
+        return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+        #endif
+    }
+    
     public var size: String {
         let byteCount = try? getByteCount()
         let formatter = ByteCountFormatter()
