@@ -8,12 +8,10 @@
 import UIKit
 import Combine
 
-internal class FloatingButton: UIButton {}
-
 internal class FloatingViewController: UIViewController {
-    private let floatingView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterialDark))
-    private let floatingButton: FloatingButton = FloatingButton(frame: .null)
-    private let longPressGesture: UILongPressGestureRecognizer = UILongPressGestureRecognizer()
+    private let launchView: LaunchView = .init()
+    private let widgetView: WidgetView = .init()
+    
     private let debuggerItems: [DebugMenuPresentable]
     private var cancellables: Set<AnyCancellable> = []
     
@@ -27,33 +25,69 @@ internal class FloatingViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        floatingView.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
-        view.addSubview(floatingView)
-        
-        let image = UIImage(systemName: "ant.fill")
-        floatingButton.setImage(image, for: .normal)
-        floatingButton.tintColor = UIColor.white
-        floatingView.contentView.addSubview(floatingButton)
-        floatingButton.frame = floatingView.bounds
-        floatingView.alpha = 0.0
+        view.addSubview(launchView)
+        view.addSubview(widgetView)
+        widgetView.isHidden = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let gesture = FloatingItemGestureRecognizer(groundView: self.view)
-        floatingView.addGestureRecognizer(gesture)
-        longPressGesture.addTarget(self, action: #selector(onLongPress(_:)))
+        bug: do {
+            let gesture = FloatingItemGestureRecognizer(groundView: self.view)
+            launchView.addGestureRecognizer(gesture)
+            gesture.moveInitialPosition()
+            
+            setupMenu()
+            
+            launchView.addAction(.init(handler: { [weak self] _ in
+                guard let self = self else { return }
+                let vc = InAppDebuggerViewController(debuggerItems: self.debuggerItems)
+                let nc = UINavigationController(rootViewController: vc)
+                nc.modalPresentationStyle = .fullScreen
+                vc.delegate = self
+                let ac = CustomActivityViewController(controller: nc)
+                ac.popoverPresentationController?.sourceView = self.launchView
+                ac.popoverPresentationController?.delegate = self
+                self.present(ac, animated: true, completion: nil)
+            }))
+        }
         
-        floatingView.addGestureRecognizer(longPressGesture)
+        widget: do {
+            let gesture = FloatingItemGestureRecognizer(groundView: self.view)
+            widgetView.addGestureRecognizer(gesture)
+            gesture.moveInitialPosition(.topLeading)
+        }
+    }
+    
+    private func setupMenu() {
+        launchView.menu = makeMenu()
+    }
+    
+    private func makeMenu() -> UIMenu {
+        var children: [UIAction] = []
+        let hide = UIAction(title: "Hide until next launch") { [weak self] _ in
+            self?.launchView.isHidden = true
+        }
+        children.append(hide)
+        if widgetView.isHidden {
+            let widget = UIAction(title: "Show widget") { [weak self] action in
+                self?.widgetView.isHidden = false
+                self?.widgetView.stop()
+                self?.widgetView.start()
+                self?.setupMenu()
+            }
+            children.append(widget)
+        } else {
+            let widget = UIAction(title: "Hide widget") { [weak self] action in
+                self?.widgetView.isHidden = true
+                self?.widgetView.stop()
+                self?.setupMenu()
+            }
+            children.append(widget)
+        }
         
-        self.floatingView.layer.cornerCurve = .continuous
-        self.floatingView.layer.cornerRadius = 22
-        self.floatingView.layer.masksToBounds = true
-        
-        gesture.moveInitialPosition()
-        
-        floatingButton.addTarget(self, action: #selector(onTapFloatingButton), for: .touchUpInside)
+        return UIMenu(children: children)
     }
     
     override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
@@ -61,28 +95,6 @@ internal class FloatingViewController: UIViewController {
             InAppDebuggerWindow.shared.needsThroughTouches = false
             completion?()
         }
-    }
-    
-    @objc private func onTapFloatingButton(_ button: UIView) {
-        let vc = InAppDebuggerViewController(debuggerItems: self.debuggerItems)
-        let nc = UINavigationController(rootViewController: vc)
-        nc.modalPresentationStyle = .fullScreen
-        vc.delegate = self
-        let ac = CustomActivityViewController(controller: nc)
-        ac.popoverPresentationController?.sourceView = button
-        ac.popoverPresentationController?.delegate = self
-        self.present(ac, animated: true, completion: nil)
-    }
-    
-    @objc private func onLongPress(_ gesture: UILongPressGestureRecognizer) {
-        guard gesture.state == .began else { return }
-        floatingView.alpha = 0.0
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
-            self?.floatingView.alpha = 1.0
-        }
-        let feedback = UIImpactFeedbackGenerator(style: .rigid)
-        feedback.prepare()
-        feedback.impactOccurred()
     }
 }
 

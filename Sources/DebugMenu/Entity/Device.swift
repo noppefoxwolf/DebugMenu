@@ -43,7 +43,13 @@ public class Device {
     }
     
     public var localizedBatteryState: String {
-        "\(batteryState)"
+        switch batteryState {
+        case .unknown: return "unknown"
+        case .unplugged: return "unplugged"
+        case .charging: return "charging"
+        case .full: return "full"
+        @unknown default: return "default"
+        }
     }
     
     public var isJailbreaked: Bool {
@@ -55,7 +61,13 @@ public class Device {
     }
     
     public var localizedThermalState: String {
-        "\(thermalState)"
+        switch thermalState {
+        case .nominal: return "nominal"
+        case .fair: return "fair"
+        case .serious: return "serious"
+        case .critical: return "critical"
+        @unknown default: return "default"
+        }
     }
     
     public var processorCount: Int {
@@ -84,23 +96,14 @@ public class Device {
         return formatter.string(fromByteCount: Int64(physicalMemory))
     }
     
+    // without sleep time
     public var systemUptime: TimeInterval {
         ProcessInfo.processInfo.systemUptime
     }
     
+    // include sleep time
     public func uptime() -> time_t {
-        var boottime = timeval()
-        var mib: [Int32] = [CTL_KERN, KERN_BOOTTIME]
-        var size = MemoryLayout<timeval>.stride
-
-        var now = time_t()
-        var uptime: time_t = -1
-
-        time(&now)
-        if (sysctl(&mib, 2, &boottime, &size, nil, 0) != -1 && boottime.tv_sec != 0) {
-            uptime = now - boottime.tv_sec
-        }
-        return uptime
+        System.uptime()
     }
     
     public var localizedSystemUptime: String {
@@ -115,5 +118,60 @@ public class Device {
         formatter.unitsStyle = .brief
         formatter.allowedUnits = [.day, .hour, .minute, .second]
         return formatter.string(from: TimeInterval(uptime())) ?? "-"
+    }
+    
+    public var diskTotalSpace: Int64 {
+        if let attributes = try? FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory()) {
+            return attributes[.systemSize] as! Int64
+        } else {
+            return 0
+        }
+    }
+    
+    public var diskFreeSpace: Int64 {
+        if let attributes = try? FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory()) {
+            return attributes[.systemFreeSize] as! Int64
+        } else {
+            return 0
+        }
+    }
+    
+    public var diskUsage: Int64 {
+        diskTotalSpace - diskFreeSpace
+    }
+    
+    public var localizedDiskUsage: String {
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .file
+        return "\(formatter.string(fromByteCount: diskUsage)) / \(formatter.string(fromByteCount: diskTotalSpace))"
+    }
+    
+    public var localizedMemoryUsage: String {
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .memory
+        return formatter.string(fromByteCount: Int64(memoryUsage()))
+    }
+    
+    public func memoryUsage() -> UInt64 {
+        Memory.usage()
+    }
+    
+    public var localizedCPUUsage: String {
+        "\(cpuUsage() * 100.0)%"
+    }
+    
+    public func cpuUsage() -> Float {
+        CPU.usage()
+    }
+    
+    public func networkUsage() -> NetworkUsage? {
+        Network.usage()
+    }
+    
+    public var localizedGPUMemory: String {
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .memory
+        return formatter.string(fromByteCount: Int64(GPU.current.currentAllocatedSize))
+        
     }
 }

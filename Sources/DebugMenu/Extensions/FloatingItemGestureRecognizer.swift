@@ -11,20 +11,27 @@ public class FloatingItemGestureRecognizer: UIPanGestureRecognizer {
     private weak var groundView: UIView?
     private var gestureGap: CGPoint?
     private let margin: CGFloat = 16
+    public enum Edge {
+        case topLeading
+        case topTrailing
+        case bottomLeading
+        case bottomTrailing
+    }
     
     public init(groundView: UIView) {
         super.init(target: nil, action: nil)
         self.addTarget(self, action: #selector(pan(_:)))
         self.groundView = groundView
+        
     }
     
     deinit {
         self.removeTarget(self, action: #selector(pan(_:)))
     }
     
-    public func moveInitialPosition() {
+    public func moveInitialPosition(_ edge: Edge = .bottomTrailing) {
         DispatchQueue.main.async { [weak self] in
-            self?.view?.center = self?.cornerPositions().last ?? .zero
+            self?.view?.center = self?.cornerPositions()[edge] ?? .zero
             UIView.animate(withDuration: 0.2, animations: { [weak self] in
                 self?.view?.alpha = 1.0
             })
@@ -106,43 +113,48 @@ public class FloatingItemGestureRecognizer: UIPanGestureRecognizer {
     private func nearestCornerPosition(_ projectedPosition: CGPoint) -> CGPoint {
         let destinations = cornerPositions()
         let nearestPosition = destinations.sorted(by: {
-            return distance(from: $0, to: projectedPosition) < distance(from: $1, to: projectedPosition)
+            return distance(from: $0.value, to: projectedPosition) < distance(from: $1.value, to: projectedPosition)
         }).first!
         
-        return nearestPosition
+        return nearestPosition.value
     }
     
     private func distance(from: CGPoint, to: CGPoint) -> CGFloat {
         return sqrt(pow(from.x - to.x, 2) + pow(from.y - to.y, 2))
     }
     
-    private func cornerPositions() -> [CGPoint] {
-        guard let targetView = self.view else { return [] }
-        guard let groundView = groundView else { return [] }
+    private func cornerPositions() -> [Edge : CGPoint] {
+        guard let targetView = self.view else { return [:] }
+        guard let groundView = groundView else { return [:] }
         let viewSize = groundView.bounds.size
         let objectSize = targetView.bounds.size
         let xCenter = targetView.bounds.width / 2
         let yCenter = targetView.bounds.height / 2
         let safeAreaInsets = groundView.safeAreaInsets
         
-        let topLeft = CGPoint(
+        let topLeading = CGPoint(
             x: self.margin + xCenter + safeAreaInsets.left,
             y: self.margin + yCenter + safeAreaInsets.top
         )
         
-        let topRight = CGPoint(
+        let topTrailing = CGPoint(
             x: viewSize.width - objectSize.width - self.margin + xCenter - safeAreaInsets.right,
             y: self.margin + yCenter + safeAreaInsets.top
         )
-        let bottomLeft = CGPoint(
+        let bottomLeading = CGPoint(
             x: self.margin + xCenter + safeAreaInsets.left,
             y: viewSize.height - objectSize.height - self.margin + yCenter - safeAreaInsets.bottom
         )
         
-        let bottomRight = CGPoint(
+        let bottomTrailing = CGPoint(
             x: viewSize.width - objectSize.width - self.margin + xCenter - safeAreaInsets.right,
             y: viewSize.height - objectSize.height - self.margin + yCenter - safeAreaInsets.bottom
         )
-        return [topLeft, topRight, bottomLeft, bottomRight]
+        return [
+            .topLeading : topLeading,
+            .topTrailing : topTrailing,
+            .bottomLeading : bottomLeading,
+            .bottomTrailing : bottomTrailing
+        ]
     }
 }

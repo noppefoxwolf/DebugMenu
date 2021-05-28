@@ -26,6 +26,7 @@ public struct DeviceInfoDebugItem: DebugMenuPresentable {
                     "LowPower mode?" : Device.current.isLowPowerModeEnabled ? "YES" : "NO",
                     "Processor" : Device.current.processor,
                     "Physical Memory" : Device.current.localizedPhysicalMemory,
+                    "Disk usage" : Device.current.localizedDiskUsage,
                 ].map({ Envelope(key: $0.key, value: $0.value) })
                 DispatchQueue.main.async {
                     completions(envelops)
