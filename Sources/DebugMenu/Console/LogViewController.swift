@@ -50,8 +50,8 @@ class LogViewController: UIViewController {
     }
     
     private func presentActivity() {
-        let texts = String(data: data, encoding: .utf8)
-        let vc = UIActivityViewController(activityItems: [texts], applicationActivities: nil)
+        let item: Any = String(data: data, encoding: .utf8) as Any
+        let vc = UIActivityViewController(activityItems: [item], applicationActivities: nil)
         present(vc, animated: true, completion: nil)
     }
 }
