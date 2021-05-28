@@ -68,6 +68,8 @@ internal class FloatingViewController: UIViewController {
         var children: [UIAction] = []
         let hide = UIAction(title: "Hide until next launch") { [weak self] _ in
             self?.launchView.isHidden = true
+            self?.widgetView.isHidden = true
+            self?.widgetView.stop()
         }
         children.append(hide)
         if widgetView.isHidden {
