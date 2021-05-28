@@ -24,7 +24,9 @@ struct App: SwiftUI.App {
     
     var body: some Scene {
         WindowGroup {
-            Text("Hello, world!").debugMenu(debuggerItems: [
+            Button(action: {}, label: {
+                Text("Hello, world!")
+            }).debugMenu(debuggerItems: [
                 ConsoleDebugItem(),
                 ViewControllerDebugItem<ColorViewController>(builder: { $0.init(color: .blue) }),
                 ClearCacheDebugItem(),

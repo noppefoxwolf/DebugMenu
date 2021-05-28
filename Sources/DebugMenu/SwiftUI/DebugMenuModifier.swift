@@ -14,55 +14,13 @@ struct DebugMenuModifier: ViewModifier {
     }
     
     let debuggerItems: [DebugMenuPresentable]
-    let size: CGSize = .init(width: 44, height: 44)
-    let margin: CGFloat = 16
-    @State var position: CGPoint = .init(x: 16 + 22, y: 16 + 22)
-    @State var alignment: Alignment = .center
-    @State var isHidden: Bool = false
     
     func body(content: Content) -> some View {
-        GeometryReader(content: { geometry in
-            ZStack(alignment: alignment) {
-                content
-                DebugButton(debuggerItems: debuggerItems)
-                    .frame(width: size.width, height: size.height)
-                    .position(x: position.x, y: position.y)
-                    .animation(.spring())
-                    .gesture(dragGesture(parentSize: geometry.size))
-                    .gesture(longPressGesture())
-                    .isHidden(isHidden)
+        content.onAppear(perform: {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                DebugMenu.install(windowScene: windowScene, items: debuggerItems)
             }
         })
-    }
-    
-    func longPressGesture() -> some Gesture {
-        LongPressGesture()
-            .onEnded { _ in
-                isHidden = true
-            }
-    }
-    
-    func dragGesture(parentSize: CGSize) -> some Gesture {
-        DragGesture()
-            .onChanged{ value in
-                position = CGPoint(
-                    x: value.startLocation.x + value.translation.width - (size.width / 2),
-                    y: value.startLocation.y + value.translation.height - (size.height / 2)
-                )
-            }
-            .onEnded{ value in
-                print(parentSize)
-                
-                let x: CGFloat = {
-                    switch position.x {
-                    case 0..<parentSize.width / 2:
-                        return margin + size.width / 2
-                    default:
-                        return parentSize.width - margin - size.width / 2
-                    }
-                }()
-                position = .init(x: x, y: position.y)
-            }
     }
 }
 
