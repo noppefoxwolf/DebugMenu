@@ -20,7 +20,7 @@ public struct DeviceInfoDebugItem: DebugMenuPresentable {
                     "Model" : Device.current.localizedModel,
                     "System name" : Device.current.systemName,
                     "System version" : Device.current.systemVersion,
-                    "Jailbreaked" : Device.current.isJailbreaked ? "YES" : "NO",
+                    "Jailbreak?" : Device.current.isJailbreaked ? "YES" : "NO",
                     "System uptime" : Device.current.localizedSystemUptime,
                     "Uptime" : Device.current.localizedUptime,
                     "LowPower mode?" : Device.current.isLowPowerModeEnabled ? "YES" : "NO",
