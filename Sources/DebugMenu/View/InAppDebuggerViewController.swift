@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
+class InAppDebuggerViewController: UIViewController {
     let collectionView: UICollectionView
     let debuggerItems: [AnyDebugItem]
     
@@ -101,7 +101,7 @@ class InAppDebuggerViewController: InAppDebuggerViewControllerBase {
         
         navigation: do {
             let rightItem = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] (_) in
-                self?.dismiss(animated: true)
+                self?.parent?.parent?.dismiss(animated: true)
             }), menu: nil)
             navigationItem.rightBarButtonItem = rightItem
         }

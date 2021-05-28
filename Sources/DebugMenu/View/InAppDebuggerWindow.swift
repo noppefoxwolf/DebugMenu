@@ -43,20 +43,3 @@ public class InAppDebuggerWindow: UIWindow {
         }
     }
 }
-
-protocol InAppDebuggerViewControllerDelegate: AnyObject {
-    func didDismiss(_ controller: InAppDebuggerViewControllerBase)
-}
-
-open class InAppDebuggerViewControllerBase: UIViewController {
-    weak var delegate: InAppDebuggerViewControllerDelegate? = nil
-    
-    override public func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        super.dismiss(animated: flag, completion: { [weak self] in
-            guard let self = self else { return }
-            self.delegate?.didDismiss(self)
-            completion?()
-        })
-    }
-}
-
