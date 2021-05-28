@@ -49,6 +49,7 @@ internal class FloatingViewController: UIViewController {
                 let ac = CustomActivityViewController(controller: nc)
                 ac.popoverPresentationController?.sourceView = self.launchView
                 ac.popoverPresentationController?.delegate = self
+                ac.presentationController?.delegate = self
                 self.present(ac, animated: true, completion: nil)
             }))
         }
@@ -106,7 +107,7 @@ extension FloatingViewController: InAppDebuggerViewControllerDelegate {
     }
 }
 
-extension FloatingViewController: UIPopoverPresentationControllerDelegate {
+extension FloatingViewController: UIPopoverPresentationControllerDelegate, UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         InAppDebuggerWindow.shared.needsThroughTouches = true
     }
