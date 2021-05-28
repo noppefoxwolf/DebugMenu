@@ -5,7 +5,7 @@
 //  Created by Tomoya Hirano on 2020/03/01.
 //
 
-import UIKit
+import Foundation
 
 public class Application {
     public static var current: Application = .init()
@@ -29,4 +29,33 @@ public class Application {
     public var bundleIdentifier: String {
         Bundle.main.bundleIdentifier ?? ""
     }
+    
+    public var size: String {
+        let byteCount = try? getByteCount()
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .file
+        return formatter.string(fromByteCount: Int64(byteCount ?? 0))
+    }
 }
+
+extension Application {
+    public func getByteCount() throws -> UInt64 {
+        let bundlePath = Bundle.main.bundlePath
+        let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let libraryPath = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]
+        let tmpPath = NSTemporaryDirectory()
+        return try [bundlePath, documentPath, libraryPath, tmpPath].map(getFileSize(atDirectory:)).reduce(0, +)
+    }
+    
+    internal func getFileSize(atDirectory path: String) throws -> UInt64 {
+        let files = try FileManager.default.subpathsOfDirectory(atPath: path)
+        var fileSize: UInt64 = 0
+        for file in files {
+            let attributes = try FileManager.default.attributesOfItem(atPath: "\(path)/\(file)")
+            fileSize += attributes[.size] as! UInt64
+        }
+        return fileSize
+    }
+}
+
+
