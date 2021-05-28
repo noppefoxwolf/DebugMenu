@@ -29,6 +29,12 @@ class EnvelopePreviewTableViewController: UITableViewController {
         let refreshControl = UIRefreshControl(frame: .zero, primaryAction: refreshControlAction)
         tableView.refreshControl = refreshControl
         
+        let rightBarButtonAction: UIAction = .init { [weak self] _ in
+            self?.presentActivity()
+        }
+        let rightBarButtonItem = UIBarButtonItem(systemItem: .action, primaryAction: rightBarButtonAction, menu: nil)
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+        
         fetch()
     }
     
@@ -49,6 +55,12 @@ class EnvelopePreviewTableViewController: UITableViewController {
         }))
         alert.addAction(.init(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func presentActivity() {
+        let texts = envelops.map({ "\($0.key) : \($0.value)" }).joined(separator: "\n")
+        let vc = UIActivityViewController(activityItems: [texts], applicationActivities: nil)
+        present(vc, animated: true, completion: nil)
     }
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

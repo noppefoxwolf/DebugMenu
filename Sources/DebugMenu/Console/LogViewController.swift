@@ -33,6 +33,12 @@ class LogViewController: UIViewController {
         inputStream.delegate = self
         inputStream.schedule(in: .current, forMode: .default)
         inputStream.open()
+        
+        let rightBarButtonAction: UIAction = .init { [weak self] _ in
+            self?.presentActivity()
+        }
+        let rightBarButtonItem = UIBarButtonItem(systemItem: .action, primaryAction: rightBarButtonAction, menu: nil)
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
     deinit {
@@ -41,6 +47,12 @@ class LogViewController: UIViewController {
     
     private func reloadData() {
         textView.text = String(data: data, encoding: .utf8)
+    }
+    
+    private func presentActivity() {
+        let texts = String(data: data, encoding: .utf8)
+        let vc = UIActivityViewController(activityItems: [texts], applicationActivities: nil)
+        present(vc, animated: true, completion: nil)
     }
 }
 
