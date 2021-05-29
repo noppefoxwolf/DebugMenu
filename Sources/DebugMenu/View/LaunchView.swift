@@ -7,10 +7,8 @@
 
 import UIKit
 
-internal class FloatingButton: UIButton {}
-
 class LaunchView: UIVisualEffectView {
-    private let button: FloatingButton = FloatingButton(frame: .null)
+    private let button: UIButton = .init(frame: .null)
     
     init() {
         super.init(effect: UIBlurEffect(style: .systemMaterialDark))

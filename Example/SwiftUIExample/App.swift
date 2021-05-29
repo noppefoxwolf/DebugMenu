@@ -39,6 +39,13 @@ struct App: SwiftUI.App {
                 }),
                 AppInfoDebugItem(),
                 DeviceInfoDebugItem(),
+            ], complications: [
+                CPUUsageComplication(),
+                GPUMemoryUsageComplication(),
+                MemoryUsageComplication(),
+                NetworkUsageComplication(),
+                FPSComplication(),
+                CustomComplication(),
             ])
         }
     }

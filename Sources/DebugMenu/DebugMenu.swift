@@ -1,7 +1,7 @@
 import UIKit
 
 public struct DebugMenu {
-    public static func install(windowScene: UIWindowScene? = nil, items: [DebugMenuPresentable]) {
-        InAppDebuggerWindow.install(windowScene: windowScene, debuggerItems: items)
+    public static func install(windowScene: UIWindowScene? = nil, items: [DebugMenuPresentable], complications: [ComplicationPresentable]) {
+        InAppDebuggerWindow.install(windowScene: windowScene, debuggerItems: items, complications: complications)
     }
 }

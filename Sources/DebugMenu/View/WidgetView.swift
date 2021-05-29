@@ -6,34 +6,26 @@
 //
 
 import UIKit
+import Combine
 
 class WidgetView: UIVisualEffectView {
-    private let stackView = UIStackView()
-    private let button: FloatingButton = FloatingButton(frame: .null)
-    let fpsLabel = FPSLabel()
+    private let tableView: UITableView = .init(frame: .null, style: .plain)
+    private var cancellables: Set<AnyCancellable> = []
+    private let complications: [ComplicationPresentable]
     
-    init() {
+    init(complications: [ComplicationPresentable]) {
+        self.complications = complications
         super.init(effect: UIBlurEffect(style: .systemMaterialDark))
-        frame = .init(origin: .zero, size: .init(width: 200, height: 100))
+        frame = .init(origin: .zero, size: .init(width: 200, height: 200))
         
-        button.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(button)
-        NSLayoutConstraint.activate([
-            button.topAnchor.constraint(equalTo: topAnchor),
-            button.leftAnchor.constraint(equalTo: leftAnchor),
-            button.rightAnchor.constraint(equalTo: rightAnchor),
-            button.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
-        
-        stackView.isUserInteractionEnabled = false
-        stackView.layoutMargins = .init(top: 6, left: 6, bottom: 6, right: 6)
-        stackView.isLayoutMarginsRelativeArrangement = true
+        let stackView = UIStackView(arrangedSubviews: [tableView])
+        stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
         
@@ -41,81 +33,60 @@ class WidgetView: UIVisualEffectView {
         layer.cornerRadius = 16
         layer.masksToBounds = true
         
-        stackView.addArrangedSubview(fpsLabel)
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
+        tableView.register(Value1TableViewCell.self)
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
-    required init?(coder: NSCoder) {
+    required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func start() {
-        fpsLabel.start()
+    func show() {
+        isHidden = false
+        complications.forEach({ $0.startMonitoring() })
+        Timer.publish(every: 1, on: .main, in: .default).autoconnect().sink { [weak self] _ in
+            self?.reloadData()
+        }.store(in: &cancellables)
     }
     
-    func stop() {
-        fpsLabel.stop()
+    func hide() {
+        isHidden = true
+        complications.forEach({ $0.stopMonitoring() })
+        cancellables = []
+    }
+    
+    private func reloadData() {
+        tableView.reloadData()
     }
 }
 
-class FPSLabel: UILabel {
-    
-    var displayLink: CADisplayLink?
-    
-    var lastupdated: CFTimeInterval = 0
-    var updateCount: Int = 1
-    
-    var lastNetworkUsage: NetworkUsage? = nil
-    
-    init() {
-        super.init(frame: .null)
-        textColor = .white
-        font = UIFont.preferredFont(forTextStyle: .caption1)
-        numberOfLines = 0
+extension WidgetView: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        complications.count
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func start() {
-        displayLink = .init(target: self, selector: #selector(update))
-        displayLink?.preferredFramesPerSecond = 0
-        displayLink?.add(to: .main, forMode: .common)
-    }
-    
-    func stop() {
-        displayLink?.remove(from: .main, forMode: .common)
-        displayLink?.invalidate()
-        displayLink = nil
-    }
-    
-    @objc func update(_ displayLink: CADisplayLink) {
-        if displayLink.timestamp - lastupdated > 1.0 {
-            
-            var reports = """
-            FPS: \(updateCount)
-            CPU: \(Device.current.localizedCPUUsage)
-            MEM: \(Device.current.localizedMemoryUsage)
-            GPM: \(Device.current.localizedGPUMemory)
-            """
-            
-            let networkUsage = Device.current.networkUsage()
-            if let lastUsage = lastNetworkUsage, let newUsage = networkUsage {
-                let sendPerSec = newUsage.sent - lastUsage.sent
-                let receivedPerSec = newUsage.received - lastUsage.received
-                let formatter = ByteCountFormatter()
-                formatter.countStyle = .binary
-                let report = "NET:↑\(formatter.string(fromByteCount: Int64(sendPerSec)))/s,↓\(formatter.string(fromByteCount: Int64(receivedPerSec)))/s"
-                reports.append("\n")
-                reports.append(report)
-            }
-            text = reports
-            updateCount = 1
-            lastupdated = displayLink.timestamp
-            lastNetworkUsage = networkUsage
-        } else {
-            updateCount += 1
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let complication = complications[indexPath.row]
+        switch complication.fetcher {
+        case let .text(fetcher):
+            let cell = tableView.dequeue(Value1TableViewCell.self, for: indexPath)
+            cell.selectionStyle = .none
+            cell.textLabel?.text = complication.title
+            cell.textLabel?.textColor = .white
+            cell.detailTextLabel?.text = fetcher()
+            cell.detailTextLabel?.textColor = .lightGray
+            cell.detailTextLabel?.numberOfLines = 0
+            return cell
+        default:
+            fatalError()
         }
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.contentView.backgroundColor = .clear
+        cell.backgroundColor = .clear
+    }
 }
-

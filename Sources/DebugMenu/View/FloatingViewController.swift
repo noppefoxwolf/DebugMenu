@@ -9,21 +9,22 @@ import UIKit
 import Combine
 
 internal class FloatingViewController: UIViewController {
+    class View: UIView, TouchThrowing {}
     private let launchView: LaunchView = .init()
-    private let widgetView: WidgetView = .init()
-    
+    private let widgetView: WidgetView
     private let debuggerItems: [DebugMenuPresentable]
     private var cancellables: Set<AnyCancellable> = []
     
-    init(debuggerItems: [DebugMenuPresentable]) {
+    init(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable]) {
         self.debuggerItems = debuggerItems
+        self.widgetView = .init(complications: complications)
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) { fatalError() }
     
     override func loadView() {
-        super.loadView()
+        view = View(frame: .null)
         
         view.addSubview(launchView)
         view.addSubview(widgetView)
@@ -51,8 +52,6 @@ internal class FloatingViewController: UIViewController {
                 nc.modalPresentationStyle = .fullScreen
                 let ac = CustomActivityViewController(controller: nc)
                 ac.popoverPresentationController?.sourceView = self.launchView
-                ac.popoverPresentationController?.delegate = self
-                ac.presentationController?.delegate = self
                 self.present(ac, animated: true, completion: nil)
             }))
         }
@@ -68,40 +67,18 @@ internal class FloatingViewController: UIViewController {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(.init(title: "Hide until next launch", style: .destructive, handler: { [weak self] _ in
             self?.launchView.isHidden = true
-            self?.widgetView.isHidden = true
-            self?.widgetView.stop()
-            InAppDebuggerWindow.shared.needsThroughTouches = true
+            self?.widgetView.hide()
         }))
         if widgetView.isHidden {
             sheet.addAction(.init(title: "Show widget", style: .default, handler: { [weak self] _ in
-                self?.widgetView.isHidden = false
-                self?.widgetView.stop()
-                self?.widgetView.start()
-                InAppDebuggerWindow.shared.needsThroughTouches = true
+                self?.widgetView.show()
             }))
         } else {
             sheet.addAction(.init(title: "Hide widget", style: .destructive, handler: { [weak self] _ in
-                self?.widgetView.isHidden = true
-                self?.widgetView.stop()
-                InAppDebuggerWindow.shared.needsThroughTouches = true
+                self?.widgetView.hide()
             }))
         }
-        sheet.addAction(.init(title: "Cancel", style: .cancel, handler: { _ in
-            InAppDebuggerWindow.shared.needsThroughTouches = true
-        }))
+        sheet.addAction(.init(title: "Cancel", style: .cancel, handler: nil))
         present(sheet, animated: true, completion: nil)
-    }
-    
-    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
-        super.present(viewControllerToPresent, animated: flag) {
-            InAppDebuggerWindow.shared.needsThroughTouches = false
-            completion?()
-        }
-    }
-}
-
-extension FloatingViewController: UIPopoverPresentationControllerDelegate, UIAdaptivePresentationControllerDelegate {
-    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        InAppDebuggerWindow.shared.needsThroughTouches = true
     }
 }

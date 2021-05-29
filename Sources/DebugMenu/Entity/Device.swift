@@ -157,7 +157,7 @@ public class Device {
     }
     
     public var localizedCPUUsage: String {
-        "\(cpuUsage() * 100.0)%"
+        String(format: "%.1f%%", cpuUsage() * 100.0)
     }
     
     public func cpuUsage() -> Float {

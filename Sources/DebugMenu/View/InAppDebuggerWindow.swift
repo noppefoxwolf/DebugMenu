@@ -8,12 +8,13 @@
 import UIKit
 import Combine
 
+protocol TouchThrowing {}
+
 public class InAppDebuggerWindow: UIWindow {
     internal static var shared: InAppDebuggerWindow!
-    internal var needsThroughTouches: Bool = true
     
-    internal static func install(windowScene: UIWindowScene? = nil, debuggerItems: [DebugMenuPresentable]) {
-        install({ windowScene.map(InAppDebuggerWindow.init(windowScene:)) ?? InAppDebuggerWindow(frame: UIScreen.main.bounds) }, debuggerItems: debuggerItems)
+    internal static func install(windowScene: UIWindowScene? = nil, debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable]) {
+        install({ windowScene.map(InAppDebuggerWindow.init(windowScene:)) ?? InAppDebuggerWindow(frame: UIScreen.main.bounds) }, debuggerItems: debuggerItems, complications: complications)
     }
     
     internal override init(windowScene: UIWindowScene) {
@@ -24,11 +25,11 @@ public class InAppDebuggerWindow: UIWindow {
         super.init(frame: frame)
     }
     
-    private static func install(_ factory: (() -> InAppDebuggerWindow), debuggerItems: [DebugMenuPresentable]) {
+    private static func install(_ factory: (() -> InAppDebuggerWindow), debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable]) {
         let keyWindow = UIApplication.shared.findKeyWindow()
         shared = factory()
         shared.windowLevel = UIWindow.Level.statusBar + 1
-        shared.rootViewController = FloatingViewController(debuggerItems: debuggerItems)
+        shared.rootViewController = FloatingViewController(debuggerItems: debuggerItems, complications: complications)
         shared!.makeKeyAndVisible()
         keyWindow?.makeKeyAndVisible()
     }
@@ -36,10 +37,11 @@ public class InAppDebuggerWindow: UIWindow {
     internal required init?(coder: NSCoder) { fatalError() }
     
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if InAppDebuggerWindow.shared.needsThroughTouches {
-            return super.hitTest(point, with: event) as? FloatingButton
+        let view = super.hitTest(point, with: event)
+        if view is TouchThrowing {
+            return nil
         } else {
-            return super.hitTest(point, with: event)
+            return view
         }
     }
 }
