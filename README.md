@@ -17,6 +17,8 @@ DebugMenu.install(windowScene: windowScene, items: [
     ClearCacheDebugItem(),
     UserDefaultsResetDebugItem(),
     CustomDebugItem()
+], complication: [
+    CPUUsageComplication()
 ])
 #endif
 ```
@@ -39,6 +41,8 @@ struct App: SwiftUI.App {
                 ClearCacheDebugItem(),
                 UserDefaultsResetDebugItem(),
                 CustomDebugItem()
+            ], complication: [
+                CPUUsageComplication()
             ])
         }
     }
@@ -78,7 +82,17 @@ public class CustomComplication: ComplicationPresentable {
 }
 ```
 
-## License
+# How to use
+
+## Open DebugMenu
+
+Tap floating bug button.
+
+## Show Complications
+
+Longpress floating bug button, and tap `Show widget`.
+
+# License
 
 License
 DebugMenu is released under the MIT license. See LICENSE for details.
