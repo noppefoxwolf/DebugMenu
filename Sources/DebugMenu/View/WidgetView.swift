@@ -36,6 +36,7 @@ class WidgetView: UIVisualEffectView {
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.register(Value1TableViewCell.self)
+        tableView.register(GraphTableViewCell.self)
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -79,6 +80,11 @@ extension WidgetView: UITableViewDelegate, UITableViewDataSource {
             cell.detailTextLabel?.text = fetcher()
             cell.detailTextLabel?.textColor = .lightGray
             cell.detailTextLabel?.numberOfLines = 0
+            return cell
+        case let .graph(fetcher):
+            let cell = tableView.dequeue(GraphTableViewCell.self, for: indexPath)
+            cell.textLabel?.text = complication.title
+            cell.setData(fetcher())
             return cell
         default:
             fatalError()

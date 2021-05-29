@@ -44,6 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             DeviceInfoDebugItem(),
         ], complications: [
             CPUUsageComplication(),
+            CPUGraphComplication(),
             GPUMemoryUsageComplication(),
             MemoryUsageComplication(),
             NetworkUsageComplication(),
