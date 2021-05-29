@@ -29,7 +29,7 @@ class GraphView: UIView {
     func reload(data: [Double], capacity: Int, maxValue: Double? = nil) {
         self.data = data.suffix(capacity).map({ $0 })
         self.capacity = capacity
-        self.maxValue = maxValue ?? data.max()
+        self.maxValue = maxValue ?? data.max() ?? 0
         setNeedsDisplay()
     }
     
