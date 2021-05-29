@@ -62,6 +62,22 @@ struct CustomDebugItem: DebugMenuPresentable {
 }
 ```
 
+## Custom complication
+
+```swift
+public class CustomComplication: ComplicationPresentable {
+    public init() {}
+    public func startMonitoring() {}
+    public func stopMonitoring() {}
+    public let fetcher: MetricsFetcher = .text {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        return formatter.string(from: Date())
+    }
+    public var title: String = "Date"
+}
+```
+
 ## License
 
 License
