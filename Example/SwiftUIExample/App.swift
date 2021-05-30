@@ -52,7 +52,7 @@ struct App: SwiftUI.App {
                 NetworkUsageComplication(),
                 FPSComplication(),
                 CustomComplication(),
-                IntervalComplication(title: "パースあたりの計算時間の計測", name: "dev.noppe.calc")
+                IntervalComplication(title: "Reduce time", name: "dev.noppe.calc")
             ])
         }
     }
