@@ -53,7 +53,7 @@ struct App: SwiftUI.App {
                 FPSComplication(),
                 CustomComplication(),
                 IntervalComplication(title: "Reduce time", name: "dev.noppe.calc")
-            ])
+            ], options: [.showWidgetOnLaunch])
         }
     }
 }

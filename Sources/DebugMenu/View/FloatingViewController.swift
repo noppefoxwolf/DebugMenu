@@ -14,10 +14,12 @@ internal class FloatingViewController: UIViewController {
     private let widgetView: WidgetView
     private let debuggerItems: [DebugMenuPresentable]
     private var cancellables: Set<AnyCancellable> = []
+    private let options: [Options]
     
-    init(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable]) {
+    init(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], options: [Options]) {
         self.debuggerItems = debuggerItems
         self.widgetView = .init(complications: complications)
+        self.options = options
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -28,6 +30,8 @@ internal class FloatingViewController: UIViewController {
         
         view.addSubview(launchView)
         view.addSubview(widgetView)
+        
+        launchView.isHidden = true
         widgetView.isHidden = true
     }
     
@@ -61,6 +65,13 @@ internal class FloatingViewController: UIViewController {
             widgetView.addGestureRecognizer(gesture)
             gesture.moveInitialPosition(.topLeading)
         }
+        
+        if options.contains(.showWidgetOnLaunch) {
+            widgetView.show()
+        } else {
+            widgetView.hide()
+        }
+        launchView.isHidden = false
     }
     
     private func presentMenu() {

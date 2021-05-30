@@ -51,7 +51,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             FPSComplication(),
             CustomComplication(),
             IntervalComplication(title: "Calc", name: "dev.noppe.calc"),
-        ])
+        ], options: [.showWidgetOnLaunch])
         #endif
     }
 

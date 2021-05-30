@@ -9,18 +9,20 @@ import Foundation
 import SwiftUI
 
 struct DebugMenuModifier: ViewModifier {
-    internal init(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable]) {
+    internal init(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], options: [Options]) {
         self.debuggerItems = debuggerItems
         self.complications = complications
+        self.options = options
     }
     
     let debuggerItems: [DebugMenuPresentable]
     let complications: [ComplicationPresentable]
+    let options: [Options]
     
     func body(content: Content) -> some View {
         content.onAppear(perform: {
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                DebugMenu.install(windowScene: windowScene, items: debuggerItems, complications: complications)
+                DebugMenu.install(windowScene: windowScene, items: debuggerItems, complications: complications, options: options)
             }
         })
     }
@@ -28,9 +30,9 @@ struct DebugMenuModifier: ViewModifier {
 
 public extension View {
     @ViewBuilder
-    func debugMenu(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], enabled: Bool = true) -> some View {
+    func debugMenu(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], options: [Options] = [], enabled: Bool = true) -> some View {
         if enabled {
-            modifier(DebugMenuModifier(debuggerItems: debuggerItems, complications: complications))
+            modifier(DebugMenuModifier(debuggerItems: debuggerItems, complications: complications, options: options))
         } else {
             self
         }

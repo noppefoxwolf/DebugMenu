@@ -13,8 +13,8 @@ protocol TouchThrowing {}
 public class InAppDebuggerWindow: UIWindow {
     internal static var shared: InAppDebuggerWindow!
     
-    internal static func install(windowScene: UIWindowScene? = nil, debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable]) {
-        install({ windowScene.map(InAppDebuggerWindow.init(windowScene:)) ?? InAppDebuggerWindow(frame: UIScreen.main.bounds) }, debuggerItems: debuggerItems, complications: complications)
+    internal static func install(windowScene: UIWindowScene? = nil, debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], options: [Options]) {
+        install({ windowScene.map(InAppDebuggerWindow.init(windowScene:)) ?? InAppDebuggerWindow(frame: UIScreen.main.bounds) }, debuggerItems: debuggerItems, complications: complications, options: options)
     }
     
     internal override init(windowScene: UIWindowScene) {
@@ -25,11 +25,11 @@ public class InAppDebuggerWindow: UIWindow {
         super.init(frame: frame)
     }
     
-    private static func install(_ factory: (() -> InAppDebuggerWindow), debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable]) {
+    private static func install(_ factory: (() -> InAppDebuggerWindow), debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], options: [Options]) {
         let keyWindow = UIApplication.shared.findKeyWindow()
         shared = factory()
         shared.windowLevel = UIWindow.Level.statusBar + 1
-        shared.rootViewController = FloatingViewController(debuggerItems: debuggerItems, complications: complications)
+        shared.rootViewController = FloatingViewController(debuggerItems: debuggerItems, complications: complications, options: options)
         shared!.makeKeyAndVisible()
         keyWindow?.makeKeyAndVisible()
     }
