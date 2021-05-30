@@ -50,6 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             NetworkUsageComplication(),
             FPSComplication(),
             CustomComplication(),
+            IntervalComplication(title: "Calc", name: "dev.noppe.calc"),
         ])
         #endif
     }

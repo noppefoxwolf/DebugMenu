@@ -7,8 +7,8 @@
 
 import UIKit
 
-class GraphTableViewCell: UITableViewCell {
-    let graph = GraphView()
+class IntervalTableViewCell: UITableViewCell {
+    let graph = IntervalView(frame: .null)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,7 +23,7 @@ class GraphTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setData(_ data: [Double]) {
-        graph.reload(data: data, capacity: 60)
+    func setDurations(_ durations: [TimeInterval]) {
+        graph.reload(durations: durations)
     }
 }

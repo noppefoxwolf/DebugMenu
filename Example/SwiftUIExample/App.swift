@@ -24,8 +24,13 @@ struct App: SwiftUI.App {
     
     var body: some Scene {
         WindowGroup {
-            Button(action: {}, label: {
-                Text("Hello, world!")
+            Button(action: {
+                let tracker = IntervalTracker(name: "dev.noppe.calc")
+                tracker.track(.begin)
+                let _ = (0..<10000000).reduce(0, +)
+                tracker.track(.end)
+            }, label: {
+                Text("calculate")
             }).debugMenu(debuggerItems: [
                 ConsoleDebugItem(),
                 ViewControllerDebugItem<ColorViewController>(builder: { $0.init(color: .blue) }),
@@ -47,6 +52,7 @@ struct App: SwiftUI.App {
                 NetworkUsageComplication(),
                 FPSComplication(),
                 CustomComplication(),
+                IntervalComplication(title: "パースあたりの計算時間の計測", name: "dev.noppe.calc")
             ])
         }
     }

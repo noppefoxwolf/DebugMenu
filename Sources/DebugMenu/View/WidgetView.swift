@@ -37,6 +37,7 @@ class WidgetView: UIVisualEffectView {
         tableView.separatorStyle = .none
         tableView.register(Value1TableViewCell.self)
         tableView.register(GraphTableViewCell.self)
+        tableView.register(IntervalTableViewCell.self)
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -85,6 +86,11 @@ extension WidgetView: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeue(GraphTableViewCell.self, for: indexPath)
             cell.textLabel?.text = complication.title
             cell.setData(fetcher())
+            return cell
+        case let .interval(fetcher):
+            let cell = tableView.dequeue(IntervalTableViewCell.self, for: indexPath)
+            cell.textLabel?.text = complication.title
+            cell.setDurations(fetcher())
             return cell
         default:
             fatalError()

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DebugMenu
 
 class ViewController: UIViewController {
 
@@ -15,5 +16,11 @@ class ViewController: UIViewController {
     }
 
 
+    @IBAction func calculate(_ sender: Any) {
+        let tracker = IntervalTracker(name: "dev.noppe.calc")
+        tracker.track(.begin)
+        let _ = (0..<10000000).reduce(0, +)
+        tracker.track(.end)
+    }
 }
 
