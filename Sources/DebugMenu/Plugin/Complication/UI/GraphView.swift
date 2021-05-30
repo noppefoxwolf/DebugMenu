@@ -35,7 +35,11 @@ class GraphView: UIView {
     
     override func draw(_ rect: CGRect) {
         guard data.count >= 1, data.count <= capacity else { return }
+        let context = UIGraphicsGetCurrentContext()
+        context?.clear(rect)
+        
         let graph = UIBezierPath()
+        
         graph.move(to: .init(x: 0, y: rect.height))
         
         for (index, data) in data.enumerated() {
@@ -48,8 +52,16 @@ class GraphView: UIView {
             graph.addLine(to: .init(x: x, y: rect.size.height))
         }
         graph.addLine(to: .init(x: rect.size.width, y: rect.size.height))
+        graph.addLine(to: .init(x: 0, y: rect.height))
         graph.close()
-        UIColor.white.setFill()
+        UIColor.lightGray.setFill()
         graph.fill()
+        
+        let string = String(format: "%.2f", maxValue)
+        let text = NSAttributedString(string: string, attributes: [
+            .foregroundColor : UIColor.white,
+            .font : UIFont.preferredFont(forTextStyle: .caption1)
+        ])
+        text.draw(at: .zero)
     }
 }

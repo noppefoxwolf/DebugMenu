@@ -17,7 +17,7 @@ public class CPUGraphComplication: ComplicationPresentable {
         .graph { [weak self] in
             guard let self = self else { return [] }
             let metrics = Device.current.cpuUsage()
-            self.data.append(Double(metrics))
+            self.data.append(Double(metrics * 100.0))
             return self.data
         }
     }
