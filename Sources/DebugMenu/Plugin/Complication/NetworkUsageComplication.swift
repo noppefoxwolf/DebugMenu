@@ -19,7 +19,7 @@ public class NetworkUsageComplication: ComplicationPresentable {
     
     public func startMonitoring() {
         Timer.publish(every: 1, on: .main, in: .default).autoconnect().sink { [weak self] _ in
-            self?.update()
+            self?.updateNetworkUsage()
         }.store(in: &cancellables)
     }
     
@@ -27,13 +27,17 @@ public class NetworkUsageComplication: ComplicationPresentable {
         cancellables = []
     }
     
-    private func update() {
+    private func updateNetworkUsage() {
         let networkUsage = Device.current.networkUsage()
         if let lastUsage = lastNetworkUsage, let newUsage = networkUsage {
             sendPerSec = newUsage.sent - lastUsage.sent
             receivedPerSec = newUsage.received - lastUsage.received
         }
         lastNetworkUsage = networkUsage
+    }
+    
+    public func update() {
+        
     }
     
     public var fetcher: MetricsFetcher {

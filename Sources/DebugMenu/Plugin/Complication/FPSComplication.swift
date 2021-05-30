@@ -18,7 +18,7 @@ public class FPSComplication: ComplicationPresentable {
     public init() {}
     
     public func startMonitoring() {
-        displayLink = .init(target: self, selector: #selector(update))
+        displayLink = .init(target: self, selector: #selector(updateDisplayLink))
         displayLink?.preferredFramesPerSecond = 0
         displayLink?.add(to: .main, forMode: .common)
     }
@@ -29,7 +29,7 @@ public class FPSComplication: ComplicationPresentable {
         displayLink = nil
     }
     
-    @objc func update(_ displayLink: CADisplayLink) {
+    @objc func updateDisplayLink(_ displayLink: CADisplayLink) {
         if displayLink.timestamp - lastupdated > 1.0 {
             currentFPS = updateCount
             updateCount = 1
@@ -37,6 +37,10 @@ public class FPSComplication: ComplicationPresentable {
         } else {
             updateCount += 1
         }
+    }
+    
+    public func update() {
+        
     }
     
     public var fetcher: MetricsFetcher {

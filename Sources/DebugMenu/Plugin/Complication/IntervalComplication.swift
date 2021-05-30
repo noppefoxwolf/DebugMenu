@@ -26,8 +26,13 @@ public class IntervalComplication: ComplicationPresentable {
             }
         }.store(in: &cancellables)
     }
+    
     public func stopMonitoring() {
         cancellables = []
+    }
+    
+    public func update() {
+        
     }
     
     public var fetcher: MetricsFetcher {

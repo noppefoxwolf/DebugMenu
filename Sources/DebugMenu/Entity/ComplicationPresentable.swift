@@ -11,6 +11,7 @@ public protocol ComplicationPresentable {
     var title: String { get }
     func startMonitoring()
     func stopMonitoring()
+    func update()
     var fetcher: MetricsFetcher { get }
 }
 

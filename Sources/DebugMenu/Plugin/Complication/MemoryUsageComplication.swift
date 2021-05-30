@@ -7,12 +7,18 @@
 
 import Foundation
 
-public struct MemoryUsageComplication: ComplicationPresentable {
+public class MemoryUsageComplication: ComplicationPresentable {
     public init() {}
     public let title: String = "MEM"
+    private var text: String = ""
     public func startMonitoring() {}
     public func stopMonitoring() {}
-    public let fetcher: MetricsFetcher = .text {
-        Device.current.localizedMemoryUsage
+    public func update() {
+        text = Device.current.localizedMemoryUsage
+    }
+    public var fetcher: MetricsFetcher {
+        .text { [weak self] in
+            self?.text ?? ""
+        }
     }
 }

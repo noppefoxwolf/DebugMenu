@@ -61,6 +61,7 @@ class WidgetView: UIVisualEffectView {
     }
     
     private func reloadData() {
+        complications.forEach({ $0.update() })
         tableView.reloadData()
     }
 }

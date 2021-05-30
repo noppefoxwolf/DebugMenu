@@ -9,12 +9,18 @@ import DebugMenu
 
 public class CustomComplication: ComplicationPresentable {
     public init() {}
+    public var title: String = "Date"
+    private var text: String = ""
     public func startMonitoring() {}
     public func stopMonitoring() {}
-    public let fetcher: MetricsFetcher = .text {
+    public func update() {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
-        return formatter.string(from: Date())
+        text = formatter.string(from: Date())
     }
-    public var title: String = "Date"
+    public var fetcher: MetricsFetcher {
+        .text { [weak self] in
+            self?.text ?? ""
+        }
+    }
 }
