@@ -50,6 +50,7 @@ public class Application {
         let byteCount = try? getByteCount()
         let formatter = ByteCountFormatter()
         formatter.countStyle = .file
+        formatter.allowsNonnumericFormatting = false
         return formatter.string(fromByteCount: Int64(byteCount ?? 0))
     }
 }

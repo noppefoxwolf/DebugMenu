@@ -93,6 +93,7 @@ public class Device {
     public var localizedPhysicalMemory: String {
         let formatter = ByteCountFormatter()
         formatter.countStyle = .memory
+        formatter.allowsNonnumericFormatting = false
         return formatter.string(fromByteCount: Int64(physicalMemory))
     }
     
@@ -143,12 +144,14 @@ public class Device {
     public var localizedDiskUsage: String {
         let formatter = ByteCountFormatter()
         formatter.countStyle = .file
+        formatter.allowsNonnumericFormatting = false
         return "\(formatter.string(fromByteCount: diskUsage)) / \(formatter.string(fromByteCount: diskTotalSpace))"
     }
     
     public var localizedMemoryUsage: String {
         let formatter = ByteCountFormatter()
         formatter.countStyle = .memory
+        formatter.allowsNonnumericFormatting = false
         return formatter.string(fromByteCount: Int64(memoryUsage()))
     }
     
@@ -171,7 +174,7 @@ public class Device {
     public var localizedGPUMemory: String {
         let formatter = ByteCountFormatter()
         formatter.countStyle = .memory
+        formatter.allowsNonnumericFormatting = false
         return formatter.string(fromByteCount: Int64(GPU.current.currentAllocatedSize))
-        
     }
 }
