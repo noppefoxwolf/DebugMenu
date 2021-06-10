@@ -40,10 +40,10 @@ class Network {
         
         var networkData: UnsafeMutablePointer<if_data>!
         
-        var wifiDataSent: UInt32 = 0
-        var wifiDataReceived: UInt32 = 0
-        var wwanDataSent: UInt32 = 0
-        var wwanDataReceived: UInt32 = 0
+        var wifiDataSent: UInt64 = 0
+        var wifiDataReceived: UInt64 = 0
+        var wwanDataSent: UInt64 = 0
+        var wwanDataReceived: UInt64 = 0
         
         for ptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
             let name = String(cString: ptr.pointee.ifa_name)
@@ -55,14 +55,14 @@ class Network {
             
             if name.hasPrefix("en") {
                 networkData = unsafeBitCast(ptr.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
-                wifiDataSent += networkData.pointee.ifi_obytes
-                wifiDataReceived += networkData.pointee.ifi_ibytes
+                wifiDataSent += UInt64(networkData.pointee.ifi_obytes)
+                wifiDataReceived += UInt64(networkData.pointee.ifi_ibytes)
             }
             
             if name.hasPrefix("pdp_ip") {
                 networkData = unsafeBitCast(ptr.pointee.ifa_data, to: UnsafeMutablePointer<if_data>.self)
-                wwanDataSent += networkData.pointee.ifi_obytes
-                wwanDataReceived += networkData.pointee.ifi_ibytes
+                wwanDataSent += UInt64(networkData.pointee.ifi_obytes)
+                wwanDataReceived += UInt64(networkData.pointee.ifi_ibytes)
             }
         }
         freeifaddrs(ifaddr)

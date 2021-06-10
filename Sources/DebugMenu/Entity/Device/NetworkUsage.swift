@@ -8,11 +8,11 @@
 import Foundation
 
 public struct NetworkUsage {
-    public let wifiDataSent: UInt32
-    public let wifiDataReceived: UInt32
-    public let wwanDataSent: UInt32
-    public let wwanDataReceived: UInt32
+    public let wifiDataSent: UInt64
+    public let wifiDataReceived: UInt64
+    public let wwanDataSent: UInt64
+    public let wwanDataReceived: UInt64
     
-    public var sent: UInt32 { wifiDataSent + wwanDataSent }
-    public var received: UInt32 { wifiDataReceived + wwanDataReceived }
+    public var sent: UInt64 { wifiDataSent + wwanDataSent }
+    public var received: UInt64 { wifiDataReceived + wwanDataReceived }
 }

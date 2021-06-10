@@ -12,8 +12,8 @@ public class NetworkUsageComplication: ComplicationPresentable {
     public init() {}
     public let title: String = "Network"
     var lastNetworkUsage: NetworkUsage? = nil
-    var sendPerSec: UInt32 = 0
-    var receivedPerSec: UInt32 = 0
+    var sendPerSec: UInt64 = 0
+    var receivedPerSec: UInt64 = 0
     
     private var cancellables: Set<AnyCancellable> = []
     
