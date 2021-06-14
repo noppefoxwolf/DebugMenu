@@ -30,8 +30,10 @@ public class NetworkUsageComplication: ComplicationPresentable {
     private func updateNetworkUsage() {
         let networkUsage = Device.current.networkUsage()
         if let lastUsage = lastNetworkUsage, let newUsage = networkUsage {
-            sendPerSec = newUsage.sent - lastUsage.sent
-            receivedPerSec = newUsage.received - lastUsage.received
+            let sendPerSec = newUsage.sent.subtractingReportingOverflow(lastUsage.sent)
+            self.sendPerSec = sendPerSec.partialValue
+            let receivedPerSec = newUsage.received.subtractingReportingOverflow(lastUsage.received)
+            self.receivedPerSec = receivedPerSec.partialValue
         }
         lastNetworkUsage = networkUsage
     }

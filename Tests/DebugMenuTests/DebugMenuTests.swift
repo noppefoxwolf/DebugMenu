@@ -6,7 +6,7 @@ final class DebugMenuTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(DebugMenu().text, "Hello, World!")
+//        XCTAssertEqual(DebugMenu().text, "Hello, World!")
     }
 
     static var allTests = [
