@@ -33,10 +33,5 @@ jobs:
           git clone https://github.com/unsignedapps/swift-create-xcframework.git
           cd swift-create-xcframework
           make install
-      - name: Create XCFramework
+      - name: Create and Save XCFramework
         uses: unsignedapps/swift-create-xcframework@v1.4.0
-      - name: Save XCFramework
-        uses: actions/upload-artifact@v2
-        with:
-          name: DebugMenu.zip
-          path: ./DebugMenu.zip
