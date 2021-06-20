@@ -9,16 +9,18 @@ on:
       - main
 
 jobs:
-  build:
-
+  # build:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Build
+  #       run: swift build -v -Xswiftc "-sdk" -Xswiftc "`xcrun --sdk iphoneos --show-sdk-path`" -Xswiftc "-target" -Xswiftc "arm64-apple-ios14.0"
+  test:
     runs-on: macos-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: swift build -v -Xswiftc "-sdk" -Xswiftc "`xcrun --sdk iphoneos --show-sdk-path`" -Xswiftc "-target" -Xswiftc "arm64-apple-ios14.0"
-    - name: Run tests
-      run: |
-        swift package generate-xcodeproj
-        xcodebuild build -sdk iphoneos -scheme 'DebugMenu-Package'
-        xcodebuild test -destination 'name=iPhone 11' -scheme 'DebugMenu-Package'
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: |
+          swift package generate-xcodeproj
+          xcodebuild build -sdk iphoneos -scheme 'DebugMenu-Package'
+          xcodebuild test -destination 'name=iPhone 11' -scheme 'DebugMenu-Package'
