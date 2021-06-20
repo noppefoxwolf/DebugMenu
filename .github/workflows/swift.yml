@@ -10,9 +10,7 @@ on:
 
 jobs:
   build:
-
     runs-on: macos-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Build
@@ -22,3 +20,5 @@ jobs:
         swift package generate-xcodeproj
         xcodebuild build -sdk iphoneos -scheme 'DebugMenu-Package'
         xcodebuild test -destination 'name=iPhone 11' -scheme 'DebugMenu-Package'
+    - name: Create XCFramework
+      uses: unsignedapps/swift-create-xcframework@v1.4
