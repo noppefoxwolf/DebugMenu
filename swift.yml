@@ -2,7 +2,9 @@ name: Swift
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main 
+      - noppefoxwolf-patch-1
   pull_request:
     branches: [ main ]
 
