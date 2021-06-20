@@ -20,7 +20,7 @@ jobs:
     - name: Build
       run: swift build -v -Xswiftc "-sdk" -Xswiftc "`xcrun --sdk iphoneos --show-sdk-path`" -Xswiftc "-target" -Xswiftc "arm64-apple-ios14.0"
     - name: Run tests
-      run: >
+      run: |
         swift package generate-xcodeproj
         xcodebuild build -sdk iphoneos -scheme 'DebugMenu-Package'
         xcodebuild test -destination 'name=iPhone 11' -scheme 'DebugMenu-Package'
