@@ -28,5 +28,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install 
+        run: |
+          git clone https://github.com/unsignedapps/swift-create-xcframework.git
+          cd swift-create-xcframework
+          make install
       - name: Create XCFramework
         uses: unsignedapps/swift-create-xcframework@v1.4.0
