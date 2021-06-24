@@ -9,6 +9,7 @@ import UIKit
 import Logging
 import DebugMenu
 import Shared
+import DebugMenuConsolePlugin
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

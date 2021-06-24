@@ -9,6 +9,7 @@ import SwiftUI
 import Logging
 import DebugMenu
 import Shared
+import DebugMenuConsolePlugin
 
 @main
 struct App: SwiftUI.App {

@@ -23,6 +23,7 @@
 		D7F2874D265D767C00013AAE /* ColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F2874C265D767C00013AAE /* ColorViewController.swift */; };
 		D7F2874E265D769800013AAE /* CustomDebugItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F85987257D13DB00A7AFDF /* CustomDebugItem.swift */; };
 		D7F28750265D76A500013AAE /* DebugMenu in Frameworks */ = {isa = PBXBuildFile; productRef = D7F2874F265D76A500013AAE /* DebugMenu */; };
+		D7F3012E26848C39002F1EDD /* DebugMenuConsolePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = D7F3012D26848C39002F1EDD /* DebugMenuConsolePlugin */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7F3012E26848C39002F1EDD /* DebugMenuConsolePlugin in Frameworks */,
 				D7F28750265D76A500013AAE /* DebugMenu in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,6 +252,7 @@
 			name = Shared;
 			packageProductDependencies = (
 				D7F2874F265D76A500013AAE /* DebugMenu */,
+				D7F3012D26848C39002F1EDD /* DebugMenuConsolePlugin */,
 			);
 			productName = Shared;
 			productReference = D7F2873A265D766400013AAE /* Shared.framework */;
@@ -285,6 +288,9 @@
 				Base,
 			);
 			mainGroup = D7F85938257CFE9800A7AFDF;
+			packageReferences = (
+				D7F3012A26848C30002F1EDD /* XCRemoteSwiftPackageReference "DebugMenuConsolePlugin" */,
+			);
 			productRefGroup = D7F85942257CFE9800A7AFDF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -689,10 +695,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		D7F3012A26848C30002F1EDD /* XCRemoteSwiftPackageReference "DebugMenuConsolePlugin" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:noppefoxwolf/DebugMenuConsolePlugin.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		D7F2874F265D76A500013AAE /* DebugMenu */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DebugMenu;
+		};
+		D7F3012D26848C39002F1EDD /* DebugMenuConsolePlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D7F3012A26848C30002F1EDD /* XCRemoteSwiftPackageReference "DebugMenuConsolePlugin" */;
+			productName = DebugMenuConsolePlugin;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
