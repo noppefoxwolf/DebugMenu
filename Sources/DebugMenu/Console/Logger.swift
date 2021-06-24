@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(Logging)
 import Logging
+#endif
 
 extension URL {
     static func makeDebugMenuURL() -> URL {
@@ -40,6 +42,7 @@ struct TextOutputWriterStream: TextOutputStream {
     }
 }
 
+#if canImport(Logging)
 public struct WriteLogHandler: LogHandler {
     public static func output(label: String) -> WriteLogHandler {
         WriteLogHandler(label: label, stream: TextOutputWriterStream.session)
@@ -107,3 +110,4 @@ public struct WriteLogHandler: LogHandler {
         }
     }
 }
+#endif

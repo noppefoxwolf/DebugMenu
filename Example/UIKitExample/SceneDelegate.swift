@@ -29,6 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Logger(label: "dev.noppe.debugMenu.logger").info("Launch")
         
         #if DEBUG
+        guard #available(iOS 14, *) else { return }
         DebugMenu.install(windowScene: windowScene, items: [
             ConsoleDebugItem(),
             ViewControllerDebugItem<ColorViewController>(builder: { $0.init(color: .blue) }),

@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 14, *)
 class InAppDebuggerViewController: UIViewController {
     let collectionView: UICollectionView
     let debuggerItems: [AnyDebugItem]
@@ -91,6 +92,7 @@ class InAppDebuggerViewController: UIViewController {
     }
 }
 
+@available(iOS 14, *)
 extension InAppDebuggerViewController {
 
     func configureDataSource() {
@@ -168,6 +170,7 @@ extension InAppDebuggerViewController {
     }
 }
 
+@available(iOS 14, *)
 extension InAppDebuggerViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section) {

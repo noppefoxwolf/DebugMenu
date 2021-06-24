@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@available(iOS 14, *)
 struct DebugMenuModifier: ViewModifier {
     internal init(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], options: [Options]) {
         self.debuggerItems = debuggerItems
@@ -28,6 +29,7 @@ struct DebugMenuModifier: ViewModifier {
     }
 }
 
+@available(iOS 14, *)
 public extension View {
     @ViewBuilder
     func debugMenu(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], options: [Options] = [], enabled: Bool = true) -> some View {

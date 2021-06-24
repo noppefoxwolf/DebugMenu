@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 14, *)
 class EnvelopePreviewTableViewController: UITableViewController {
     var envelops: [Envelope] = []
     var fetcher: ((_ completions: @escaping ([Envelope]) -> Void) -> Void)

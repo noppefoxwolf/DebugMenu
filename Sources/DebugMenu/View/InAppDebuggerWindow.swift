@@ -10,6 +10,7 @@ import Combine
 
 protocol TouchThrowing {}
 
+@available(iOS 14, *)
 public class InAppDebuggerWindow: UIWindow {
     internal static var shared: InAppDebuggerWindow!
     

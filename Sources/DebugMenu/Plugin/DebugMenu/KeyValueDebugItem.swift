@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+@available(iOS 14, *)
 public struct KeyValueDebugItem: DebugMenuPresentable {
     public init(title: String, fetcher: @escaping (_ completions: @escaping ([Envelope]) -> Void) -> Void) {
         self.title = title

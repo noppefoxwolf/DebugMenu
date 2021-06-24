@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 14, *)
 class LogsViewController: UICollectionViewController {
     init() {
         super.init(collectionViewLayout: .init())

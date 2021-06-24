@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 14, *)
 class LaunchView: UIVisualEffectView {
     private let button: UIButton = .init(frame: .null)
     

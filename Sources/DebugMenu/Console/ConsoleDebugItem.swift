@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(iOS 14, *)
 public struct ConsoleDebugItem: DebugMenuPresentable {
     public var debuggerItemTitle: String { "Console" }
     public let action: DebugMenuAction = .didSelect { (controller, completions) in

@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 14, *)
 class LogViewController: UIViewController {
     let textView: UITextView = .init()
     let inputStream: InputStream
@@ -56,6 +57,7 @@ class LogViewController: UIViewController {
     }
 }
 
+@available(iOS 14, *)
 extension LogViewController: StreamDelegate {
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
         switch eventCode {

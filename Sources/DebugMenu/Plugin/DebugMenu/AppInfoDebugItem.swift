@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+@available(iOS 14, *)
 public struct AppInfoDebugItem: DebugMenuPresentable {
     public init() {}
     public var debuggerItemTitle: String = "App Info"

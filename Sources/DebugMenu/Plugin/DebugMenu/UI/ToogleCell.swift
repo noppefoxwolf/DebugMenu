@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 14, *)
 class ToggleCell: UICollectionViewListCell {
     var current: (() -> Bool)!
     var onChange: ((Bool) -> Void)!
