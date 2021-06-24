@@ -93,8 +93,6 @@ extension WidgetView: UITableViewDelegate, UITableViewDataSource {
             cell.textLabel?.text = complication.title
             cell.setDurations(fetcher())
             return cell
-        default:
-            fatalError()
         }
     }
     
