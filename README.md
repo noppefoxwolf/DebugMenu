@@ -82,6 +82,10 @@ public class CustomComplication: ComplicationPresentable {
 }
 ```
 
+# Plugins
+
+- [DebugMenuConsolePlugin](https://github.com/noppefoxwolf/DebugMenuConsolePlugin)
+
 # How to use
 
 ## Open DebugMenu
