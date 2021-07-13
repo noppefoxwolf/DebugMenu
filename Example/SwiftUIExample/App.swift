@@ -52,6 +52,7 @@ struct App: SwiftUI.App {
                 MemoryUsageComplication(),
                 NetworkUsageComplication(),
                 FPSComplication(),
+                ThermalStateComplication(),
                 CustomComplication(),
                 IntervalComplication(title: "Reduce time", name: "dev.noppe.calc")
             ], options: [.showWidgetOnLaunch])

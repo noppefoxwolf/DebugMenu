@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D71C9E3C269D50090020F5D0 /* DebugMenu in Frameworks */ = {isa = PBXBuildFile; productRef = D71C9E3B269D50090020F5D0 /* DebugMenu */; };
 		D741C5EA266287A8000ECE0A /* CustomComplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D741C5E9266287A8000ECE0A /* CustomComplication.swift */; };
 		D7F286F9265D755200013AAE /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F286F8265D755200013AAE /* App.swift */; };
 		D7F28721265D75FC00013AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F28720265D75FC00013AAE /* AppDelegate.swift */; };
@@ -22,7 +23,6 @@
 		D7F28748265D766A00013AAE /* Shared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D7F2873A265D766400013AAE /* Shared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D7F2874D265D767C00013AAE /* ColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F2874C265D767C00013AAE /* ColorViewController.swift */; };
 		D7F2874E265D769800013AAE /* CustomDebugItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F85987257D13DB00A7AFDF /* CustomDebugItem.swift */; };
-		D7F28750265D76A500013AAE /* DebugMenu in Frameworks */ = {isa = PBXBuildFile; productRef = D7F2874F265D76A500013AAE /* DebugMenu */; };
 		D7F3012E26848C39002F1EDD /* DebugMenuConsolePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = D7F3012D26848C39002F1EDD /* DebugMenuConsolePlugin */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +69,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D71C9E3E269D506B0020F5D0 /* DebugMenu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DebugMenu; path = ..; sourceTree = "<group>"; };
 		D741C5E9266287A8000ECE0A /* CustomComplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomComplication.swift; sourceTree = "<group>"; };
 		D7F286F6265D755200013AAE /* SwiftUIExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F286F8265D755200013AAE /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
@@ -110,13 +111,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7F3012E26848C39002F1EDD /* DebugMenuConsolePlugin in Frameworks */,
-				D7F28750265D76A500013AAE /* DebugMenu in Frameworks */,
+				D71C9E3C269D50090020F5D0 /* DebugMenu in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D71C9E3D269D506B0020F5D0 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				D71C9E3E269D506B0020F5D0 /* DebugMenu */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		D7F286F7265D755200013AAE /* SwiftUIExample */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +164,7 @@
 		D7F85938257CFE9800A7AFDF = {
 			isa = PBXGroup;
 			children = (
+				D71C9E3D269D506B0020F5D0 /* Packages */,
 				D7F286F7265D755200013AAE /* SwiftUIExample */,
 				D7F2871F265D75FC00013AAE /* UIKitExample */,
 				D7F2873B265D766400013AAE /* Shared */,
@@ -251,8 +261,8 @@
 			);
 			name = Shared;
 			packageProductDependencies = (
-				D7F2874F265D76A500013AAE /* DebugMenu */,
 				D7F3012D26848C39002F1EDD /* DebugMenuConsolePlugin */,
+				D71C9E3B269D50090020F5D0 /* DebugMenu */,
 			);
 			productName = Shared;
 			productReference = D7F2873A265D766400013AAE /* Shared.framework */;
@@ -707,7 +717,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D7F2874F265D76A500013AAE /* DebugMenu */ = {
+		D71C9E3B269D50090020F5D0 /* DebugMenu */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DebugMenu;
 		};

@@ -50,6 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             MemoryUsageComplication(),
             NetworkUsageComplication(),
             FPSComplication(),
+            ThermalStateComplication(),
             CustomComplication(),
             IntervalComplication(title: "Calc", name: "dev.noppe.calc"),
         ], options: [.showWidgetOnLaunch])
