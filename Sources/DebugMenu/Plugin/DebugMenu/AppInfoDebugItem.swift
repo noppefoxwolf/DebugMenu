@@ -22,7 +22,7 @@ public struct AppInfoDebugItem: DebugMenuPresentable {
                     "Locale" : Application.current.locale,
                     "Localization" : Application.current.preferredLocalizations,
                     "TestFlight?" : Application.current.isTestFlight ? "YES" : "NO"
-                ].map({ Envelope.init(key: $0.key, value: $0.value) })
+                ].map({ Envelope.init(key: $0.key, value: $0.value) }).sorted(by: { $0.key < $1.key })
                 DispatchQueue.main.async {
                     completions(envelops)
                 }

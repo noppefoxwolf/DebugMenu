@@ -27,7 +27,7 @@ public struct DeviceInfoDebugItem: DebugMenuPresentable {
                     "Processor" : Device.current.processor,
                     "Physical Memory" : Device.current.localizedPhysicalMemory,
                     "Disk usage" : Device.current.localizedDiskUsage,
-                ].map({ Envelope(key: $0.key, value: $0.value) })
+                ].map({ Envelope(key: $0.key, value: $0.value) }).sorted(by: { $0.key < $1.key })
                 DispatchQueue.main.async {
                     completions(envelops)
                 }
