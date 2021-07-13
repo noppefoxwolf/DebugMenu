@@ -13,7 +13,8 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugMenuPresentable
         case push
     }
     
-    public init(presentationMode: PresentationMode = .push, builder: @escaping ((T.Type) -> T) = { $0.init() }) {
+    public init(title: String? = nil, presentationMode: PresentationMode = .push, builder: @escaping ((T.Type) -> T) = { $0.init() }) {
+        debuggerItemTitle = title ?? String(describing: T.self)
         action = .didSelect { (controller, completions) in
             let viewController = builder(T.self)
             switch presentationMode {
@@ -28,6 +29,6 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugMenuPresentable
         }
     }
     
-    public var debuggerItemTitle: String { String(describing: T.self) }
+    public let debuggerItemTitle: String
     public let action: DebugMenuAction
 }
