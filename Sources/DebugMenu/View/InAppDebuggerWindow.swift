@@ -10,6 +10,7 @@ import Combine
 
 protocol TouchThrowing {}
 
+@available(iOSApplicationExtension, unavailable)
 public class InAppDebuggerWindow: UIWindow {
     internal static var shared: InAppDebuggerWindow!
     
@@ -24,7 +25,7 @@ public class InAppDebuggerWindow: UIWindow {
     internal override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
+
     private static func install(_ factory: (() -> InAppDebuggerWindow), debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], options: [Options]) {
         let keyWindow = UIApplication.shared.findKeyWindow()
         shared = factory()
