@@ -10,15 +10,26 @@ import UIKit
 class InAppDebuggerViewController: UIViewController {
     let collectionView: UICollectionView
     let debuggerItems: [AnyDebugItem]
-    var dataSource: UICollectionViewDiffableDataSource<Section, AnyDebugItem>!
+    lazy var dataSource: UICollectionViewDiffableDataSource<Section, AnyDebugItem> = { preconditionFailure() }()
     
     enum Section: Int, CaseIterable {
+        case recent
         case items
+        
+        var title: String {
+            switch self {
+            case .recent:
+                return "Recent"
+            case .items:
+                return "Items"
+            }
+        }
     }
     
     init(debuggerItems: [DebugMenuPresentable]) {
         self.debuggerItems = debuggerItems.map(AnyDebugItem.init)
-        let configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        configuration.headerMode = .supplementary
         let collectionViewLayout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView = UICollectionView(
             frame: .null,
@@ -71,6 +82,7 @@ class InAppDebuggerViewController: UIViewController {
     }
         configureDataSource()
         collectionView.delegate = self
+        
         performUpdate()
     }
     
@@ -164,17 +176,34 @@ extension InAppDebuggerViewController {
                 )
             }
         })
+        
+        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { (headerView, elementKind, indexPath) in
+            var configuration = headerView.defaultContentConfiguration()
+            configuration.text = Section(rawValue: indexPath.section)?.title
+            headerView.contentConfiguration = configuration
+        }
+        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView? in
+            collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+        }
     }
     
     func performUpdate(_ query: String? = nil) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, AnyDebugItem>()
-        snapshot.appendSections([Section.items])
+        
         if let query = query, !query.isEmpty {
+            snapshot.appendSections([Section.items])
             let filteredItems = debuggerItems.filter({ $0.debuggerItemTitle.lowercased().contains(query.lowercased()) })
             snapshot.appendItems(filteredItems, toSection: .items)
         } else {
+            let recentItems = RecentItemStore(items: debuggerItems).get()
+            if !recentItems.isEmpty {
+                snapshot.appendSections([Section.recent])
+                snapshot.appendItems(recentItems, toSection: .recent)
+            }
+            snapshot.appendSections([Section.items])
             snapshot.appendItems(debuggerItems, toSection: .items)
         }
+        
         dataSource.apply(snapshot)
     }
 }
@@ -182,7 +211,7 @@ extension InAppDebuggerViewController {
 extension InAppDebuggerViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section) {
-        case .items:
+        case .items, .recent:
             let item = dataSource.itemIdentifier(for: indexPath)!
             switch item.action {
             case let .didSelect(action):
@@ -196,6 +225,8 @@ extension InAppDebuggerViewController: UICollectionViewDelegate {
             case .toggle, .slider:
                 break
             }
+            RecentItemStore(items: debuggerItems).insert(item)
+            performUpdate()
         default:
             fatalError()
         }
@@ -203,7 +234,7 @@ extension InAppDebuggerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         switch Section(rawValue: indexPath.section) {
-        case .items:
+        case .items, .recent:
             let item = dataSource.itemIdentifier(for: indexPath)!
             switch item.action {
             case .didSelect, .execute:
