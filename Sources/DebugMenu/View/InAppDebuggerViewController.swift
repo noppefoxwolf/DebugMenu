@@ -9,6 +9,7 @@ import UIKit
 
 class InAppDebuggerViewController: UIViewController {
     let collectionView: UICollectionView
+    let flattenDebugItems: [AnyDebugItem]
     let debuggerItems: [AnyDebugItem]
     let options: [Options]
     lazy var dataSource: UICollectionViewDiffableDataSource<Section, AnyDebugItem> = { preconditionFailure() }()
@@ -29,6 +30,7 @@ class InAppDebuggerViewController: UIViewController {
     
     init(title: String = "DebugMenu", debuggerItems: [DebugMenuPresentable], options: [Options]) {
         self.options = options
+        self.flattenDebugItems = debuggerItems.map(AnyGroupDebugItem.init).flatten().map(AnyDebugItem.init)
         self.debuggerItems = debuggerItems.map(AnyDebugItem.init)
         var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         configuration.headerMode = .supplementary
@@ -142,7 +144,7 @@ extension InAppDebuggerViewController {
             cell.onChange = item.onChange
         }
         
-        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) in
+        dataSource = .init(collectionView: collectionView, cellProvider: { [weak self] (collectionView, indexPath, item) in
             switch item.action {
             case .didSelect:
                 return collectionView.dequeueConfiguredReusableCell(
@@ -184,7 +186,7 @@ extension InAppDebuggerViewController {
             if #available(iOSApplicationExtension 15.0, *) {
                 configuration.text = self?.dataSource.sectionIdentifier(for: indexPath.section)?.title
             } else {
-                //
+                // FIXME: Index is wrong when unused showsRecentItems
                 configuration.text = Section(rawValue: indexPath.section)?.title
             }
             headerView.contentConfiguration = configuration
@@ -199,7 +201,7 @@ extension InAppDebuggerViewController {
         
         if let query = query, !query.isEmpty {
             snapshot.appendSections([Section.items])
-            let filteredItems = debuggerItems.filter({ $0.debuggerItemTitle.lowercased().contains(query.lowercased()) })
+            let filteredItems = flattenDebugItems.filter({ $0.debuggerItemTitle.lowercased().contains(query.lowercased()) })
             snapshot.appendItems(filteredItems, toSection: .items)
         } else {
             let recentItems = RecentItemStore(items: debuggerItems).get()
@@ -277,10 +279,12 @@ open class CollectionViewCell: UICollectionViewCell {
             if isHighlighted {
                 contentView.alpha = 0.5
             } else {
-                UIView.animate(withDuration: 0.3) {
-                    self.contentView.alpha = 1.0
+                UIView.animate(withDuration: 0.3) { [weak self] in
+                    self?.contentView.alpha = 1.0
                 }
             }
         }
     }
 }
+
+

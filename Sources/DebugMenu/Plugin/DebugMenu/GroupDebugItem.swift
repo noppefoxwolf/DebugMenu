@@ -7,23 +7,68 @@
 
 import Foundation
 
-public class GroupDebugItem: DebugMenuPresentable {
+protocol HasDebugItems {
+    var debugItems: [AnyGroupDebugItem] { get }
+}
+
+public struct GroupDebugItem: DebugMenuPresentable, HasDebugItems {
     public init(title: String, items: [DebugMenuPresentable]) {
         self.debuggerItemTitle = title
-        self.items = items.map(AnyDebugItem.init)
+        self.debugItems = items.map(AnyGroupDebugItem.init)
     }
     
     public var debuggerItemTitle: String
     public var action: DebugMenuAction {
-        .didSelect { [weak self] controller, completions in
-            guard let self = self else {
-                completions(.failure())
-                return
-            }
-            let vc = InAppDebuggerViewController(title: self.debuggerItemTitle, debuggerItems: self.items, options: [])
+        .didSelect { controller, completions in
+            let vc = InAppDebuggerViewController(
+                title: self.debuggerItemTitle,
+                debuggerItems: self.debugItems,
+                options: []
+            )
             controller.navigationController?.pushViewController(vc, animated: true)
             completions(.success())
         }
     }
-    internal let items: [AnyDebugItem]
+    let debugItems: [AnyGroupDebugItem]
+}
+
+struct AnyGroupDebugItem: Hashable, Identifiable, DebugMenuPresentable, HasDebugItems {
+    let id: String
+    let debuggerItemTitle: String
+    let action: DebugMenuAction
+    let debugItems: [AnyGroupDebugItem]
+    
+    init(_ item: DebugMenuPresentable) {
+        id = UUID().uuidString
+        debuggerItemTitle = item.debuggerItemTitle
+        action = item.action
+        if let grouped = item as? HasDebugItems {
+            debugItems = grouped.debugItems.map(AnyGroupDebugItem.init)
+        } else {
+            debugItems = []
+        }
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: AnyGroupDebugItem, rhs: AnyGroupDebugItem) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
+extension Array where Element == AnyGroupDebugItem {
+    func flatten() -> [AnyGroupDebugItem] {
+        var result: [AnyGroupDebugItem] = []
+        for element in self {
+            if element.debugItems.isEmpty {
+                result.append(element)
+            } else {
+                result.append(element)
+                result.append(contentsOf: element.debugItems.flatten())
+            }
+        }
+        return result
+    }
 }

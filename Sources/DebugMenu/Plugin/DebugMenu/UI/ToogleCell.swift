@@ -14,12 +14,10 @@ class ToggleCell: UICollectionViewListCell {
     override func updateConfiguration(using state: UICellConfigurationState) {
         let toggle = UISwitch()
         toggle.isOn = current()
-        toggle.addTarget(self, action: #selector(self.onValueChangeToggle(_:)), for: .valueChanged)
+        toggle.addAction(.init(handler: { [weak self] action in
+            self?.onChange(toggle.isOn)
+        }), for: .valueChanged)
         let configuration = UICellAccessory.CustomViewConfiguration(customView: toggle, placement: .trailing())
         accessories = [.customView(configuration: configuration)]
-    }
-    
-    @objc private func onValueChangeToggle(_ toggle: UISwitch) {
-        onChange(toggle.isOn)
     }
 }

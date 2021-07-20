@@ -44,6 +44,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             GroupDebugItem(title: "Info", items: [
                 AppInfoDebugItem(),
                 DeviceInfoDebugItem(),
+                GroupDebugItem(title: "Other", items: [
+                    ViewControllerDebugItem<ColorViewController>(title: "red", builder: { $0.init(color: .red) }),
+                    ViewControllerDebugItem<ColorViewController>(title: "green", builder: { $0.init(color: .green) }),
+                ])
             ])
         ], complications: [
             CPUUsageComplication(),
