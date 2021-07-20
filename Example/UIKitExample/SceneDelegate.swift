@@ -41,8 +41,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let envelops = UserDefaults.standard.dictionaryRepresentation().map({ Envelope(key: $0.key, value: "\($0.value)") })
                 completions(envelops)
             }),
-            AppInfoDebugItem(),
-            DeviceInfoDebugItem(),
+            GroupDebugItem(title: "Info", items: [
+                AppInfoDebugItem(),
+                DeviceInfoDebugItem(),
+            ])
         ], complications: [
             CPUUsageComplication(),
             CPUGraphComplication(),
@@ -53,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ThermalStateComplication(),
             CustomComplication(),
             IntervalComplication(title: "Calc", name: "dev.noppe.calc"),
-        ], options: [.showWidgetOnLaunch])
+        ], options: [.showsWidgetOnLaunch])
         #endif
     }
 

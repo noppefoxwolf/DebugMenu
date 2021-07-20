@@ -8,5 +8,8 @@
 import Foundation
 
 public enum Options {
-    case showWidgetOnLaunch
+    case showsWidgetOnLaunch
+    case showsRecentItems
+    
+    public static var `default`: [Options] = [.showsRecentItems]
 }

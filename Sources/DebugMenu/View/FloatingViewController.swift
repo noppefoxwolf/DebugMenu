@@ -51,7 +51,7 @@ internal class FloatingViewController: UIViewController {
             
             launchView.addAction(.init(handler: { [weak self] _ in
                 guard let self = self else { return }
-                let vc = InAppDebuggerViewController(debuggerItems: self.debuggerItems)
+                let vc = InAppDebuggerViewController(debuggerItems: self.debuggerItems, options: self.options)
                 let nc = UINavigationController(rootViewController: vc)
                 nc.modalPresentationStyle = .fullScreen
                 let ac = CustomActivityViewController(controller: nc)
@@ -66,7 +66,7 @@ internal class FloatingViewController: UIViewController {
             gesture.moveInitialPosition(.topLeading)
         }
         
-        if options.contains(.showWidgetOnLaunch) {
+        if options.contains(.showsWidgetOnLaunch) {
             widgetView.show()
         } else {
             widgetView.hide()

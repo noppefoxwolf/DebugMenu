@@ -10,6 +10,7 @@ import UIKit
 class InAppDebuggerViewController: UIViewController {
     let collectionView: UICollectionView
     let debuggerItems: [AnyDebugItem]
+    let options: [Options]
     lazy var dataSource: UICollectionViewDiffableDataSource<Section, AnyDebugItem> = { preconditionFailure() }()
     
     enum Section: Int, CaseIterable {
@@ -26,7 +27,8 @@ class InAppDebuggerViewController: UIViewController {
         }
     }
     
-    init(debuggerItems: [DebugMenuPresentable]) {
+    init(title: String = "DebugMenu", debuggerItems: [DebugMenuPresentable], options: [Options]) {
+        self.options = options
         self.debuggerItems = debuggerItems.map(AnyDebugItem.init)
         var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         configuration.headerMode = .supplementary
@@ -36,6 +38,7 @@ class InAppDebuggerViewController: UIViewController {
             collectionViewLayout: collectionViewLayout
         )
         super.init(nibName: nil, bundle: nil)
+        self.title = title
     }
     
     required init?(coder: NSCoder) { fatalError() }
@@ -47,7 +50,6 @@ class InAppDebuggerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "DebugMenu"
         navigationItem.largeTitleDisplayMode = .always
         
     search: do {
@@ -177,9 +179,14 @@ extension InAppDebuggerViewController {
             }
         })
         
-        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { (headerView, elementKind, indexPath) in
+        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] (headerView, elementKind, indexPath) in
             var configuration = headerView.defaultContentConfiguration()
-            configuration.text = Section(rawValue: indexPath.section)?.title
+            if #available(iOSApplicationExtension 15.0, *) {
+                configuration.text = self?.dataSource.sectionIdentifier(for: indexPath.section)?.title
+            } else {
+                //
+                configuration.text = Section(rawValue: indexPath.section)?.title
+            }
             headerView.contentConfiguration = configuration
         }
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView? in
@@ -196,7 +203,7 @@ extension InAppDebuggerViewController {
             snapshot.appendItems(filteredItems, toSection: .items)
         } else {
             let recentItems = RecentItemStore(items: debuggerItems).get()
-            if !recentItems.isEmpty {
+            if !recentItems.isEmpty && options.contains(.showsRecentItems) {
                 snapshot.appendSections([Section.recent])
                 snapshot.appendItems(recentItems, toSection: .recent)
             }
