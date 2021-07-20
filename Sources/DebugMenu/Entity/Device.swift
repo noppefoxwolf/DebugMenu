@@ -163,7 +163,7 @@ public class Device {
         String(format: "%.1f%%", cpuUsage() * 100.0)
     }
     
-    public func cpuUsage() -> Float {
+    public func cpuUsage() -> Double {
         CPU.usage()
     }
     
