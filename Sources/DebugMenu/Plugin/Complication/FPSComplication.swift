@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Tomoya Hirano on 2021/05/29.
 //
@@ -14,21 +14,21 @@ public class FPSComplication: ComplicationPresentable {
     var lastupdated: CFTimeInterval = 0
     var updateCount: Int = 1
     var currentFPS: Int = 0
-    
+
     public init() {}
-    
+
     public func startMonitoring() {
         displayLink = .init(target: self, selector: #selector(updateDisplayLink))
         displayLink?.preferredFramesPerSecond = 0
         displayLink?.add(to: .main, forMode: .common)
     }
-    
+
     public func stopMonitoring() {
         displayLink?.remove(from: .main, forMode: .common)
         displayLink?.invalidate()
         displayLink = nil
     }
-    
+
     @objc func updateDisplayLink(_ displayLink: CADisplayLink) {
         if displayLink.timestamp - lastupdated > 1.0 {
             currentFPS = updateCount
@@ -38,11 +38,11 @@ public class FPSComplication: ComplicationPresentable {
             updateCount += 1
         }
     }
-    
+
     public func update() {
-        
+
     }
-    
+
     public var fetcher: MetricsFetcher {
         .text { [weak self] in
             guard let self = self else { return "-" }

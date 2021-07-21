@@ -1,23 +1,23 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Tomoya Hirano on 2021/05/28.
 //
 
-import UIKit
 import Combine
+import UIKit
 
 class WidgetView: UIVisualEffectView {
     private let tableView: UITableView = .init(frame: .null, style: .plain)
     private var cancellables: Set<AnyCancellable> = []
     private let complications: [ComplicationPresentable]
-    
+
     init(complications: [ComplicationPresentable]) {
         self.complications = complications
         super.init(effect: UIBlurEffect(style: .systemMaterialDark))
         frame = .init(origin: .zero, size: .init(width: 200, height: 200))
-        
+
         let stackView = UIStackView(arrangedSubviews: [tableView])
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,11 +28,11 @@ class WidgetView: UIVisualEffectView {
             stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
-        
+
         layer.cornerCurve = .continuous
         layer.cornerRadius = 16
         layer.masksToBounds = true
-        
+
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.register(Value1TableViewCell.self)
@@ -41,25 +41,27 @@ class WidgetView: UIVisualEffectView {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
+
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func show() {
         isHidden = false
         complications.forEach({ $0.startMonitoring() })
-        Timer.publish(every: 1, on: .main, in: .default).autoconnect().sink { [weak self] _ in
-            self?.reloadData()
-        }.store(in: &cancellables)
+        Timer.publish(every: 1, on: .main, in: .default).autoconnect()
+            .sink { [weak self] _ in
+                self?.reloadData()
+            }
+            .store(in: &cancellables)
     }
-    
+
     func hide() {
         isHidden = true
         complications.forEach({ $0.stopMonitoring() })
         cancellables = []
     }
-    
+
     private func reloadData() {
         complications.forEach({ $0.update() })
         tableView.reloadData()
@@ -70,7 +72,7 @@ extension WidgetView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         complications.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let complication = complications[indexPath.row]
         switch complication.fetcher {
@@ -95,8 +97,12 @@ extension WidgetView: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
     }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
         cell.contentView.backgroundColor = .clear
         cell.backgroundColor = .clear
     }

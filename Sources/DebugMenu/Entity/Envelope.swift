@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Tomoya Hirano on 2021/05/23.
 //
@@ -12,7 +12,7 @@ public struct Envelope {
         self.key = key
         self.value = value
     }
-    
+
     public let key: String
     public let value: String
 }

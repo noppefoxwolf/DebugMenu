@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Tomoya Hirano on 2021/05/29.
 //
@@ -17,10 +17,12 @@ class CPU {
         }
         return totalUsage
     }
-    
+
     static func threadIDs() -> [thread_inspect_t] {
         var threadList: thread_act_array_t?
-        var threadCount = UInt32(MemoryLayout<mach_task_basic_info_data_t>.size / MemoryLayout<natural_t>.size)
+        var threadCount = UInt32(
+            MemoryLayout<mach_task_basic_info_data_t>.size / MemoryLayout<natural_t>.size
+        )
         let result = task_threads(mach_task_self_, &threadList, &threadCount)
         if result != KERN_SUCCESS { return [] }
         var ids: [thread_inspect_t] = []
@@ -29,7 +31,7 @@ class CPU {
         }
         return ids
     }
-    
+
     static func threadUsage(id: thread_inspect_t) -> Double {
         var threadInfo = thread_basic_info()
         var threadInfoCount = UInt32(THREAD_INFO_MAX)

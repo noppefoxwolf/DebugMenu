@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Tomoya Hirano on 2021/05/29.
 //
@@ -22,5 +22,3 @@ public class CPUUsageComplication: ComplicationPresentable {
         }
     }
 }
-
-

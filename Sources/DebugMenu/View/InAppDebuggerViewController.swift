@@ -12,12 +12,14 @@ class InAppDebuggerViewController: UIViewController {
     let flattenDebugItems: [AnyDebugItem]
     let debuggerItems: [AnyDebugItem]
     let options: [Options]
-    lazy var dataSource: UICollectionViewDiffableDataSource<Section, AnyDebugItem> = { preconditionFailure() }()
-    
+    lazy var dataSource: UICollectionViewDiffableDataSource<Section, AnyDebugItem> = {
+        preconditionFailure()
+    }()
+
     enum Section: Int, CaseIterable {
         case recent
         case items
-        
+
         var title: String {
             switch self {
             case .recent:
@@ -27,10 +29,11 @@ class InAppDebuggerViewController: UIViewController {
             }
         }
     }
-    
+
     init(title: String = "DebugMenu", debuggerItems: [DebugMenuPresentable], options: [Options]) {
         self.options = options
-        self.flattenDebugItems = debuggerItems.map(AnyGroupDebugItem.init).flatten().map(AnyDebugItem.init)
+        self.flattenDebugItems = debuggerItems.map(AnyGroupDebugItem.init).flatten()
+            .map(AnyDebugItem.init)
         self.debuggerItems = debuggerItems.map(AnyDebugItem.init)
         var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         configuration.headerMode = .supplementary
@@ -42,59 +45,64 @@ class InAppDebuggerViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.title = title
     }
-    
+
     required init?(coder: NSCoder) { fatalError() }
-    
+
     override func loadView() {
         view = collectionView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         navigationItem.largeTitleDisplayMode = .always
-        
-    search: do {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        navigationItem.searchController = searchController
-    }
-        
-    navigation: do {
-        let rightItem = UIBarButtonItem(systemItem: .done, primaryAction: UIAction(handler: { [weak self] (_) in
-            self?.parent?.parent?.dismiss(animated: true)
-        }), menu: nil)
-        navigationItem.rightBarButtonItem = rightItem
-    }
-    
-    toolbar: do {
-        let label = UILabel(frame: .null)
-        label.font = UIFont.preferredFont(forTextStyle: .caption1)
-        label.textColor = UIColor.label
-        label.text = "\(Application.current.appName) \(Application.current.version) (\(Application.current.build))"
-        let bundleIDLabel = UILabel(frame: .null)
-        bundleIDLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
-        bundleIDLabel.textColor = UIColor.secondaryLabel
-        bundleIDLabel.text = "\(Application.current.bundleIdentifier)"
-        let vStack = UIStackView(arrangedSubviews: [label, bundleIDLabel])
-        vStack.axis = .vertical
-        vStack.alignment = .center
-        let space = UIBarButtonItem.flexibleSpace()
-        let item = UIBarButtonItem(customView: vStack)
-        navigationController?.isToolbarHidden = false
-        toolbarItems = [space, item, space]
-    }
+
+        search: do {
+            let searchController = UISearchController(searchResultsController: nil)
+            searchController.searchResultsUpdater = self
+            navigationItem.searchController = searchController
+        }
+
+        navigation: do {
+            let rightItem = UIBarButtonItem(
+                systemItem: .done,
+                primaryAction: UIAction(handler: { [weak self] (_) in
+                    self?.parent?.parent?.dismiss(animated: true)
+                }),
+                menu: nil
+            )
+            navigationItem.rightBarButtonItem = rightItem
+        }
+
+        toolbar: do {
+            let label = UILabel(frame: .null)
+            label.font = UIFont.preferredFont(forTextStyle: .caption1)
+            label.textColor = UIColor.label
+            label.text =
+                "\(Application.current.appName) \(Application.current.version) (\(Application.current.build))"
+            let bundleIDLabel = UILabel(frame: .null)
+            bundleIDLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
+            bundleIDLabel.textColor = UIColor.secondaryLabel
+            bundleIDLabel.text = "\(Application.current.bundleIdentifier)"
+            let vStack = UIStackView(arrangedSubviews: [label, bundleIDLabel])
+            vStack.axis = .vertical
+            vStack.alignment = .center
+            let space = UIBarButtonItem.flexibleSpace()
+            let item = UIBarButtonItem(customView: vStack)
+            navigationController?.isToolbarHidden = false
+            toolbarItems = [space, item, space]
+        }
         configureDataSource()
         collectionView.delegate = self
-        
+
         performUpdate()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         deselectSelectedItems()
     }
-    
+
     private func onCompleteAction(_ result: DebugMenuResult) {
         switch result {
         case .success(let message) where message != nil:
@@ -105,103 +113,144 @@ class InAppDebuggerViewController: UIViewController {
             break
         }
     }
-    
+
     private func deselectSelectedItems(animated: Bool = true) {
-        collectionView.indexPathsForSelectedItems?.forEach { (indexPath) in
-            collectionView.deselectItem(at: indexPath, animated: animated)
-        }
+        collectionView.indexPathsForSelectedItems?
+            .forEach { (indexPath) in
+                collectionView.deselectItem(at: indexPath, animated: animated)
+            }
     }
 }
 
 extension InAppDebuggerViewController {
-    
+
     func configureDataSource() {
-        let selectCellRegstration = UICollectionView.CellRegistration { (cell: UICollectionViewListCell, indexPath, title: String) in
+        let selectCellRegstration = UICollectionView.CellRegistration {
+            (cell: UICollectionViewListCell, indexPath, title: String) in
             var content = cell.defaultContentConfiguration()
             content.text = title
             cell.contentConfiguration = content
             cell.accessories = [.disclosureIndicator()]
         }
-        
-        let executableCellRegstration = UICollectionView.CellRegistration { (cell: UICollectionViewListCell, indexPath, title: String) in
+
+        let executableCellRegstration = UICollectionView.CellRegistration {
+            (cell: UICollectionViewListCell, indexPath, title: String) in
             var content = cell.defaultContentConfiguration()
             content.text = title
             cell.contentConfiguration = content
         }
-        
-        let toggleCellRegstration = UICollectionView.CellRegistration { (cell: ToggleCell, indexPath, item: (title: String, current: () -> Bool, onChange: (Bool) -> Void)) in
+
+        let toggleCellRegstration = UICollectionView.CellRegistration {
+            (
+                cell: ToggleCell,
+                indexPath,
+                item: (title: String, current: () -> Bool, onChange: (Bool) -> Void)
+            ) in
             var content = cell.defaultContentConfiguration()
             content.text = item.title
             cell.contentConfiguration = content
             cell.current = item.current
             cell.onChange = item.onChange
         }
-        
-        let sliderCellRegstration = UICollectionView.CellRegistration { (cell: SliderCell, indexPath, item: (title: String, current: () -> Double, range: ClosedRange<Double>, onChange: (Double) -> Void)) in
+
+        let sliderCellRegstration = UICollectionView.CellRegistration {
+            (
+                cell: SliderCell,
+                indexPath,
+                item: (
+                    title: String, current: () -> Double, range: ClosedRange<Double>,
+                    onChange: (Double) -> Void
+                )
+            ) in
             cell.title = item.title
             cell.current = item.current
             cell.range = item.range
             cell.onChange = item.onChange
         }
-        
-        dataSource = .init(collectionView: collectionView, cellProvider: { [weak self] (collectionView, indexPath, item) in
-            switch item.action {
-            case .didSelect:
-                return collectionView.dequeueConfiguredReusableCell(
-                    using: selectCellRegstration,
-                    for: indexPath,
-                    item: item.debuggerItemTitle
-                )
-            case .execute:
-                return collectionView.dequeueConfiguredReusableCell(
-                    using: executableCellRegstration,
-                    for: indexPath,
-                    item: item.debuggerItemTitle
-                )
-            case let .toggle(current, onChange):
-                return collectionView.dequeueConfiguredReusableCell(
-                    using: toggleCellRegstration,
-                    for: indexPath,
-                    item: (item.debuggerItemTitle, current, { [weak self] (value) in
-                        onChange(value, { [weak self] (result) in
-                            self?.onCompleteAction(result)
-                        })
-                    })
-                )
-            case let .slider(current, range, onChange):
-                return collectionView.dequeueConfiguredReusableCell(
-                    using: sliderCellRegstration,
-                    for: indexPath,
-                    item: (item.debuggerItemTitle, current, range, { [weak self] (value) in
-                        onChange(value, { [weak self] (result) in
-                            self?.onCompleteAction(result)
-                        })
-                    })
-                )
+
+        dataSource = .init(
+            collectionView: collectionView,
+            cellProvider: { [weak self] (collectionView, indexPath, item) in
+                switch item.action {
+                case .didSelect:
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: selectCellRegstration,
+                        for: indexPath,
+                        item: item.debuggerItemTitle
+                    )
+                case .execute:
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: executableCellRegstration,
+                        for: indexPath,
+                        item: item.debuggerItemTitle
+                    )
+                case let .toggle(current, onChange):
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: toggleCellRegstration,
+                        for: indexPath,
+                        item: (
+                            item.debuggerItemTitle, current,
+                            { [weak self] (value) in
+                                onChange(
+                                    value,
+                                    { [weak self] (result) in
+                                        self?.onCompleteAction(result)
+                                    }
+                                )
+                            }
+                        )
+                    )
+                case let .slider(current, range, onChange):
+                    return collectionView.dequeueConfiguredReusableCell(
+                        using: sliderCellRegstration,
+                        for: indexPath,
+                        item: (
+                            item.debuggerItemTitle, current, range,
+                            { [weak self] (value) in
+                                onChange(
+                                    value,
+                                    { [weak self] (result) in
+                                        self?.onCompleteAction(result)
+                                    }
+                                )
+                            }
+                        )
+                    )
+                }
             }
-        })
-        
-        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] (headerView, elementKind, indexPath) in
+        )
+
+        let headerRegistration = UICollectionView.SupplementaryRegistration<
+            UICollectionViewListCell
+        >(elementKind: UICollectionView.elementKindSectionHeader) {
+            [weak self] (headerView, elementKind, indexPath) in
             var configuration = headerView.defaultContentConfiguration()
             if #available(iOSApplicationExtension 15.0, *) {
-                configuration.text = self?.dataSource.sectionIdentifier(for: indexPath.section)?.title
+                configuration.text =
+                    self?.dataSource.sectionIdentifier(for: indexPath.section)?.title
             } else {
                 // FIXME: Index is wrong when unused showsRecentItems
                 configuration.text = Section(rawValue: indexPath.section)?.title
             }
             headerView.contentConfiguration = configuration
         }
-        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView? in
-            collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+        dataSource.supplementaryViewProvider = {
+            (collectionView, kind, indexPath) -> UICollectionReusableView? in
+            collectionView.dequeueConfiguredReusableSupplementary(
+                using: headerRegistration,
+                for: indexPath
+            )
         }
     }
-    
+
     func performUpdate(_ query: String? = nil) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, AnyDebugItem>()
-        
+
         if let query = query, !query.isEmpty {
             snapshot.appendSections([Section.items])
-            let filteredItems = flattenDebugItems.filter({ $0.debuggerItemTitle.lowercased().contains(query.lowercased()) })
+            let filteredItems = flattenDebugItems.filter({
+                $0.debuggerItemTitle.lowercased().contains(query.lowercased())
+            })
             snapshot.appendItems(filteredItems, toSection: .items)
         } else {
             let recentItems = RecentItemStore(items: debuggerItems).get()
@@ -212,7 +261,7 @@ extension InAppDebuggerViewController {
             snapshot.appendSections([Section.items])
             snapshot.appendItems(debuggerItems, toSection: .items)
         }
-        
+
         dataSource.apply(snapshot)
     }
 }
@@ -240,8 +289,10 @@ extension InAppDebuggerViewController: UICollectionViewDelegate {
             fatalError()
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath)
+        -> Bool
+    {
         switch Section(rawValue: indexPath.section) {
         case .items, .recent:
             let item = dataSource.itemIdentifier(for: indexPath)!
@@ -255,13 +306,19 @@ extension InAppDebuggerViewController: UICollectionViewDelegate {
             fatalError()
         }
     }
-    
+
     private func presentAlert(title: String, message: String?) {
         DispatchQueue.main.async { [weak self] in
             let vc = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            vc.addAction(.init(title: "OK", style: .cancel, handler: { [weak self] _ in
-                self?.deselectSelectedItems()
-            }))
+            vc.addAction(
+                .init(
+                    title: "OK",
+                    style: .cancel,
+                    handler: { [weak self] _ in
+                        self?.deselectSelectedItems()
+                    }
+                )
+            )
             self?.present(vc, animated: true, completion: nil)
         }
     }
@@ -286,5 +343,3 @@ open class CollectionViewCell: UICollectionViewCell {
         }
     }
 }
-
-

@@ -16,7 +16,7 @@ public struct GroupDebugItem: DebugMenuPresentable, HasDebugItems {
         self.debuggerItemTitle = title
         self.debugItems = items.map(AnyGroupDebugItem.init)
     }
-    
+
     public var debuggerItemTitle: String
     public var action: DebugMenuAction {
         .didSelect { controller, completions in
@@ -37,7 +37,7 @@ struct AnyGroupDebugItem: Hashable, Identifiable, DebugMenuPresentable, HasDebug
     let debuggerItemTitle: String
     let action: DebugMenuAction
     let debugItems: [AnyGroupDebugItem]
-    
+
     init(_ item: DebugMenuPresentable) {
         id = UUID().uuidString
         debuggerItemTitle = item.debuggerItemTitle
@@ -48,11 +48,11 @@ struct AnyGroupDebugItem: Hashable, Identifiable, DebugMenuPresentable, HasDebug
             debugItems = []
         }
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    
+
     static func == (lhs: AnyGroupDebugItem, rhs: AnyGroupDebugItem) -> Bool {
         lhs.id == rhs.id
     }

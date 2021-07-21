@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Tomoya Hirano on 2021/05/05.
 //
@@ -10,20 +10,29 @@ import SwiftUI
 
 @available(iOSApplicationExtension, unavailable)
 struct DebugMenuModifier: ViewModifier {
-    internal init(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], options: [Options]) {
+    internal init(
+        debuggerItems: [DebugMenuPresentable],
+        complications: [ComplicationPresentable],
+        options: [Options]
+    ) {
         self.debuggerItems = debuggerItems
         self.complications = complications
         self.options = options
     }
-    
+
     let debuggerItems: [DebugMenuPresentable]
     let complications: [ComplicationPresentable]
     let options: [Options]
-    
+
     func body(content: Content) -> some View {
         content.onAppear(perform: {
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                DebugMenu.install(windowScene: windowScene, items: debuggerItems, complications: complications, options: options)
+                DebugMenu.install(
+                    windowScene: windowScene,
+                    items: debuggerItems,
+                    complications: complications,
+                    options: options
+                )
             }
         })
     }
@@ -32,9 +41,20 @@ struct DebugMenuModifier: ViewModifier {
 @available(iOSApplicationExtension, unavailable)
 public extension View {
     @ViewBuilder
-    func debugMenu(debuggerItems: [DebugMenuPresentable] = [], complications: [ComplicationPresentable] = [], options: [Options] = Options.default, enabled: Bool = true) -> some View {
+    func debugMenu(
+        debuggerItems: [DebugMenuPresentable] = [],
+        complications: [ComplicationPresentable] = [],
+        options: [Options] = Options.default,
+        enabled: Bool = true
+    ) -> some View {
         if enabled {
-            modifier(DebugMenuModifier(debuggerItems: debuggerItems, complications: complications, options: options))
+            modifier(
+                DebugMenuModifier(
+                    debuggerItems: debuggerItems,
+                    complications: complications,
+                    options: options
+                )
+            )
         } else {
             self
         }
