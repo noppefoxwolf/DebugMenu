@@ -32,7 +32,7 @@ struct DebugMenuModifier: ViewModifier {
 @available(iOSApplicationExtension, unavailable)
 public extension View {
     @ViewBuilder
-    func debugMenu(debuggerItems: [DebugMenuPresentable], complications: [ComplicationPresentable], options: [Options] = Options.default, enabled: Bool = true) -> some View {
+    func debugMenu(debuggerItems: [DebugMenuPresentable] = [], complications: [ComplicationPresentable] = [], options: [Options] = Options.default, enabled: Bool = true) -> some View {
         if enabled {
             modifier(DebugMenuModifier(debuggerItems: debuggerItems, complications: complications, options: options))
         } else {
