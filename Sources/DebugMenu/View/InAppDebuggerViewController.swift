@@ -226,8 +226,13 @@ extension InAppDebuggerViewController {
             [weak self] (headerView, elementKind, indexPath) in
             var configuration = headerView.defaultContentConfiguration()
             if #available(iOSApplicationExtension 15.0, *) {
+                #if compiler(>=5.5)
                 configuration.text =
                     self?.dataSource.sectionIdentifier(for: indexPath.section)?.title
+                #else
+                // FIXME: Index is wrong when unused showsRecentItems
+                configuration.text = Section(rawValue: indexPath.section)?.title
+                #endif
             } else {
                 // FIXME: Index is wrong when unused showsRecentItems
                 configuration.text = Section(rawValue: indexPath.section)?.title
