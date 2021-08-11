@@ -225,7 +225,7 @@ extension InAppDebuggerViewController {
         >(elementKind: UICollectionView.elementKindSectionHeader) {
             [weak self] (headerView, elementKind, indexPath) in
             var configuration = headerView.defaultContentConfiguration()
-            if #available(iOSApplicationExtension 15.0, *) {
+            if #available(iOS 15.0, *) {
                 #if compiler(>=5.5)
                 configuration.text =
                     self?.dataSource.sectionIdentifier(for: indexPath.section)?.title
