@@ -7,7 +7,7 @@
 
 import UIKit
 
-public struct ViewControllerDebugItem<T: UIViewController>: DebugMenuPresentable {
+public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
     public enum PresentationMode {
         case present
         case push
@@ -38,5 +38,5 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugMenuPresentable
     }
 
     public let debuggerItemTitle: String
-    public let action: DebugMenuAction
+    public let action: DebugItemAction
 }

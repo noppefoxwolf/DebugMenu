@@ -8,10 +8,10 @@
 import UIKit
 import DebugMenu
 
-public struct CustomDebugItem: DebugMenuPresentable {
+public struct CustomDebugItem: DebugItem {
     public init() {}
     public let debuggerItemTitle: String = "Custom item"
-    public let action: DebugMenuAction = .toggle { UserDefaults.standard.bool(forKey: "key") } action: { (isOn, completions) in
+    public let action: DebugItemAction = .toggle { UserDefaults.standard.bool(forKey: "key") } action: { (isOn, completions) in
         let userDefaults = UserDefaults.standard
         userDefaults.set(isOn, forKey: "key")
         if userDefaults.synchronize() {

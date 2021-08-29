@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ToggleDebugItem: DebugMenuPresentable {
+public struct ToggleDebugItem: DebugItem {
     public init(title: String, current: @escaping () -> Bool, onChange: @escaping (Bool) -> Void) {
         self.title = title
         self.action = .toggle(
@@ -21,5 +21,5 @@ public struct ToggleDebugItem: DebugMenuPresentable {
 
     let title: String
     public var debuggerItemTitle: String { title }
-    public let action: DebugMenuAction
+    public let action: DebugItemAction
 }

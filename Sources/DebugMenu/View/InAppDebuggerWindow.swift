@@ -16,7 +16,7 @@ public class InAppDebuggerWindow: UIWindow {
 
     internal static func install(
         windowScene: UIWindowScene? = nil,
-        debuggerItems: [DebugMenuPresentable],
+        debuggerItems: [DebugItem],
         complications: [ComplicationPresentable],
         options: [Options]
     ) {
@@ -41,7 +41,7 @@ public class InAppDebuggerWindow: UIWindow {
 
     private static func install(
         _ factory: (() -> InAppDebuggerWindow),
-        debuggerItems: [DebugMenuPresentable],
+        debuggerItems: [DebugItem],
         complications: [ComplicationPresentable],
         options: [Options]
     ) {

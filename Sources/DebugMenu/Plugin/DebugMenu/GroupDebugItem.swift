@@ -11,14 +11,14 @@ protocol HasDebugItems {
     var debugItems: [AnyGroupDebugItem] { get }
 }
 
-public struct GroupDebugItem: DebugMenuPresentable, HasDebugItems {
-    public init(title: String, items: [DebugMenuPresentable]) {
+public struct GroupDebugItem: DebugItem, HasDebugItems {
+    public init(title: String, items: [DebugItem]) {
         self.debuggerItemTitle = title
         self.debugItems = items.map(AnyGroupDebugItem.init)
     }
 
     public var debuggerItemTitle: String
-    public var action: DebugMenuAction {
+    public var action: DebugItemAction {
         .didSelect { controller, completions in
             let vc = InAppDebuggerViewController(
                 title: self.debuggerItemTitle,
@@ -32,13 +32,13 @@ public struct GroupDebugItem: DebugMenuPresentable, HasDebugItems {
     let debugItems: [AnyGroupDebugItem]
 }
 
-struct AnyGroupDebugItem: Hashable, Identifiable, DebugMenuPresentable, HasDebugItems {
+struct AnyGroupDebugItem: Hashable, Identifiable, DebugItem, HasDebugItems {
     let id: String
     let debuggerItemTitle: String
-    let action: DebugMenuAction
+    let action: DebugItemAction
     let debugItems: [AnyGroupDebugItem]
 
-    init(_ item: DebugMenuPresentable) {
+    init(_ item: DebugItem) {
         id = UUID().uuidString
         debuggerItemTitle = item.debuggerItemTitle
         action = item.action

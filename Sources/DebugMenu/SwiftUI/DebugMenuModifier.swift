@@ -11,7 +11,7 @@ import SwiftUI
 @available(iOSApplicationExtension, unavailable)
 struct DebugMenuModifier: ViewModifier {
     internal init(
-        debuggerItems: [DebugMenuPresentable],
+        debuggerItems: [DebugItem],
         complications: [ComplicationPresentable],
         options: [Options]
     ) {
@@ -20,7 +20,7 @@ struct DebugMenuModifier: ViewModifier {
         self.options = options
     }
 
-    let debuggerItems: [DebugMenuPresentable]
+    let debuggerItems: [DebugItem]
     let complications: [ComplicationPresentable]
     let options: [Options]
 
@@ -42,7 +42,7 @@ struct DebugMenuModifier: ViewModifier {
 public extension View {
     @ViewBuilder
     func debugMenu(
-        debuggerItems: [DebugMenuPresentable] = [],
+        debuggerItems: [DebugItem] = [],
         complications: [ComplicationPresentable] = [],
         options: [Options] = Options.default,
         enabled: Bool = true

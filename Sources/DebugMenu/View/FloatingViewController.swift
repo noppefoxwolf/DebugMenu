@@ -12,12 +12,12 @@ internal class FloatingViewController: UIViewController {
     class View: UIView, TouchThrowing {}
     private let launchView: LaunchView = .init()
     private let widgetView: WidgetView
-    private let debuggerItems: [DebugMenuPresentable]
+    private let debuggerItems: [DebugItem]
     private var cancellables: Set<AnyCancellable> = []
     private let options: [Options]
 
     init(
-        debuggerItems: [DebugMenuPresentable],
+        debuggerItems: [DebugItem],
         complications: [ComplicationPresentable],
         options: [Options]
     ) {

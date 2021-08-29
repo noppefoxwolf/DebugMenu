@@ -30,7 +30,7 @@ class InAppDebuggerViewController: UIViewController {
         }
     }
 
-    init(title: String = "DebugMenu", debuggerItems: [DebugMenuPresentable], options: [Options]) {
+    init(title: String = "DebugMenu", debuggerItems: [DebugItem], options: [Options]) {
         self.options = options
         self.flattenDebugItems = debuggerItems.map(AnyGroupDebugItem.init).flatten()
             .map(AnyDebugItem.init)

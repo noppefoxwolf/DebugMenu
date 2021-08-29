@@ -4,7 +4,7 @@ import UIKit
 public struct DebugMenu {
     public static func install(
         windowScene: UIWindowScene? = nil,
-        items: [DebugMenuPresentable] = [],
+        items: [DebugItem] = [],
         complications: [ComplicationPresentable] = [],
         options: [Options] = Options.default
     ) {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ExitDebugItem: DebugMenuPresentable {
+public struct ExitDebugItem: DebugItem {
     public init() {
         self.action = .didSelect(action: { (_, _) in
             exit(0)
@@ -15,5 +15,5 @@ public struct ExitDebugItem: DebugMenuPresentable {
     }
 
     public var debuggerItemTitle: String { "exit" }
-    public let action: DebugMenuAction
+    public let action: DebugItemAction
 }
