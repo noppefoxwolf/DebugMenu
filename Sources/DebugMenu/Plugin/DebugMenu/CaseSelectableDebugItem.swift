@@ -18,6 +18,6 @@ where T.RawValue: Equatable {
             controller.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    public var debuggerItemTitle: String { String(describing: T.self) }
+    public var debugItemTitle: String { String(describing: T.self) }
     public let action: DebugItemAction
 }

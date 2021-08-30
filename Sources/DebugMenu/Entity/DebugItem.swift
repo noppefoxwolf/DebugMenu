@@ -8,7 +8,7 @@
 import UIKit
 
 public protocol DebugItem {
-    var debuggerItemTitle: String { get }
+    var debugItemTitle: String { get }
     var action: DebugItemAction { get }
 }
 

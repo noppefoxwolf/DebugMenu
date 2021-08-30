@@ -18,7 +18,7 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
         presentationMode: PresentationMode = .push,
         builder: @escaping ((T.Type) -> T) = { $0.init() }
     ) {
-        debuggerItemTitle = title ?? String(describing: T.self)
+        debugItemTitle = title ?? String(describing: T.self)
         action = .didSelect { (controller, completions) in
             let viewController = builder(T.self)
             switch presentationMode {
@@ -37,6 +37,6 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
         }
     }
 
-    public let debuggerItemTitle: String
+    public let debugItemTitle: String
     public let action: DebugItemAction
 }

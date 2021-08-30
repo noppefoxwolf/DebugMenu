@@ -14,6 +14,6 @@ public struct ExitDebugItem: DebugItem {
         })
     }
 
-    public var debuggerItemTitle: String { "exit" }
+    public var debugItemTitle: String { "exit" }
     public let action: DebugItemAction
 }

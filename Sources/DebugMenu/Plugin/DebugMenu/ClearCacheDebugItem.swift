@@ -10,7 +10,7 @@ import UIKit
 public struct ClearCacheDebugItem: DebugItem {
     public init() {}
 
-    public let debuggerItemTitle: String = "Clear Cache"
+    public let debugItemTitle: String = "Clear Cache"
     public let action: DebugItemAction = .execute { (completions) in
         do {
             try ClearCacheDebugItem.clearCache()

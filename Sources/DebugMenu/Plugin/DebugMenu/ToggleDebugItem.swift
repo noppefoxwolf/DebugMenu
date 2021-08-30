@@ -20,6 +20,6 @@ public struct ToggleDebugItem: DebugItem {
     }
 
     let title: String
-    public var debuggerItemTitle: String { title }
+    public var debugItemTitle: String { title }
     public let action: DebugItemAction
 }

@@ -10,7 +10,7 @@ import UIKit
 public struct UserDefaultsResetDebugItem: DebugItem {
     public init() {}
 
-    public let debuggerItemTitle: String = "Reset UserDefaults"
+    public let debugItemTitle: String = "Reset UserDefaults"
 
     public let action: DebugItemAction = .execute { (_) in
         let appDomain = Bundle.main.bundleIdentifier!
