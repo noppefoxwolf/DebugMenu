@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D71C9E3C269D50090020F5D0 /* DebugMenu in Frameworks */ = {isa = PBXBuildFile; productRef = D71C9E3B269D50090020F5D0 /* DebugMenu */; };
-		D741C5EA266287A8000ECE0A /* CustomComplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D741C5E9266287A8000ECE0A /* CustomComplication.swift */; };
+		D741C5EA266287A8000ECE0A /* CustomDashboardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D741C5E9266287A8000ECE0A /* CustomDashboardItem.swift */; };
 		D7F286F9265D755200013AAE /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F286F8265D755200013AAE /* App.swift */; };
 		D7F28721265D75FC00013AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F28720265D75FC00013AAE /* AppDelegate.swift */; };
 		D7F28723265D75FC00013AAE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F28722265D75FC00013AAE /* SceneDelegate.swift */; };
@@ -70,7 +70,7 @@
 
 /* Begin PBXFileReference section */
 		D71C9E3E269D506B0020F5D0 /* DebugMenu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DebugMenu; path = ..; sourceTree = "<group>"; };
-		D741C5E9266287A8000ECE0A /* CustomComplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomComplication.swift; sourceTree = "<group>"; };
+		D741C5E9266287A8000ECE0A /* CustomDashboardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDashboardItem.swift; sourceTree = "<group>"; };
 		D7F286F6265D755200013AAE /* SwiftUIExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7F286F8265D755200013AAE /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		D7F28701265D755300013AAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 				D7F2874C265D767C00013AAE /* ColorViewController.swift */,
 				D7F2873C265D766400013AAE /* Shared.h */,
 				D7F2873D265D766400013AAE /* Info.plist */,
-				D741C5E9266287A8000ECE0A /* CustomComplication.swift */,
+				D741C5E9266287A8000ECE0A /* CustomDashboardItem.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -362,7 +362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D741C5EA266287A8000ECE0A /* CustomComplication.swift in Sources */,
+				D741C5EA266287A8000ECE0A /* CustomDashboardItem.swift in Sources */,
 				D7F2874D265D767C00013AAE /* ColorViewController.swift in Sources */,
 				D7F2874E265D769800013AAE /* CustomDebugItem.swift in Sources */,
 			);

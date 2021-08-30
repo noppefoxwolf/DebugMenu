@@ -7,14 +7,14 @@
 
 import Foundation
 
-public class CPUUsageComplication: ComplicationPresentable {
+public class GPUMemoryUsageDashboardItem:  DashboardItem {
     public init() {}
-    public let title: String = "CPU"
+    public let title: String = "GPU MEM"
     private var text: String = ""
     public func startMonitoring() {}
     public func stopMonitoring() {}
     public func update() {
-        text = Device.current.localizedCPUUsage
+        text = Device.current.localizedGPUMemory
     }
     public var fetcher: MetricsFetcher {
         .text { [weak self] in

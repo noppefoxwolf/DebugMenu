@@ -47,16 +47,16 @@ struct App: SwiftUI.App {
                     AppInfoDebugItem(),
                     DeviceInfoDebugItem(),
                 ]),
-            ], complications: [
-                CPUUsageComplication(),
-                CPUGraphComplication(),
-                GPUMemoryUsageComplication(),
-                MemoryUsageComplication(),
-                NetworkUsageComplication(),
-                FPSComplication(),
-                ThermalStateComplication(),
-                CustomComplication(),
-                IntervalComplication(title: "Reduce time", name: "dev.noppe.calc")
+            ], dashboardItems: [
+                CPUUsageDashboardItem(),
+                CPUGraphDashboardItem(),
+                GPUMemoryUsageDashboardItem(),
+                MemoryUsageDashboardItem(),
+                NetworkUsageDashboardItem(),
+                FPSDashboardItem(),
+                ThermalStateDashboardItem(),
+                CustomDashboardItem(),
+                IntervalDashboardItem(title: "Reduce time", name: "dev.noppe.calc")
             ], options: [.showsWidgetOnLaunch])
         }
     }

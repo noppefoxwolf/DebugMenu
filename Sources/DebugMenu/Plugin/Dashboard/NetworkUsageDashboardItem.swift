@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-public class NetworkUsageComplication: ComplicationPresentable {
+public class NetworkUsageDashboardItem:  DashboardItem {
     public init() {}
     public let title: String = "Network"
     var lastNetworkUsage: NetworkUsage? = nil

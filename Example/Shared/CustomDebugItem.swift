@@ -8,9 +8,9 @@
 import UIKit
 import DebugMenu
 
-public struct CustomDebugItem: DebugItem {
+public struct CustomDebugItem: DebugItem {    
     public init() {}
-    public let debuggerItemTitle: String = "Custom item"
+    public let debugItemTitle: String = "Custom item"
     public let action: DebugItemAction = .toggle { UserDefaults.standard.bool(forKey: "key") } action: { (isOn, completions) in
         let userDefaults = UserDefaults.standard
         userDefaults.set(isOn, forKey: "key")

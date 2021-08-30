@@ -49,16 +49,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     ViewControllerDebugItem<ColorViewController>(title: "green", builder: { $0.init(color: .green) }),
                 ])
             ])
-        ], complications: [
-            CPUUsageComplication(),
-            CPUGraphComplication(),
-            GPUMemoryUsageComplication(),
-            MemoryUsageComplication(),
-            NetworkUsageComplication(),
-            FPSComplication(),
-            ThermalStateComplication(),
-            CustomComplication(),
-            IntervalComplication(title: "Calc", name: "dev.noppe.calc"),
+        ], dashboardItems: [
+            CPUUsageDashboardItem(),
+            CPUGraphDashboardItem(),
+            GPUMemoryUsageDashboardItem(),
+            MemoryUsageDashboardItem(),
+            NetworkUsageDashboardItem(),
+            FPSDashboardItem(),
+            ThermalStateDashboardItem(),
+            CustomDashboardItem(),
+            IntervalDashboardItem(title: "Calc", name: "dev.noppe.calc"),
         ], options: [.showsWidgetOnLaunch])
         #endif
     }

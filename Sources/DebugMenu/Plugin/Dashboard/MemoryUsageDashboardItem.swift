@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class MemoryUsageComplication: ComplicationPresentable {
+public class MemoryUsageDashboardItem:  DashboardItem {
     public init() {}
     public let title: String = "MEM"
     private var text: String = ""

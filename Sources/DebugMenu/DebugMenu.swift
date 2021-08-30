@@ -5,13 +5,13 @@ public struct DebugMenu {
     public static func install(
         windowScene: UIWindowScene? = nil,
         items: [DebugItem] = [],
-        complications: [ComplicationPresentable] = [],
+        dashboardItems: [DashboardItem] = [],
         options: [Options] = Options.default
     ) {
         InAppDebuggerWindow.install(
             windowScene: windowScene,
             debuggerItems: items,
-            complications: complications,
+            dashboardItems: dashboardItems,
             options: options
         )
     }

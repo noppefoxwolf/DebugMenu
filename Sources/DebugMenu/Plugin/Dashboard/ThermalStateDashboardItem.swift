@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-public class ThermalStateComplication: ComplicationPresentable {
+public class ThermalStateDashboardItem:  DashboardItem {
     public init() {}
     public let title: String = "Thermal"
     var currentThermalState: ProcessInfo.ThermalState = .nominal

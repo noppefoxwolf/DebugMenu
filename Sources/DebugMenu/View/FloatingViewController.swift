@@ -18,11 +18,11 @@ internal class FloatingViewController: UIViewController {
 
     init(
         debuggerItems: [DebugItem],
-        complications: [ComplicationPresentable],
+        dashboardItems: [DashboardItem],
         options: [Options]
     ) {
         self.debuggerItems = debuggerItems
-        self.widgetView = .init(complications: complications)
+        self.widgetView = .init(dashboardItems: dashboardItems)
         self.options = options
         super.init(nibName: nil, bundle: nil)
     }
