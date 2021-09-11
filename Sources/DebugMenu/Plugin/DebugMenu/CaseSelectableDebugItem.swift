@@ -7,7 +7,7 @@
 
 import UIKit
 
-public struct CaseSelectableDebugItem<T: CaseIterable & RawRepresentable>: DebugMenuPresentable
+public struct CaseSelectableDebugItem<T: CaseIterable & RawRepresentable>: DebugItem
 where T.RawValue: Equatable {
     public init(currentValue: T, didSelected: @escaping (T) -> Void) {
         self.action = .didSelect { (controller, completions) in
@@ -18,6 +18,6 @@ where T.RawValue: Equatable {
             controller.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    public var debuggerItemTitle: String { String(describing: T.self) }
-    public let action: DebugMenuAction
+    public var debugItemTitle: String { String(describing: T.self) }
+    public let action: DebugItemAction
 }

@@ -7,10 +7,10 @@
 
 import Foundation
 
-public struct DeviceInfoDebugItem: DebugMenuPresentable {
+public struct DeviceInfoDebugItem: DebugItem {
     public init() {}
-    public var debuggerItemTitle: String = "Device Info"
-    public var action: DebugMenuAction = .didSelect { parent, completions in
+    public var debugItemTitle: String = "Device Info"
+    public var action: DebugItemAction = .didSelect { parent, completions in
         let vc = EnvelopePreviewTableViewController { completions in
             DispatchQueue.global()
                 .async {

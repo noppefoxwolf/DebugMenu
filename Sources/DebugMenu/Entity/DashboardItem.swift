@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ComplicationPresentable {
+public protocol DashboardItem {
     var title: String { get }
     func startMonitoring()
     func stopMonitoring()

@@ -7,11 +7,11 @@
 
 import UIKit
 
-public struct ClearCacheDebugItem: DebugMenuPresentable {
+public struct ClearCacheDebugItem: DebugItem {
     public init() {}
 
-    public let debuggerItemTitle: String = "Clear Cache"
-    public let action: DebugMenuAction = .execute { (completions) in
+    public let debugItemTitle: String = "Clear Cache"
+    public let action: DebugItemAction = .execute { (completions) in
         do {
             try ClearCacheDebugItem.clearCache()
             completions(.success(message: "The cache completely cleared."))

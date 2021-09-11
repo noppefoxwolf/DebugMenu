@@ -11,10 +11,10 @@ import UIKit
 class WidgetView: UIVisualEffectView {
     private let tableView: UITableView = .init(frame: .null, style: .plain)
     private var cancellables: Set<AnyCancellable> = []
-    private let complications: [ComplicationPresentable]
+    private let dashboardItems: [DashboardItem]
 
-    init(complications: [ComplicationPresentable]) {
-        self.complications = complications
+    init(dashboardItems: [DashboardItem]) {
+        self.dashboardItems = dashboardItems
         super.init(effect: UIBlurEffect(style: .systemMaterialDark))
         frame = .init(origin: .zero, size: .init(width: 200, height: 200))
 
@@ -48,7 +48,7 @@ class WidgetView: UIVisualEffectView {
 
     func show() {
         isHidden = false
-        complications.forEach({ $0.startMonitoring() })
+        dashboardItems.forEach({ $0.startMonitoring() })
         Timer.publish(every: 1, on: .main, in: .default).autoconnect()
             .sink { [weak self] _ in
                 self?.reloadData()
@@ -58,28 +58,28 @@ class WidgetView: UIVisualEffectView {
 
     func hide() {
         isHidden = true
-        complications.forEach({ $0.stopMonitoring() })
+        dashboardItems.forEach({ $0.stopMonitoring() })
         cancellables = []
     }
 
     private func reloadData() {
-        complications.forEach({ $0.update() })
+        dashboardItems.forEach({ $0.update() })
         tableView.reloadData()
     }
 }
 
 extension WidgetView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        complications.count
+        dashboardItems.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let complication = complications[indexPath.row]
-        switch complication.fetcher {
+        let item = dashboardItems[indexPath.row]
+        switch item.fetcher {
         case let .text(fetcher):
             let cell = tableView.dequeue(Value1TableViewCell.self, for: indexPath)
             cell.selectionStyle = .none
-            cell.textLabel?.text = complication.title
+            cell.textLabel?.text = item.title
             cell.textLabel?.textColor = .white
             cell.detailTextLabel?.text = fetcher()
             cell.detailTextLabel?.textColor = .lightGray
@@ -87,12 +87,12 @@ extension WidgetView: UITableViewDelegate, UITableViewDataSource {
             return cell
         case let .graph(fetcher):
             let cell = tableView.dequeue(GraphTableViewCell.self, for: indexPath)
-            cell.textLabel?.text = complication.title
+            cell.textLabel?.text = item.title
             cell.setData(fetcher())
             return cell
         case let .interval(fetcher):
             let cell = tableView.dequeue(IntervalTableViewCell.self, for: indexPath)
-            cell.textLabel?.text = complication.title
+            cell.textLabel?.text = item.title
             cell.setDurations(fetcher())
             return cell
         }

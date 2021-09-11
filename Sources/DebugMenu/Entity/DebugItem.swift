@@ -7,12 +7,12 @@
 
 import UIKit
 
-public protocol DebugMenuPresentable {
-    var debuggerItemTitle: String { get }
-    var action: DebugMenuAction { get }
+public protocol DebugItem {
+    var debugItemTitle: String { get }
+    var action: DebugItemAction { get }
 }
 
-public enum DebugMenuAction {
+public enum DebugItemAction {
     case didSelect(
         action: (_ controller: UIViewController, _ completions: @escaping (DebugMenuResult) -> Void)
             -> Void

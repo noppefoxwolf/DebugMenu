@@ -1,13 +1,6 @@
-//
-//  CustomComplication.swift
-//  Shared
-//
-//  Created by Tomoya Hirano on 2021/05/29.
-//
-
 import DebugMenu
 
-public class CustomComplication: ComplicationPresentable {
+public class CustomDashboardItem:  DashboardItem {
     public init() {}
     public var title: String = "Date"
     private var text: String = ""

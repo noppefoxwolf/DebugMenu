@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct RangeDebugItem: DebugMenuPresentable {
+public struct SliderDebugItem: DebugItem {
     public init(
         title: String,
         current: @escaping () -> Double,
@@ -26,6 +26,6 @@ public struct RangeDebugItem: DebugMenuPresentable {
     }
 
     let title: String
-    public var debuggerItemTitle: String { title }
-    public let action: DebugMenuAction
+    public var debugItemTitle: String { title }
+    public let action: DebugItemAction
 }

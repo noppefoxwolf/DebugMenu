@@ -7,7 +7,7 @@
 
 import UIKit
 
-public struct ViewControllerDebugItem<T: UIViewController>: DebugMenuPresentable {
+public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
     public enum PresentationMode {
         case present
         case push
@@ -18,7 +18,7 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugMenuPresentable
         presentationMode: PresentationMode = .push,
         builder: @escaping ((T.Type) -> T) = { $0.init() }
     ) {
-        debuggerItemTitle = title ?? String(describing: T.self)
+        debugItemTitle = title ?? String(describing: T.self)
         action = .didSelect { (controller, completions) in
             let viewController = builder(T.self)
             switch presentationMode {
@@ -37,6 +37,6 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugMenuPresentable
         }
     }
 
-    public let debuggerItemTitle: String
-    public let action: DebugMenuAction
+    public let debugItemTitle: String
+    public let action: DebugItemAction
 }

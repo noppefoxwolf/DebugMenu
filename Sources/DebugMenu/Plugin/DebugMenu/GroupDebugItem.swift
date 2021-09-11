@@ -11,17 +11,17 @@ protocol HasDebugItems {
     var debugItems: [AnyGroupDebugItem] { get }
 }
 
-public struct GroupDebugItem: DebugMenuPresentable, HasDebugItems {
-    public init(title: String, items: [DebugMenuPresentable]) {
-        self.debuggerItemTitle = title
+public struct GroupDebugItem: DebugItem, HasDebugItems {
+    public init(title: String, items: [DebugItem]) {
+        self.debugItemTitle = title
         self.debugItems = items.map(AnyGroupDebugItem.init)
     }
 
-    public var debuggerItemTitle: String
-    public var action: DebugMenuAction {
+    public var debugItemTitle: String
+    public var action: DebugItemAction {
         .didSelect { controller, completions in
             let vc = InAppDebuggerViewController(
-                title: self.debuggerItemTitle,
+                title: self.debugItemTitle,
                 debuggerItems: self.debugItems,
                 options: []
             )
@@ -32,15 +32,15 @@ public struct GroupDebugItem: DebugMenuPresentable, HasDebugItems {
     let debugItems: [AnyGroupDebugItem]
 }
 
-struct AnyGroupDebugItem: Hashable, Identifiable, DebugMenuPresentable, HasDebugItems {
+struct AnyGroupDebugItem: Hashable, Identifiable, DebugItem, HasDebugItems {
     let id: String
-    let debuggerItemTitle: String
-    let action: DebugMenuAction
+    let debugItemTitle: String
+    let action: DebugItemAction
     let debugItems: [AnyGroupDebugItem]
 
-    init(_ item: DebugMenuPresentable) {
+    init(_ item: DebugItem) {
         id = UUID().uuidString
-        debuggerItemTitle = item.debuggerItemTitle
+        debugItemTitle = item.debugItemTitle
         action = item.action
         if let grouped = item as? HasDebugItems {
             debugItems = grouped.debugItems.map(AnyGroupDebugItem.init)

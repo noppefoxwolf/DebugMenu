@@ -16,8 +16,8 @@ public class InAppDebuggerWindow: UIWindow {
 
     internal static func install(
         windowScene: UIWindowScene? = nil,
-        debuggerItems: [DebugMenuPresentable],
-        complications: [ComplicationPresentable],
+        debuggerItems: [DebugItem],
+        dashboardItems: [DashboardItem],
         options: [Options]
     ) {
         install(
@@ -26,7 +26,7 @@ public class InAppDebuggerWindow: UIWindow {
                     ?? InAppDebuggerWindow(frame: UIScreen.main.bounds)
             },
             debuggerItems: debuggerItems,
-            complications: complications,
+            dashboardItems: dashboardItems,
             options: options
         )
     }
@@ -41,8 +41,8 @@ public class InAppDebuggerWindow: UIWindow {
 
     private static func install(
         _ factory: (() -> InAppDebuggerWindow),
-        debuggerItems: [DebugMenuPresentable],
-        complications: [ComplicationPresentable],
+        debuggerItems: [DebugItem],
+        dashboardItems: [DashboardItem],
         options: [Options]
     ) {
         let keyWindow = UIApplication.shared.findKeyWindow()
@@ -50,7 +50,7 @@ public class InAppDebuggerWindow: UIWindow {
         shared.windowLevel = UIWindow.Level.statusBar + 1
         shared.rootViewController = FloatingViewController(
             debuggerItems: debuggerItems,
-            complications: complications,
+            dashboardItems: dashboardItems,
             options: options
         )
         shared!.makeKeyAndVisible()

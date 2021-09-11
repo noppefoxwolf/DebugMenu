@@ -36,7 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ClearCacheDebugItem(),
             UserDefaultsResetDebugItem(),
             CustomDebugItem(),
-            RangeDebugItem(title: "Attack Rate", current: { 0.1 }, range: 0.0...100.0, onChange: { value in print(value) }),
+            SliderDebugItem(title: "Attack Rate", current: { 0.1 }, range: 0.0...100.0, onChange: { value in print(value) }),
             KeyValueDebugItem(title: "UserDefaults", fetcher: { completions in
                 let envelops = UserDefaults.standard.dictionaryRepresentation().map({ Envelope(key: $0.key, value: "\($0.value)") })
                 completions(envelops)
@@ -49,16 +49,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     ViewControllerDebugItem<ColorViewController>(title: "green", builder: { $0.init(color: .green) }),
                 ])
             ])
-        ], complications: [
-            CPUUsageComplication(),
-            CPUGraphComplication(),
-            GPUMemoryUsageComplication(),
-            MemoryUsageComplication(),
-            NetworkUsageComplication(),
-            FPSComplication(),
-            ThermalStateComplication(),
-            CustomComplication(),
-            IntervalComplication(title: "Calc", name: "dev.noppe.calc"),
+        ], dashboardItems: [
+            CPUUsageDashboardItem(),
+            CPUGraphDashboardItem(),
+            GPUMemoryUsageDashboardItem(),
+            MemoryUsageDashboardItem(),
+            NetworkUsageDashboardItem(),
+            FPSDashboardItem(),
+            ThermalStateDashboardItem(),
+            CustomDashboardItem(),
+            IntervalDashboardItem(title: "Calc", name: "dev.noppe.calc"),
         ], options: [.showsWidgetOnLaunch])
         #endif
     }

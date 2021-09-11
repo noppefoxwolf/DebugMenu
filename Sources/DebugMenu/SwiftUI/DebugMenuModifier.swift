@@ -11,17 +11,17 @@ import SwiftUI
 @available(iOSApplicationExtension, unavailable)
 struct DebugMenuModifier: ViewModifier {
     internal init(
-        debuggerItems: [DebugMenuPresentable],
-        complications: [ComplicationPresentable],
+        debuggerItems: [DebugItem],
+        dashboardItems: [DashboardItem],
         options: [Options]
     ) {
         self.debuggerItems = debuggerItems
-        self.complications = complications
+        self.dashboardItems = dashboardItems
         self.options = options
     }
 
-    let debuggerItems: [DebugMenuPresentable]
-    let complications: [ComplicationPresentable]
+    let debuggerItems: [DebugItem]
+    let dashboardItems: [DashboardItem]
     let options: [Options]
 
     func body(content: Content) -> some View {
@@ -30,7 +30,7 @@ struct DebugMenuModifier: ViewModifier {
                 DebugMenu.install(
                     windowScene: windowScene,
                     items: debuggerItems,
-                    complications: complications,
+                    dashboardItems: dashboardItems,
                     options: options
                 )
             }
@@ -42,8 +42,8 @@ struct DebugMenuModifier: ViewModifier {
 public extension View {
     @ViewBuilder
     func debugMenu(
-        debuggerItems: [DebugMenuPresentable] = [],
-        complications: [ComplicationPresentable] = [],
+        debuggerItems: [DebugItem] = [],
+        dashboardItems: [DashboardItem] = [],
         options: [Options] = Options.default,
         enabled: Bool = true
     ) -> some View {
@@ -51,7 +51,7 @@ public extension View {
             modifier(
                 DebugMenuModifier(
                     debuggerItems: debuggerItems,
-                    complications: complications,
+                    dashboardItems: dashboardItems,
                     options: options
                 )
             )

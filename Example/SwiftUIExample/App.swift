@@ -38,7 +38,7 @@ struct App: SwiftUI.App {
                 ClearCacheDebugItem(),
                 UserDefaultsResetDebugItem(),
                 CustomDebugItem(),
-                RangeDebugItem(title: "Attack Rate", current: { 0.1 }, range: 0.0...100.0, onChange: { value in print(value) }),
+                SliderDebugItem(title: "Attack Rate", current: { 0.1 }, range: 0.0...100.0, onChange: { value in print(value) }),
                 KeyValueDebugItem(title: "UserDefaults", fetcher: { completions in
                     let envelops = UserDefaults.standard.dictionaryRepresentation().map({ Envelope(key: $0.key, value: "\($0.value)") })
                     completions(envelops)
@@ -47,16 +47,16 @@ struct App: SwiftUI.App {
                     AppInfoDebugItem(),
                     DeviceInfoDebugItem(),
                 ]),
-            ], complications: [
-                CPUUsageComplication(),
-                CPUGraphComplication(),
-                GPUMemoryUsageComplication(),
-                MemoryUsageComplication(),
-                NetworkUsageComplication(),
-                FPSComplication(),
-                ThermalStateComplication(),
-                CustomComplication(),
-                IntervalComplication(title: "Reduce time", name: "dev.noppe.calc")
+            ], dashboardItems: [
+                CPUUsageDashboardItem(),
+                CPUGraphDashboardItem(),
+                GPUMemoryUsageDashboardItem(),
+                MemoryUsageDashboardItem(),
+                NetworkUsageDashboardItem(),
+                FPSDashboardItem(),
+                ThermalStateDashboardItem(),
+                CustomDashboardItem(),
+                IntervalDashboardItem(title: "Reduce time", name: "dev.noppe.calc")
             ], options: [.showsWidgetOnLaunch])
         }
     }

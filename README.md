@@ -26,8 +26,8 @@ DebugMenu.install(windowScene: windowScene, items: [
     ClearCacheDebugItem(),
     UserDefaultsResetDebugItem(),
     CustomDebugItem()
-], complication: [
-    CPUUsageComplication()
+], dashboardItems: [
+    CPUUsageDashboardItem()
 ])
 #endif
 ```
@@ -50,8 +50,8 @@ struct App: SwiftUI.App {
                 ClearCacheDebugItem(),
                 UserDefaultsResetDebugItem(),
                 CustomDebugItem()
-            ], complication: [
-                CPUUsageComplication()
+            ], dashboardItems: [
+                CPUUsageDashboardItem()
             ])
         }
     }
@@ -61,8 +61,8 @@ struct App: SwiftUI.App {
 ## Custom debug item
 
 ```swift
-struct CustomDebugItem: DebugMenuPresentable {
-    let debuggerItemTitle: String = "Custom item"
+struct CustomDebugItem: DebugItem {
+    let debugItemTitle: String = "Custom item"
     let action: DebugMenuAction = .toggle { UserDefaults.standard.bool(forKey: "key") } action: { (isOn, completions) in
         let userDefaults = UserDefaults.standard
         userDefaults.set(isOn, forKey: "key")
@@ -75,10 +75,10 @@ struct CustomDebugItem: DebugMenuPresentable {
 }
 ```
 
-## Custom complication
+## Custom dashboard item
 
 ```swift
-public class CustomComplication: ComplicationPresentable {
+public class CustomDashboardItem: DashboardItem {
     public init() {}
     public func startMonitoring() {}
     public func stopMonitoring() {}
@@ -101,7 +101,7 @@ public class CustomComplication: ComplicationPresentable {
 
 Tap floating bug button.
 
-## Show Complications
+## Show Dashboard
 
 Longpress floating bug button, and tap `Show widget`.
 

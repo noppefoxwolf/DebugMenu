@@ -30,7 +30,7 @@ class InAppDebuggerViewController: UIViewController {
         }
     }
 
-    init(title: String = "DebugMenu", debuggerItems: [DebugMenuPresentable], options: [Options]) {
+    init(title: String = "DebugMenu", debuggerItems: [DebugItem], options: [Options]) {
         self.options = options
         self.flattenDebugItems = debuggerItems.map(AnyGroupDebugItem.init).flatten()
             .map(AnyDebugItem.init)
@@ -176,20 +176,20 @@ extension InAppDebuggerViewController {
                     return collectionView.dequeueConfiguredReusableCell(
                         using: selectCellRegstration,
                         for: indexPath,
-                        item: item.debuggerItemTitle
+                        item: item.debugItemTitle
                     )
                 case .execute:
                     return collectionView.dequeueConfiguredReusableCell(
                         using: executableCellRegstration,
                         for: indexPath,
-                        item: item.debuggerItemTitle
+                        item: item.debugItemTitle
                     )
                 case let .toggle(current, onChange):
                     return collectionView.dequeueConfiguredReusableCell(
                         using: toggleCellRegstration,
                         for: indexPath,
                         item: (
-                            item.debuggerItemTitle, current,
+                            item.debugItemTitle, current,
                             { [weak self] (value) in
                                 onChange(
                                     value,
@@ -205,7 +205,7 @@ extension InAppDebuggerViewController {
                         using: sliderCellRegstration,
                         for: indexPath,
                         item: (
-                            item.debuggerItemTitle, current, range,
+                            item.debugItemTitle, current, range,
                             { [weak self] (value) in
                                 onChange(
                                     value,
@@ -254,7 +254,7 @@ extension InAppDebuggerViewController {
         if let query = query, !query.isEmpty {
             snapshot.appendSections([Section.items])
             let filteredItems = flattenDebugItems.filter({
-                $0.debuggerItemTitle.lowercased().contains(query.lowercased())
+                $0.debugItemTitle.lowercased().contains(query.lowercased())
             })
             snapshot.appendItems(filteredItems, toSection: .items)
         } else {

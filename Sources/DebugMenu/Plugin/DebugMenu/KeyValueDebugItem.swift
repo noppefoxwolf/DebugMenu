@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct KeyValueDebugItem: DebugMenuPresentable {
+public struct KeyValueDebugItem: DebugItem {
     public init(
         title: String,
         fetcher: @escaping (_ completions: @escaping ([Envelope]) -> Void) -> Void
@@ -21,6 +21,6 @@ public struct KeyValueDebugItem: DebugMenuPresentable {
     }
 
     let title: String
-    public var debuggerItemTitle: String { title }
-    public let action: DebugMenuAction
+    public var debugItemTitle: String { title }
+    public let action: DebugItemAction
 }

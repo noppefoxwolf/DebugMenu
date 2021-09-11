@@ -4,14 +4,14 @@ import UIKit
 public struct DebugMenu {
     public static func install(
         windowScene: UIWindowScene? = nil,
-        items: [DebugMenuPresentable] = [],
-        complications: [ComplicationPresentable] = [],
+        items: [DebugItem] = [],
+        dashboardItems: [DashboardItem] = [],
         options: [Options] = Options.default
     ) {
         InAppDebuggerWindow.install(
             windowScene: windowScene,
             debuggerItems: items,
-            complications: complications,
+            dashboardItems: dashboardItems,
             options: options
         )
     }

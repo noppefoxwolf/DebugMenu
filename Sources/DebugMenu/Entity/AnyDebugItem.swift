@@ -7,14 +7,14 @@
 
 import UIKit
 
-struct AnyDebugItem: Hashable, Identifiable, DebugMenuPresentable {
+struct AnyDebugItem: Hashable, Identifiable, DebugItem {
     let id: String
-    let debuggerItemTitle: String
-    let action: DebugMenuAction
+    let debugItemTitle: String
+    let action: DebugItemAction
 
-    init(_ item: DebugMenuPresentable) {
+    init(_ item: DebugItem) {
         id = UUID().uuidString
-        debuggerItemTitle = item.debuggerItemTitle
+        debugItemTitle = item.debugItemTitle
         action = item.action
     }
 
