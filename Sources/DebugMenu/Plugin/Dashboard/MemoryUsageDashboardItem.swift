@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class MemoryUsageDashboardItem:  DashboardItem {
+public class MemoryUsageDashboardItem: DashboardItem {
     public init() {}
     public let title: String = "MEM"
     private var text: String = ""

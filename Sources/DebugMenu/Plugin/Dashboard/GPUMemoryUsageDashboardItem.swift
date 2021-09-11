@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class GPUMemoryUsageDashboardItem:  DashboardItem {
+public class GPUMemoryUsageDashboardItem: DashboardItem {
     public init() {}
     public let title: String = "GPU MEM"
     private var text: String = ""

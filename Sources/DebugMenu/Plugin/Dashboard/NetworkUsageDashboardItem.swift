@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-public class NetworkUsageDashboardItem:  DashboardItem {
+public class NetworkUsageDashboardItem: DashboardItem {
     public init() {}
     public let title: String = "Network"
     var lastNetworkUsage: NetworkUsage? = nil

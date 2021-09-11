@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class CPUUsageDashboardItem:  DashboardItem {
+public class CPUUsageDashboardItem: DashboardItem {
     public init() {}
     public let title: String = "CPU"
     private var text: String = ""
