@@ -710,8 +710,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:noppefoxwolf/DebugMenuConsolePlugin.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
