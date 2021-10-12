@@ -158,13 +158,13 @@ extension InAppDebuggerViewController {
                 cell: SliderCell,
                 indexPath,
                 item: (
-                    title: String, current: () -> Double, valueLabel: () -> String,
+                    title: String, current: () -> Double, valueLabelText: (Double) -> String,
                     range: ClosedRange<Double>, onChange: (Double) -> Void
                 )
             ) in
             cell.title = item.title
             cell.current = item.current
-            cell.valueLabel = item.valueLabel
+            cell.valueLabelText = item.valueLabelText
             cell.range = item.range
             cell.onChange = item.onChange
         }
@@ -201,12 +201,12 @@ extension InAppDebuggerViewController {
                             }
                         )
                     )
-                case let .slider(current, valueLabel, range, onChange):
+                case let .slider(current, valueLabelText, range, onChange):
                     return collectionView.dequeueConfiguredReusableCell(
                         using: sliderCellRegstration,
                         for: indexPath,
                         item: (
-                            item.debugItemTitle, current, valueLabel, range,
+                            item.debugItemTitle, current, valueLabelText, range,
                             { [weak self] (value) in
                                 onChange(
                                     value,

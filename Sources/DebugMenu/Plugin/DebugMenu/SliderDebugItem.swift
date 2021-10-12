@@ -11,14 +11,14 @@ public struct SliderDebugItem: DebugItem {
     public init(
         title: String,
         current: @escaping () -> Double,
-        valueLabel: @escaping () -> String,
+        valueLabelText: @escaping (Double) -> String = { String(format: "%.2f", $0) },
         range: ClosedRange<Double> = 0.0...1.0,
         onChange: @escaping (Double) -> Void
     ) {
         self.title = title
         self.action = .slider(
             current: current,
-            valueLabel: valueLabel,
+            valueLabelText: valueLabelText,
             range: range,
             action: { (value, completions) in
                 onChange(value)
