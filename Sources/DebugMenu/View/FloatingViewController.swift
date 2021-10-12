@@ -25,12 +25,16 @@ internal class FloatingViewController: UIViewController {
         self.widgetView = .init(dashboardItems: dashboardItems)
         self.options = options
 
-        launchView = .init(image: options.compactMap { option -> UIImage? in
-            if case .launchIcon(let image) = option {
-                return image
-            }
-            return nil
-        }.first)
+        launchView = .init(
+            image:
+                options.compactMap { option -> UIImage? in
+                    if case .launchIcon(let image) = option {
+                        return image
+                    }
+                    return nil
+                }
+                .first
+        )
 
         super.init(nibName: nil, bundle: nil)
     }
