@@ -30,13 +30,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Logger(label: "dev.noppe.debugMenu.logger").info("Launch")
         
         #if DEBUG
+        var sliderValue: Double = 0.1
         DebugMenu.install(windowScene: windowScene, items: [
             ConsoleDebugItem(),
             ViewControllerDebugItem<ColorViewController>(builder: { $0.init(color: .blue) }),
             ClearCacheDebugItem(),
             UserDefaultsResetDebugItem(),
             CustomDebugItem(),
-            SliderDebugItem(title: "Attack Rate", current: { 0.1 }, range: 0.0...100.0, onChange: { value in print(value) }),
+            SliderDebugItem(title: "Attack Rate", current: { sliderValue }, valueLabel: { "\(String(format: "%.2f", sliderValue))%" }, range: 0.0...100.0, onChange: { sliderValue = $0 }),
             KeyValueDebugItem(title: "UserDefaults", fetcher: { completions in
                 let envelops = UserDefaults.standard.dictionaryRepresentation().map({ Envelope(key: $0.key, value: "\($0.value)") })
                 completions(envelops)

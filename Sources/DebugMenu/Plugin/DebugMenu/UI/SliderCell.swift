@@ -10,6 +10,7 @@ import UIKit
 class SliderCell: UICollectionViewListCell {
     var title: String!
     var current: (() -> Double)!
+    var valueLabel: (() -> String)!
     var range: ClosedRange<Double>!
     var onChange: ((Double) -> Void)!
 
@@ -17,6 +18,7 @@ class SliderCell: UICollectionViewListCell {
         let configuration = SliderCellConfiguration(
             title: title,
             current: current,
+            valueLabel: valueLabel,
             range: range,
             onChange: onChange
         )
@@ -27,6 +29,7 @@ class SliderCell: UICollectionViewListCell {
 struct SliderCellConfiguration: UIContentConfiguration {
     let title: String
     let current: () -> Double
+    let valueLabel: () -> String
     let range: ClosedRange<Double>
     let onChange: (Double) -> Void
 
@@ -52,7 +55,7 @@ class SliderCellView: UIView, UIContentView {
             frame: .null,
             primaryAction: UIAction(handler: { (action) in
                 if let slider = action.sender as? UISlider {
-                    valueLabel.text = String(format: "%.2f", slider.value)
+                    valueLabel.text = configuration.valueLabel()
                     configuration.onChange(Double(slider.value))
                 }
             })
@@ -60,7 +63,7 @@ class SliderCellView: UIView, UIContentView {
         slider.maximumValue = Float(configuration.range.upperBound)
         slider.minimumValue = Float(configuration.range.lowerBound)
         slider.setValue(Float(configuration.current()), animated: false)
-        valueLabel.text = String(format: "%.2f", slider.value)
+        valueLabel.text = configuration.valueLabel()
 
         let hStack = UIStackView(arrangedSubviews: [titleLabel, valueLabel])
         hStack.axis = .horizontal

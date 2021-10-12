@@ -13,6 +13,15 @@ import DebugMenuConsolePlugin
 
 @main
 struct App: SwiftUI.App {
+
+    @ObservedObject private var store = Store()
+
+    private final class Store: ObservableObject {
+        private(set) var sliderValue: Double = 0.1
+
+        func updateSliderValue(_ value: Double) { sliderValue = value }
+    }
+
     init() {
         LoggingSystem.bootstrap({
             MultiplexLogHandler([
@@ -22,7 +31,7 @@ struct App: SwiftUI.App {
         })
         Logger(label: "dev.noppe.debugMenu.logger").info("Launch")
     }
-    
+
     var body: some Scene {
         WindowGroup {
             Button(action: {
@@ -38,7 +47,7 @@ struct App: SwiftUI.App {
                 ClearCacheDebugItem(),
                 UserDefaultsResetDebugItem(),
                 CustomDebugItem(),
-                SliderDebugItem(title: "Attack Rate", current: { 0.1 }, range: 0.0...100.0, onChange: { value in print(value) }),
+                            SliderDebugItem(title: "Attack Rate", current: { store.sliderValue }, valueLabel: { "\(String(format: "%.2f", store.sliderValue))%" }, range: 0.0...100.0, onChange: store.updateSliderValue),
                 KeyValueDebugItem(title: "UserDefaults", fetcher: { completions in
                     let envelops = UserDefaults.standard.dictionaryRepresentation().map({ Envelope(key: $0.key, value: "\($0.value)") })
                     completions(envelops)

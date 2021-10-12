@@ -24,6 +24,7 @@ public enum DebugItemAction {
     )
     case slider(
         current: () -> Double,
+        valueLabel: () -> String,
         range: ClosedRange<Double>,
         action: (_ value: Double, _ completions: @escaping (DebugMenuResult) -> Void) -> Void
     )
