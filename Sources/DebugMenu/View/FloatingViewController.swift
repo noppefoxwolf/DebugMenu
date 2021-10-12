@@ -10,7 +10,7 @@ import UIKit
 
 internal class FloatingViewController: UIViewController {
     class View: UIView, TouchThrowing {}
-    private let launchView: LaunchView = .init()
+    private let launchView: LaunchView
     private let widgetView: WidgetView
     private let debuggerItems: [DebugItem]
     private var cancellables: Set<AnyCancellable> = []
@@ -24,6 +24,14 @@ internal class FloatingViewController: UIViewController {
         self.debuggerItems = debuggerItems
         self.widgetView = .init(dashboardItems: dashboardItems)
         self.options = options
+
+        launchView = .init(image: options.compactMap { option -> UIImage? in
+            if case .launchIcon(let image) = option {
+                return image
+            }
+            return nil
+        }.first)
+
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -77,7 +85,7 @@ internal class FloatingViewController: UIViewController {
             gesture.moveInitialPosition(.topLeading)
         }
 
-        if options.contains(.showsWidgetOnLaunch) {
+        if options.contains(where: { $0.isShowsWidgetOnLaunch }) {
             widgetView.show()
         } else {
             widgetView.hide()

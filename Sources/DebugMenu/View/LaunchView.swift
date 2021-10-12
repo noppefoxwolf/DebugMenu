@@ -10,12 +10,11 @@ import UIKit
 class LaunchView: UIVisualEffectView {
     private let button: UIButton = .init(frame: .null)
 
-    init() {
+    init(image: UIImage? = nil) {
         super.init(effect: UIBlurEffect(style: .systemMaterialDark))
         frame = CGRect(x: 0, y: 0, width: 44, height: 44)
 
-        let image = UIImage(systemName: "ant.fill")
-        button.setImage(image, for: .normal)
+        button.setImage(image ?? .init(systemName: "ant.fill"), for: .normal)
         button.tintColor = UIColor.white
         button.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(button)

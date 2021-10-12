@@ -259,7 +259,7 @@ extension InAppDebuggerViewController {
             snapshot.appendItems(filteredItems, toSection: .items)
         } else {
             let recentItems = RecentItemStore(items: debuggerItems).get()
-            if !recentItems.isEmpty && options.contains(.showsRecentItems) {
+            if !recentItems.isEmpty && options.contains(where: { $0.isShowsRecentItems }) {
                 snapshot.appendSections([Section.recent])
                 snapshot.appendItems(recentItems, toSection: .recent)
             }
