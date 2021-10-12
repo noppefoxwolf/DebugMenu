@@ -63,7 +63,7 @@ struct App: SwiftUI.App {
 ```swift
 struct CustomDebugItem: DebugItem {
     let debugItemTitle: String = "Custom item"
-    let action: DebugMenuAction = .toggle { UserDefaults.standard.bool(forKey: "key") } action: { (isOn, completions) in
+    let action: DebugItemAction = .toggle { UserDefaults.standard.bool(forKey: "key") } action: { (isOn, completions) in
         let userDefaults = UserDefaults.standard
         userDefaults.set(isOn, forKey: "key")
         if userDefaults.synchronize() {
