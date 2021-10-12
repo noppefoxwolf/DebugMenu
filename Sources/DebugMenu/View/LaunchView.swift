@@ -14,7 +14,7 @@ class LaunchView: UIVisualEffectView {
         super.init(effect: UIBlurEffect(style: .systemMaterialDark))
         frame = CGRect(x: 0, y: 0, width: 44, height: 44)
 
-        button.setImage(image ?? .init(systemName: "ant.fill"), for: .normal)
+        button.setImage(image ?? UIImage(systemName: "ant.fill"), for: .normal)
         button.tintColor = UIColor.white
         button.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(button)
