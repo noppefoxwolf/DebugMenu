@@ -58,7 +58,8 @@ internal class FloatingViewController: UIViewController {
             let gesture = FloatingItemGestureRecognizer(groundView: self.view)
             launchView.addGestureRecognizer(gesture)
 
-            let initialPosition = options
+            let initialPosition =
+                options
                 .compactMap { option -> Options.LaunchIcon.Position? in
                     if case .launchIcon(let launchIcon) = option {
                         return launchIcon.initialPosition
