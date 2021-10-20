@@ -57,7 +57,7 @@ internal class FloatingViewController: UIViewController {
         bug: do {
             let gesture = FloatingItemGestureRecognizer(groundView: self.view)
             launchView.addGestureRecognizer(gesture)
-            gesture.moveInitialPosition()
+            gesture.moveInitialPosition(.bottomTrailing)
 
             let longPress = UILongPressGestureRecognizer()
             longPress.publisher(for: \.state).filter({ $0 == .began })
