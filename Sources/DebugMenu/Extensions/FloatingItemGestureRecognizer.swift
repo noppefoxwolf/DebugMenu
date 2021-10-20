@@ -29,7 +29,7 @@ public class FloatingItemGestureRecognizer: UIPanGestureRecognizer {
         self.removeTarget(self, action: #selector(pan(_:)))
     }
 
-    public func moveInitialPosition(_ edge: Edge = .bottomTrailing) {
+    public func moveInitialPosition(_ edge: Edge) {
         DispatchQueue.main.async { [weak self] in
             self?.view?.center = self?.cornerPositions()[edge] ?? .zero
             UIView.animate(
