@@ -11,7 +11,22 @@ import UIKit
 public enum Options {
     case showsWidgetOnLaunch
     case showsRecentItems
-    case launchIcon(UIImage)
+    case launchIcon(LaunchIcon)
+
+    public struct LaunchIcon {
+        public typealias Position = FloatingItemGestureRecognizer.Edge
+
+        let image: UIImage?
+        let initialPosition: Position
+
+        public init(
+            image: UIImage? = nil,
+            initialPosition: Position = .bottomTrailing
+        ) {
+            self.image = image
+            self.initialPosition = initialPosition
+        }
+    }
 
     public static var `default`: [Options] = [.showsRecentItems]
 

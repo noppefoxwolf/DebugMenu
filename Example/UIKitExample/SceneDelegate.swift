@@ -59,7 +59,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             ThermalStateDashboardItem(),
             CustomDashboardItem(),
             IntervalDashboardItem(title: "Calc", name: "dev.noppe.calc"),
-        ], options: [.showsWidgetOnLaunch])
+        ], options: [.showsWidgetOnLaunch, .launchIcon(.init(initialPosition: .topTrailing))])
         #endif
     }
 

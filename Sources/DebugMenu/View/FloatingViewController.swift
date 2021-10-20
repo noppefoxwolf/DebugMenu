@@ -28,8 +28,8 @@ internal class FloatingViewController: UIViewController {
         launchView = .init(
             image:
                 options.compactMap { option -> UIImage? in
-                    if case .launchIcon(let image) = option {
-                        return image
+                    if case .launchIcon(let launchIcon) = option {
+                        return launchIcon.image
                     }
                     return nil
                 }
@@ -57,7 +57,17 @@ internal class FloatingViewController: UIViewController {
         bug: do {
             let gesture = FloatingItemGestureRecognizer(groundView: self.view)
             launchView.addGestureRecognizer(gesture)
-            gesture.moveInitialPosition(.bottomTrailing)
+
+            let initialPosition = options
+                .compactMap { option -> Options.LaunchIcon.Position? in
+                    if case .launchIcon(let launchIcon) = option {
+                        return launchIcon.initialPosition
+                    }
+                    return nil
+                }
+                .first ?? .bottomTrailing
+
+            gesture.moveInitialPosition(initialPosition)
 
             let longPress = UILongPressGestureRecognizer()
             longPress.publisher(for: \.state).filter({ $0 == .began })
