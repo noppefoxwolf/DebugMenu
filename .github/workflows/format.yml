@@ -1,6 +1,7 @@
 name: Format
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -8,13 +9,13 @@ on:
 jobs:
   swift_format:
     name: swift-format
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
       - name: Tap
         run: brew tap pointfreeco/formulae
       - name: Install
-        run: brew install Formulae/swift-format@5.3
+        run: brew install Formulae/swift-format@5.5
       - name: Format
         run: make format
       - uses: stefanzweifel/git-auto-commit-action@v4
