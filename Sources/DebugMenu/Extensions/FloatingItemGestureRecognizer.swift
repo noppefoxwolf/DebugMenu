@@ -1,10 +1,3 @@
-//
-//  FloatingItemGestureRecognizer.swift
-//  UI
-//
-//  Created by Tomoya Hirano on 2020/11/30.
-//
-
 import UIKit
 
 public class FloatingItemGestureRecognizer: UIPanGestureRecognizer {
