@@ -87,9 +87,17 @@ internal class FloatingViewController: UIViewController {
                     )
                     let nc = UINavigationController(rootViewController: vc)
                     nc.modalPresentationStyle = .fullScreen
-                    let ac = CustomActivityViewController(controller: nc)
-                    ac.popoverPresentationController?.sourceView = self.launchView
-                    self.present(ac, animated: true, completion: nil)
+                    if #available(iOS 15, *) {
+                        nc.modalPresentationStyle = .pageSheet
+                        nc.sheetPresentationController?.selectedDetentIdentifier = .medium
+                        nc.sheetPresentationController?.detents = [.medium(), .large()]
+                        nc.popoverPresentationController?.sourceView = self.launchView
+                        self.present(nc, animated: true, completion: nil)
+                    } else {
+                        let ac = CustomActivityViewController(controller: nc)
+                        ac.popoverPresentationController?.sourceView = self.launchView
+                        self.present(ac, animated: true, completion: nil)
+                    }
                 })
             )
         }
