@@ -1,4 +1,5 @@
 import DebugMenu
+import Foundation
 
 public class CustomDashboardItem:  DashboardItem {
     public init() {}
