@@ -5,8 +5,16 @@ public class FloatingItemGestureRecognizer: UIPanGestureRecognizer {
     private var gestureGap: CGPoint?
     private let margin: CGFloat = 16
     public enum Edge {
+        case top
+//        case center
+        case bottom
+        
         case topLeading
         case topTrailing
+        
+        case leading
+        case trailing
+        
         case bottomLeading
         case bottomTrailing
     }
@@ -151,15 +159,35 @@ public class FloatingItemGestureRecognizer: UIPanGestureRecognizer {
         let yCenter = targetView.bounds.height / 2
         let safeAreaInsets = groundView.safeAreaInsets
 
+        
+        let top = CGPoint(
+            x: viewSize.width / 2,
+            y: self.margin + yCenter + safeAreaInsets.top
+        )
+        let bottom = CGPoint(
+            x: viewSize.width / 2,
+            y: viewSize.height - objectSize.height - self.margin + yCenter - safeAreaInsets.bottom
+        )
+        
         let topLeading = CGPoint(
             x: self.margin + xCenter + safeAreaInsets.left,
             y: self.margin + yCenter + safeAreaInsets.top
         )
-
         let topTrailing = CGPoint(
             x: viewSize.width - objectSize.width - self.margin + xCenter - safeAreaInsets.right,
             y: self.margin + yCenter + safeAreaInsets.top
         )
+        
+        let leading = CGPoint(
+            x: self.margin + xCenter + safeAreaInsets.left,
+            y: viewSize.height / 2
+        )
+        
+        let trailing = CGPoint(
+            x: viewSize.width - objectSize.width - self.margin + xCenter - safeAreaInsets.right,
+            y: viewSize.height / 2
+        )
+        
         let bottomLeading = CGPoint(
             x: self.margin + xCenter + safeAreaInsets.left,
             y: viewSize.height - objectSize.height - self.margin + yCenter - safeAreaInsets.bottom
@@ -170,8 +198,15 @@ public class FloatingItemGestureRecognizer: UIPanGestureRecognizer {
             y: viewSize.height - objectSize.height - self.margin + yCenter - safeAreaInsets.bottom
         )
         return [
+            .top: top,
+            .bottom: bottom,
+            
             .topLeading: topLeading,
             .topTrailing: topTrailing,
+            
+            .leading: leading,
+            .trailing: trailing,
+            
             .bottomLeading: bottomLeading,
             .bottomTrailing: bottomTrailing,
         ]
