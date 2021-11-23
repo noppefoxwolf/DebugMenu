@@ -42,8 +42,7 @@ let package = Package(
             name: "AppModule",
             dependencies: [
                 .productItem(name: "DebugMenu", package: "DebugMenu", condition: nil)
-            ],
-            path: "."
+            ]
         )
     ]
 )
