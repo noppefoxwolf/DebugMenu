@@ -67,7 +67,13 @@ class InAppDebuggerViewController: UIViewController {
             let rightItem = UIBarButtonItem(
                 systemItem: .done,
                 primaryAction: UIAction(handler: { [weak self] (_) in
-                    self?.parent?.parent?.dismiss(animated: true)
+                    if #available(iOS 15, *) {
+                        // sheetPresentationController
+                        self?.dismiss(animated: true)
+                    } else {
+                        // CustomActivityViewController
+                        self?.parent?.parent?.dismiss(animated: true)
+                    }
                 }),
                 menu: nil
             )
