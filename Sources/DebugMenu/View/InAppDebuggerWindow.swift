@@ -12,7 +12,7 @@ protocol TouchThrowing {}
 
 @available(iOSApplicationExtension, unavailable)
 public class InAppDebuggerWindow: UIWindow {
-    internal static var shared: InAppDebuggerWindow!
+    internal static var windows: [InAppDebuggerWindow] = []
 
     internal static func install(
         windowScene: UIWindowScene? = nil,
@@ -46,15 +46,16 @@ public class InAppDebuggerWindow: UIWindow {
         options: [Options]
     ) {
         let keyWindow = UIApplication.shared.findKeyWindow()
-        shared = factory()
-        shared.windowLevel = UIWindow.Level.statusBar + 1
-        shared.rootViewController = FloatingViewController(
+        let window = factory()
+        window.windowLevel = UIWindow.Level.statusBar + 1
+        window.rootViewController = FloatingViewController(
             debuggerItems: debuggerItems,
             dashboardItems: dashboardItems,
             options: options
         )
-        shared!.makeKeyAndVisible()
+        window.makeKeyAndVisible()
         keyWindow?.makeKeyAndVisible()
+        windows.append(window)
     }
 
     internal required init?(coder: NSCoder) { fatalError() }
