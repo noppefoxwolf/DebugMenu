@@ -57,7 +57,7 @@ public class InAppDebuggerWindow: UIWindow {
         window.frame.size.width += 1
         window.makeKeyAndVisible()
         window.frame.size.width -= 1
-        
+
         keyWindow?.makeKeyAndVisible()
         windows.append(window)
     }
