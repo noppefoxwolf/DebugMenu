@@ -53,7 +53,11 @@ public class InAppDebuggerWindow: UIWindow {
             dashboardItems: dashboardItems,
             options: options
         )
+        // visible時にディスプレイサイズと同じサイズだとスクリーンエッジの設定を決める対象に選ばれるので避ける
+        window.frame.size.width += 1
         window.makeKeyAndVisible()
+        window.frame.size.width -= 1
+        
         keyWindow?.makeKeyAndVisible()
         windows.append(window)
     }

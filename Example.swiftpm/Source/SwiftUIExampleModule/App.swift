@@ -1,5 +1,6 @@
 import SwiftUI
 import DebugMenu
+import Shared
 
 @main
 struct App: SwiftUI.App {
