@@ -14,9 +14,9 @@ let package = Package(
     ],
     products: [
         .iOSApplication(
-            name: "Example",
-            targets: ["AppModule"],
-            bundleIdentifier: "dev.noppe.DebugMenu.Example",
+            name: "SwiftUIExample",
+            targets: ["SwiftUIExampleModule"],
+            bundleIdentifier: "dev.noppe.DebugMenu.SwiftUIExample",
             teamIdentifier: "FBQ6Z8AF3U",
             displayVersion: "1.0",
             bundleVersion: "1",
@@ -32,14 +32,48 @@ let package = Package(
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
             ]
-        )
+        ),
+        .iOSApplication(
+            name: "UIKitExample",
+            targets: ["UIKItExampleModule"],
+            bundleIdentifier: "dev.noppe.DebugMenu.UIKitExample",
+            teamIdentifier: "FBQ6Z8AF3U",
+            displayVersion: "1.0",
+            bundleVersion: "1",
+            iconAssetName: "AppIcon",
+            accentColorAssetName: "AccentColor",
+            supportedDeviceFamilies: [
+                .pad,
+                .phone
+            ],
+            supportedInterfaceOrientations: [
+                .portrait,
+                .landscapeRight,
+                .landscapeLeft,
+                .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+            ]
+        ),
     ],
     dependencies: [
         .package(name: "DebugMenu", path: "../")
     ],
     targets: [
         .executableTarget(
-            name: "AppModule",
+            name: "SwiftUIExampleModule",
+            dependencies: [
+                .productItem(name: "DebugMenu", package: "DebugMenu", condition: nil),
+                "Shared"
+            ]
+        ),
+        .executableTarget(
+            name: "UIKItExampleModule",
+            dependencies: [
+                .productItem(name: "DebugMenu", package: "DebugMenu", condition: nil),
+                "Shared"
+            ]
+        ),
+        .target(
+            name: "Shared",
             dependencies: [
                 .productItem(name: "DebugMenu", package: "DebugMenu", condition: nil)
             ]
