@@ -45,7 +45,6 @@ public class InAppDebuggerWindow: UIWindow {
         dashboardItems: [DashboardItem],
         options: [Options]
     ) {
-        let keyWindow = UIApplication.shared.findKeyWindow()
         let window = factory()
         window.windowLevel = UIWindow.Level.statusBar + 1
         window.rootViewController = FloatingViewController(
@@ -55,10 +54,8 @@ public class InAppDebuggerWindow: UIWindow {
         )
         // visible時にディスプレイサイズと同じサイズだとスクリーンエッジの設定を決める対象に選ばれるので避ける
         window.frame.size.width += 1
-        window.makeKeyAndVisible()
+        window.isHidden = false
         window.frame.size.width -= 1
-
-        keyWindow?.makeKeyAndVisible()
         windows.append(window)
     }
 
