@@ -191,7 +191,7 @@ extension InAppDebuggerViewController {
                         item: (
                             item.debugItemTitle, current,
                             { [unowned self] (value) in
-                                Task { @MainActor [weak self] in
+                                Task { @MainActor[weak self] in
                                     let result = await onChange(value)
                                     self?.onCompleteAction(result)
                                 }
@@ -205,7 +205,7 @@ extension InAppDebuggerViewController {
                         item: (
                             item.debugItemTitle, current, valueLabelText, range,
                             { [unowned self] (value) in
-                                Task { @MainActor [weak self] in
+                                Task { @MainActor[weak self] in
                                     let result = await onChange(value)
                                     self?.onCompleteAction(result)
                                 }
@@ -274,13 +274,13 @@ extension InAppDebuggerViewController: UICollectionViewDelegate {
             let item = dataSource.itemIdentifier(for: indexPath)!
             switch item.action {
             case let .didSelect(action):
-                Task { @MainActor [weak self] in
+                Task { @MainActor[weak self] in
                     guard let self = self else { return }
                     let result = await action(self)
                     self.onCompleteAction(result)
                 }
             case let .execute(action):
-                Task { @MainActor [weak self] in
+                Task { @MainActor[weak self] in
                     let result = await action()
                     self?.onCompleteAction(result)
                 }

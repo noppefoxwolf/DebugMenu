@@ -2,7 +2,7 @@ import Foundation
 
 public struct ExitDebugItem: DebugItem {
     public init() {
-        self.action = .didSelect(operation: { _ in 
+        self.action = .didSelect(operation: { _ in
             exit(0)
         })
     }

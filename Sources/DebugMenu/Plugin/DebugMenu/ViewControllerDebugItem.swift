@@ -19,7 +19,8 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
                 await controller.present(viewController, animated: true)
                 return .success()
             case .push:
-                await controller.navigationController?.pushViewController(viewController, animated: true)
+                await controller.navigationController?
+                    .pushViewController(viewController, animated: true)
                 return .success()
             }
         }

@@ -1,7 +1,7 @@
 import UIKit
 
 class EnvelopePreviewTableViewController: UITableViewController {
-    
+
     @MainActor
     var envelops: [Envelope] = []
     var fetcher: () async -> [Envelope]
