@@ -1,10 +1,3 @@
-//
-//  RangeDebugItem.swift
-//  DebugMenu
-//
-//  Created by Tomoya Hirano on 2020/12/18.
-//
-
 import Foundation
 
 public struct SliderDebugItem: DebugItem {
@@ -20,9 +13,9 @@ public struct SliderDebugItem: DebugItem {
             current: current,
             valueLabelText: valueLabelText,
             range: range,
-            action: { (value, completions) in
+            operation: { (value) in
                 onChange(value)
-                completions(.success())
+                return .success()
             }
         )
     }

@@ -1,17 +1,12 @@
-//
-//  File.swift
-//
-//
-//  Created by Tomoya Hirano on 2021/05/23.
-//
-
 import UIKit
 
 class EnvelopePreviewTableViewController: UITableViewController {
+    
+    @MainActor
     var envelops: [Envelope] = []
-    var fetcher: ((_ completions: @escaping ([Envelope]) -> Void) -> Void)
+    var fetcher: () async -> [Envelope]
 
-    init(fetcher: @escaping (_ completions: @escaping ([Envelope]) -> Void) -> Void) {
+    init(fetcher: @escaping () async -> [Envelope]) {
         self.fetcher = fetcher
         super.init(style: .plain)
     }
@@ -43,12 +38,11 @@ class EnvelopePreviewTableViewController: UITableViewController {
     }
 
     private func fetch() {
-        fetcher { [weak self] envelops in
-            DispatchQueue.main.async { [weak self] in
-                self?.envelops = envelops
-                self?.tableView.refreshControl?.endRefreshing()
-                self?.tableView.reloadData()
-            }
+        Task { [weak self] in
+            let envelops = await fetcher()
+            self?.envelops = envelops
+            self?.tableView.refreshControl?.endRefreshing()
+            self?.tableView.reloadData()
         }
     }
 

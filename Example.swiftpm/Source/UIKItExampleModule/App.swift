@@ -40,9 +40,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 UserDefaultsResetDebugItem(),
                 CustomDebugItem(),
                 SliderDebugItem(title: "Attack Rate", current: { 0.1 }, range: 0.0...100.0, onChange: { value in print(value) }),
-                KeyValueDebugItem(title: "UserDefaults", fetcher: { completions in
-                    let envelops = UserDefaults.standard.dictionaryRepresentation().map({ Envelope(key: $0.key, value: "\($0.value)") })
-                    completions(envelops)
+                KeyValueDebugItem(title: "UserDefaults", fetcher: {
+                    return UserDefaults.standard.dictionaryRepresentation().map({ Envelope(key: $0.key, value: "\($0.value)") })
                 }),
                 GroupDebugItem(title: "Info", items: [
                     AppInfoDebugItem(),

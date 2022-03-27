@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  File
-//
-//  Created by Tomoya Hirano on 2021/07/20.
-//
-
 import Foundation
 
 struct RecentItemStore {

@@ -1,22 +1,15 @@
-//
-//  ClearCacheDebugItem.swift
-//  App
-//
-//  Created by Tomoya Hirano on 2020/03/17.
-//
-
 import UIKit
 
 public struct ClearCacheDebugItem: DebugItem {
     public init() {}
 
     public let debugItemTitle: String = "Clear Cache"
-    public let action: DebugItemAction = .execute { (completions) in
+    public let action: DebugItemAction = .execute {
         do {
             try ClearCacheDebugItem.clearCache()
-            completions(.success(message: "The cache completely cleared."))
+            return .success(message: "The cache completely cleared.")
         } catch {
-            completions(.failure(message: "\(error)"))
+            return .failure(message: "\(error)")
         }
     }
 

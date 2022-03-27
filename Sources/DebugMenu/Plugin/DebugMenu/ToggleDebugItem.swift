@@ -1,10 +1,3 @@
-//
-//  ToggleDebugItem.swift
-//  DebugMenu
-//
-//  Created by Tomoya Hirano on 2020/12/18.
-//
-
 import Foundation
 
 public struct ToggleDebugItem: DebugItem {
@@ -12,9 +5,9 @@ public struct ToggleDebugItem: DebugItem {
         self.title = title
         self.action = .toggle(
             current: current,
-            action: { (isOn, completions) in
+            operation: { (isOn) in
                 onChange(isOn)
-                completions(.success())
+                return .success()
             }
         )
     }

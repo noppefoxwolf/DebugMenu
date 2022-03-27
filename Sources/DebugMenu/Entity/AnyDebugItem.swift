@@ -1,11 +1,4 @@
-//
-//  File.swift
-//  DebugMenu
-//
-//  Created by Tomoya Hirano on 2020/12/07.
-//
-
-import UIKit
+import Foundation
 
 struct AnyDebugItem: Hashable, Identifiable, DebugItem {
     let id: String

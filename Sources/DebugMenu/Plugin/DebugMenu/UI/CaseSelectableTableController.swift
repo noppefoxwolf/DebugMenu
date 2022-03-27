@@ -1,10 +1,3 @@
-//
-//  CaseSelectableTableController.swift
-//  UI
-//
-//  Created by Tomoya Hirano on 2020/11/27.
-//
-
 import Foundation
 import UIKit
 

@@ -1,11 +1,4 @@
-//
-//  File.swift
-//
-//
-//  Created by Tomoya Hirano on 2021/05/29.
-//
-
-import UIKit
+import Foundation
 
 public enum MetricsFetcher {
     case text(_ fetcher: () -> String)

@@ -1,10 +1,3 @@
-//
-//  SliderCell.swift
-//  DebugMenu
-//
-//  Created by Tomoya Hirano on 2020/12/18.
-//
-
 import UIKit
 
 class SliderCell: UICollectionViewListCell {

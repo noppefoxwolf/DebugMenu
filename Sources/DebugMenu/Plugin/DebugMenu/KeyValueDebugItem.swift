@@ -1,22 +1,15 @@
-//
-//  File.swift
-//
-//
-//  Created by Tomoya Hirano on 2021/05/23.
-//
-
 import Foundation
 
 public struct KeyValueDebugItem: DebugItem {
     public init(
         title: String,
-        fetcher: @escaping (_ completions: @escaping ([Envelope]) -> Void) -> Void
+        fetcher: @escaping () async -> [Envelope]
     ) {
         self.title = title
-        self.action = .didSelect(action: { parent, result in
-            let vc = EnvelopePreviewTableViewController(fetcher: fetcher)
-            parent.navigationController?.pushViewController(vc, animated: true)
-            result(.success())
+        self.action = .didSelect(operation: { parent in
+            let vc = await EnvelopePreviewTableViewController(fetcher: fetcher)
+            await parent.navigationController?.pushViewController(vc, animated: true)
+            return .success()
         })
     }
 
