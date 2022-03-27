@@ -1,10 +1,3 @@
-//
-//  Application.swift
-//  App
-//
-//  Created by Tomoya Hirano on 2020/03/01.
-//
-
 import Foundation
 
 public class Application {

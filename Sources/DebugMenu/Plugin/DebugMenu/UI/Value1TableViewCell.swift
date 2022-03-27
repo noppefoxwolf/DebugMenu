@@ -1,10 +1,3 @@
-//
-//  File.swift
-//
-//
-//  Created by Tomoya Hirano on 2021/05/23.
-//
-
 import UIKit
 
 class Value1TableViewCell: UITableViewCell {

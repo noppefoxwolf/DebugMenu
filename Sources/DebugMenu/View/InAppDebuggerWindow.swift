@@ -1,10 +1,3 @@
-//
-//  InAppDebugger.swift
-//  App
-//
-//  Created by Tomoya Hirano on 2020/03/01.
-//
-
 import Combine
 import UIKit
 

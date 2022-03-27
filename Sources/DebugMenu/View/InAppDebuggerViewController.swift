@@ -1,10 +1,3 @@
-//
-//  InAppDebuggerViewController.swift
-//  App
-//
-//  Created by Tomoya Hirano on 2020/03/01.
-//
-
 import UIKit
 
 class InAppDebuggerViewController: UIViewController {
@@ -177,7 +170,7 @@ extension InAppDebuggerViewController {
 
         dataSource = .init(
             collectionView: collectionView,
-            cellProvider: { [weak self] (collectionView, indexPath, item) in
+            cellProvider: { [unowned self] (collectionView, indexPath, item) in
                 switch item.action {
                 case .didSelect:
                     return collectionView.dequeueConfiguredReusableCell(
@@ -197,13 +190,11 @@ extension InAppDebuggerViewController {
                         for: indexPath,
                         item: (
                             item.debugItemTitle, current,
-                            { [weak self] (value) in
-                                onChange(
-                                    value,
-                                    { [weak self] (result) in
-                                        self?.onCompleteAction(result)
-                                    }
-                                )
+                            { [unowned self] (value) in
+                                Task { @MainActor [weak self] in
+                                    let result = await onChange(value)
+                                    self?.onCompleteAction(result)
+                                }
                             }
                         )
                     )
@@ -213,13 +204,11 @@ extension InAppDebuggerViewController {
                         for: indexPath,
                         item: (
                             item.debugItemTitle, current, valueLabelText, range,
-                            { [weak self] (value) in
-                                onChange(
-                                    value,
-                                    { [weak self] (result) in
-                                        self?.onCompleteAction(result)
-                                    }
-                                )
+                            { [unowned self] (value) in
+                                Task { @MainActor [weak self] in
+                                    let result = await onChange(value)
+                                    self?.onCompleteAction(result)
+                                }
                             }
                         )
                     )
@@ -230,12 +219,12 @@ extension InAppDebuggerViewController {
         let headerRegistration = UICollectionView.SupplementaryRegistration<
             UICollectionViewListCell
         >(elementKind: UICollectionView.elementKindSectionHeader) {
-            [weak self] (headerView, elementKind, indexPath) in
+            [unowned self] (headerView, elementKind, indexPath) in
             var configuration = headerView.defaultContentConfiguration()
             if #available(iOS 15.0, *) {
                 #if compiler(>=5.5)
                 configuration.text =
-                    self?.dataSource.sectionIdentifier(for: indexPath.section)?.title
+                    self.dataSource.sectionIdentifier(for: indexPath.section)?.title
                 #else
                 // FIXME: Index is wrong when unused showsRecentItems
                 configuration.text = Section(rawValue: indexPath.section)?.title
@@ -285,11 +274,14 @@ extension InAppDebuggerViewController: UICollectionViewDelegate {
             let item = dataSource.itemIdentifier(for: indexPath)!
             switch item.action {
             case let .didSelect(action):
-                action(self) { [weak self] (result) in
-                    self?.onCompleteAction(result)
+                Task { @MainActor [weak self] in
+                    guard let self = self else { return }
+                    let result = await action(self)
+                    self.onCompleteAction(result)
                 }
             case let .execute(action):
-                action { [weak self] (result) in
+                Task { @MainActor [weak self] in
+                    let result = await action()
                     self?.onCompleteAction(result)
                 }
             case .toggle, .slider:

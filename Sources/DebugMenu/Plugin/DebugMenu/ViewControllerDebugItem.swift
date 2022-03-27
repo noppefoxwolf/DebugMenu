@@ -1,10 +1,3 @@
-//
-//  ViewControllerDebugItem.swift
-//  App
-//
-//  Created by Tomoya Hirano on 2020/03/03.
-//
-
 import UIKit
 
 public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
@@ -19,20 +12,15 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
         builder: @escaping ((T.Type) -> T) = { $0.init() }
     ) {
         debugItemTitle = title ?? String(describing: T.self)
-        action = .didSelect { (controller, completions) in
+        action = .didSelect { controller in
             let viewController = builder(T.self)
             switch presentationMode {
             case .present:
-                controller.present(
-                    viewController,
-                    animated: true,
-                    completion: {
-                        completions(.success())
-                    }
-                )
+                await controller.present(viewController, animated: true)
+                return .success()
             case .push:
-                controller.navigationController?.pushViewController(viewController, animated: true)
-                completions(.success())
+                await controller.navigationController?.pushViewController(viewController, animated: true)
+                return .success()
             }
         }
     }

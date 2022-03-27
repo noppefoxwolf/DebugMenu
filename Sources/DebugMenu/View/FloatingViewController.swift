@@ -1,10 +1,3 @@
-//
-//  FloatingViewController.swift
-//  DebugMenu
-//
-//  Created by Tomoya Hirano on 2020/12/23.
-//
-
 import Combine
 import UIKit
 

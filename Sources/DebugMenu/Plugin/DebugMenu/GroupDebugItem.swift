@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  File
-//
-//  Created by Tomoya Hirano on 2021/07/20.
-//
-
 import Foundation
 
 protocol HasDebugItems {
@@ -19,14 +12,14 @@ public struct GroupDebugItem: DebugItem, HasDebugItems {
 
     public var debugItemTitle: String
     public var action: DebugItemAction {
-        .didSelect { controller, completions in
-            let vc = InAppDebuggerViewController(
+        .didSelect { controller in
+            let vc = await InAppDebuggerViewController(
                 title: self.debugItemTitle,
                 debuggerItems: self.debugItems,
                 options: []
             )
-            controller.navigationController?.pushViewController(vc, animated: true)
-            completions(.success())
+            await controller.navigationController?.pushViewController(vc, animated: true)
+            return .success()
         }
     }
     let debugItems: [AnyGroupDebugItem]

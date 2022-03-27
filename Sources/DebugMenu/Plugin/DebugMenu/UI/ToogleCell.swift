@@ -1,10 +1,3 @@
-//
-//  ToogleCell.swift
-//  DebugMenu
-//
-//  Created by Tomoya Hirano on 2020/12/19.
-//
-
 import UIKit
 
 class ToggleCell: UICollectionViewListCell {

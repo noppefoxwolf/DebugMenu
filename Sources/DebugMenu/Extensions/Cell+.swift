@@ -1,11 +1,3 @@
-//
-//  Cell.swift
-//
-//
-//  Created by Tomoya Hirano on 2019/12/07.
-//  Copyright © 2019 Tomoya Hirano. All rights reserved.
-//
-
 import UIKit
 
 public extension UITableView {
