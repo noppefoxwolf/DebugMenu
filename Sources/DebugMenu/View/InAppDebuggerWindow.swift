@@ -45,7 +45,8 @@ public class InAppDebuggerWindow: UIWindow {
             dashboardItems: dashboardItems,
             options: options
         )
-        // visible時にディスプレイサイズと同じサイズだとスクリーンエッジの設定を決める対象に選ばれるので避ける
+        // workaround: Screen edge deferring is choose from full-screen windows.
+        // -> preferredScreenEdgesDeferringSystemGestures
         window.frame.size.width += 1
         window.isHidden = false
         window.frame.size.width -= 1
@@ -53,6 +54,11 @@ public class InAppDebuggerWindow: UIWindow {
     }
 
     internal required init?(coder: NSCoder) { fatalError() }
+    
+    public override func makeKey() {
+        // workaround: Make a new UIWindow without become key.
+        // https://stackoverflow.com/a/64758605/1131587
+    }
 
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let view = super.hitTest(point, with: event)
