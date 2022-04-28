@@ -19,9 +19,9 @@ struct App: SwiftUI.App {
                 UserDefaultsResetDebugItem(),
                 CustomDebugItem(),
                 SliderDebugItem(title: "Attack Rate", current: { 0.1 }, range: 0.0...100.0, onChange: { value in print(value) }),
-                KeyValueDebugItem(title: "UserDefaults", fetcher: { completions in
+                KeyValueDebugItem(title: "UserDefaults", fetcher: {
                     let envelops = UserDefaults.standard.dictionaryRepresentation().map({ Envelope(key: $0.key, value: "\($0.value)") })
-                    completions(envelops)
+                    return envelops
                 }),
                 GroupDebugItem(title: "Info", items: [
                     AppInfoDebugItem(),
