@@ -54,7 +54,7 @@ public class InAppDebuggerWindow: UIWindow {
     }
 
     internal required init?(coder: NSCoder) { fatalError() }
-    
+
     public override func makeKey() {
         // workaround: Make a new UIWindow without become key.
         // https://stackoverflow.com/a/64758605/1131587
