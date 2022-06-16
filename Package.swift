@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "DebugMenu",
+    defaultLocalization: "en",
     platforms: [.iOS(.v14)],
     products: [
         .library(
@@ -14,7 +15,10 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "DebugMenu"
+            name: "DebugMenu",
+            resources: [
+                .process("Resource"),
+            ]
         ),
         .testTarget(
             name: "DebugMenuTests",

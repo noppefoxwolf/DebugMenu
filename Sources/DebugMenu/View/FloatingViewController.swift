@@ -113,7 +113,7 @@ internal class FloatingViewController: UIViewController {
         let sheet = UIAlertController(title: "DebugMenu", message: nil, preferredStyle: .alert)
         sheet.addAction(
             .init(
-                title: "Hide until next launch",
+                title: .hideUntilNextLaunch,
                 style: .destructive,
                 handler: { [weak self] _ in
                     self?.launchView.isHidden = true
@@ -124,7 +124,7 @@ internal class FloatingViewController: UIViewController {
         if widgetView.isHidden {
             sheet.addAction(
                 .init(
-                    title: "Show widget",
+                    title: .showWidget,
                     style: .default,
                     handler: { [weak self] _ in
                         self?.widgetView.show()
@@ -134,7 +134,7 @@ internal class FloatingViewController: UIViewController {
         } else {
             sheet.addAction(
                 .init(
-                    title: "Hide widget",
+                    title: .hideWidget,
                     style: .destructive,
                     handler: { [weak self] _ in
                         self?.widgetView.hide()
@@ -142,7 +142,7 @@ internal class FloatingViewController: UIViewController {
                 )
             )
         }
-        sheet.addAction(.init(title: "Cancel", style: .cancel, handler: nil))
+        sheet.addAction(.init(title: .cancel, style: .cancel, handler: nil))
         present(sheet, animated: true, completion: nil)
     }
 }
