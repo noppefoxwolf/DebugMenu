@@ -110,7 +110,7 @@ internal class FloatingViewController: UIViewController {
     }
 
     private func presentMenu() {
-        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let sheet = UIAlertController(title: "DebugMenu", message: nil, preferredStyle: .alert)
         sheet.addAction(
             .init(
                 title: "Hide until next launch",
