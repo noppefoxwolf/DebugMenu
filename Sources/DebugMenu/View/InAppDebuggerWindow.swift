@@ -55,10 +55,11 @@ public class InAppDebuggerWindow: UIWindow {
 
     internal required init?(coder: NSCoder) { fatalError() }
 
-    public override func makeKey() {
-        // workaround: Make a new UIWindow without become key.
-        // https://stackoverflow.com/a/64758605/1131587
-    }
+  // deprecated: Keyboard input not working without responder chain.
+//    public override func makeKey() {
+//        // workaround: Make a new UIWindow without become key.
+//        // https://stackoverflow.com/a/64758605/1131587
+//    }
 
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let view = super.hitTest(point, with: event)

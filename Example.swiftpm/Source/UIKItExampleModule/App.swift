@@ -35,6 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         DebugMenu.install(
             windowScene: windowScene,
             items: [
+                AlertDebugMenu(),
                 ViewControllerDebugItem<ColorViewController>(builder: { $0.init(color: .blue) }),
                 ClearCacheDebugItem(),
                 UserDefaultsResetDebugItem(),
@@ -69,4 +70,15 @@ class RootViewController: UIViewController {
     }
     
     override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge { .all }
+}
+
+struct AlertDebugMenu: DebugItem {
+  var debugItemTitle: String = "Alert"
+  var action: DebugItemAction = .didSelect { @MainActor controller in
+    let alert = UIAlertController(title: "Input Text", message: nil, preferredStyle: .alert)
+    alert.addTextField()
+    alert.addAction(.init(title: "OK", style: .default))
+    controller.present(alert, animated: true)
+    return .success()
+  }
 }
