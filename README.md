@@ -8,13 +8,6 @@
 
 Select File > Swift Packages > Add Package Dependency. Enter https://github.com/noppefoxwolf/DebugMenu in the "Choose Package Repository" dialog.
 
-### Cocoapods
-
-```ruby
-pod 'DebugMenu', :git => 'https://github.com/noppefoxwolf/DebugMenu.git'
-
-```
-
 ## Usage
 
 ### UIKit based
@@ -64,12 +57,12 @@ struct App: SwiftUI.App {
 struct CustomDebugItem: DebugItem {
     let debugItemTitle: String = "Custom item"
     let action: DebugItemAction = .toggle { UserDefaults.standard.bool(forKey: "key") } action: { (isOn, completions) in
-        let userDefaults = UserDefaults.standard
-        userDefaults.set(isOn, forKey: "key")
-        if userDefaults.synchronize() {
-            completions(.success(message: "Switch to \(isOn)"))
-        } else {
-            completions(.failure(message: "Failed to save"))
+        let updater = Updater()
+        do {
+            await updater.update()
+            return .success(message: "Updated")
+        } catch {
+            return .failure(message: "Faild to update")
         }
     }
 }
@@ -91,9 +84,10 @@ public class CustomDashboardItem: DashboardItem {
 }
 ```
 
-# Plugins
+# Exclude DebugMenu in production
 
-- [DebugMenuConsolePlugin](https://github.com/noppefoxwolf/DebugMenuConsolePlugin)
+Read following article.
+[Linking a Swift package only in debug builds](https://augmentedcode.io/2022/05/02/linking-a-swift-package-only-in-debug-builds/)
 
 # How to use
 
