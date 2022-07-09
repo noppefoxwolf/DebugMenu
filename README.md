@@ -7,6 +7,7 @@
 ### Swift Package Manager
 
 Select File > Swift Packages > Add Package Dependency. 
+
 Enter https://github.com/noppefoxwolf/DebugMenu in the "Choose Package Repository" dialog.
 
 ```swift
