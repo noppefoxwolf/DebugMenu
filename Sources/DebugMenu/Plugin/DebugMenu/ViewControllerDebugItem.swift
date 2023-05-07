@@ -9,11 +9,11 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
     public init(
         title: String? = nil,
         presentationMode: PresentationMode = .push,
-        builder: @escaping ((T.Type) -> T) = { $0.init() }
+        builder: @escaping @MainActor (T.Type) -> T = { $0.init() }
     ) {
         debugItemTitle = title ?? String(describing: T.self)
         action = .didSelect { controller in
-            let viewController = builder(T.self)
+            let viewController = await builder(T.self)
             switch presentationMode {
             case .present:
                 await controller.present(viewController, animated: true)
