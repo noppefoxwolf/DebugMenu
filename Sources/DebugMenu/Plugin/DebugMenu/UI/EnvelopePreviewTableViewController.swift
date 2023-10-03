@@ -39,7 +39,8 @@ class EnvelopePreviewTableViewController: UITableViewController {
 
     private func fetch() {
         Task { [weak self] in
-            let envelops = await fetcher()
+            let envelops = await self?.fetcher()
+            guard let envelops else { return }
             self?.envelops = envelops
             self?.tableView.refreshControl?.endRefreshing()
             self?.tableView.reloadData()
