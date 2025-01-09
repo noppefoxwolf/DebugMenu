@@ -1,3 +1,8 @@
+
+> [!WARNING]
+> DebugMenu will be archive soon.
+> Please try new [noppefoxwolf/ContentLauncher](https://github.com/noppefoxwolf/ContentLauncher).
+
 # DebugMenu
 
 ![](https://github.com/noppefoxwolf/DebugMenu/blob/main/.github/example.gif)
