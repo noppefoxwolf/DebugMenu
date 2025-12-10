@@ -1,6 +1,7 @@
 import Foundation
 
-public protocol DashboardItem {
+@MainActor
+public protocol DashboardItem: Sendable {
     var title: String { get }
     func startMonitoring()
     func stopMonitoring()

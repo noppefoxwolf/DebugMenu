@@ -1,7 +1,7 @@
 import Foundation
 
-public enum MetricsFetcher {
-    case text(_ fetcher: () -> String)
-    case graph(_ fetcher: () -> [Double])
-    case interval(_ fetcher: () -> [TimeInterval])
+public enum MetricsFetcher: Sendable {
+    case text(_ fetcher: @Sendable @MainActor () -> String)
+    case graph(_ fetcher: @Sendable @MainActor () -> [Double])
+    case interval(_ fetcher: @Sendable @MainActor () -> [TimeInterval])
 }

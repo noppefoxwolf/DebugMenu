@@ -1,6 +1,6 @@
 import Foundation
 
-public struct NetworkUsage {
+public struct NetworkUsage: Sendable {
     public let wifiDataSent: UInt64
     public let wifiDataReceived: UInt64
     public let wwanDataSent: UInt64

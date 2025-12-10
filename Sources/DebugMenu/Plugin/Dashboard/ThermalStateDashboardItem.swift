@@ -1,7 +1,8 @@
 import Combine
 import Foundation
 
-public class ThermalStateDashboardItem: DashboardItem {
+@MainActor
+public final class ThermalStateDashboardItem: DashboardItem {
     public init() {}
     public let title: String = "Thermal"
     var currentThermalState: ProcessInfo.ThermalState = .nominal

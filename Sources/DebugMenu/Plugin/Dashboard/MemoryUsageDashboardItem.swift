@@ -1,6 +1,7 @@
 import Foundation
 
-public class MemoryUsageDashboardItem: DashboardItem {
+@MainActor
+public final class MemoryUsageDashboardItem: DashboardItem {
     public init() {}
     public let title: String = "MEM"
     private var text: String = ""

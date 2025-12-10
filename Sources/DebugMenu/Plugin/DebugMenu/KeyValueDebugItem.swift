@@ -7,8 +7,8 @@ public struct KeyValueDebugItem: DebugItem {
     ) {
         self.title = title
         self.action = .didSelect(operation: { parent in
-            let vc = await EnvelopePreviewTableViewController(fetcher: fetcher)
-            await parent.navigationController?.pushViewController(vc, animated: true)
+            let vc = EnvelopePreviewTableViewController(fetcher: fetcher)
+            parent.navigationController?.pushViewController(vc, animated: true)
             return .success()
         })
     }

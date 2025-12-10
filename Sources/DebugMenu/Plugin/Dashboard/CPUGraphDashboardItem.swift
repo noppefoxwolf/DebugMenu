@@ -1,6 +1,7 @@
 import Foundation
 
-public class CPUGraphDashboardItem: DashboardItem {
+@MainActor
+public final class CPUGraphDashboardItem: DashboardItem {
     public init() {}
     public let title: String = "CPU"
     private var data: [Double] = []
