@@ -1,7 +1,8 @@
 import UIKit
 
-public class Device {
-    public static let current: Device = .init()
+@MainActor
+public final class Device {
+    public static var current: Device { Device() }
 
     public var localizedModel: String {
         UIDevice.current.localizedModel

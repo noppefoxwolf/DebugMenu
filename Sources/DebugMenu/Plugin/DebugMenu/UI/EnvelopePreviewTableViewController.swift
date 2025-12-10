@@ -6,7 +6,7 @@ class EnvelopePreviewTableViewController: UITableViewController {
     var envelops: [Envelope] = []
     var fetcher: () async -> [Envelope]
 
-    init(fetcher: @escaping () async -> [Envelope]) {
+    init(fetcher: @escaping @Sendable @MainActor () async -> [Envelope]) {
         self.fetcher = fetcher
         super.init(style: .plain)
     }

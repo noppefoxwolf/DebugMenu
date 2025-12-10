@@ -3,7 +3,7 @@ import Foundation
 public struct KeyValueDebugItem: DebugItem {
     public init(
         title: String,
-        fetcher: @escaping () async -> [Envelope]
+        fetcher: @escaping @Sendable @MainActor () async -> [Envelope]
     ) {
         self.title = title
         self.action = .didSelect(operation: { parent in

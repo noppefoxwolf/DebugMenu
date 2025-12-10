@@ -1,7 +1,7 @@
 import Foundation
 
 public class Application {
-    public static var current: Application = .init()
+    public static var current: Application { Application() }
 
     public var appName: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String

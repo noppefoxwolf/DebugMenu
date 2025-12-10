@@ -4,7 +4,7 @@ public class FloatingItemGestureRecognizer: UIPanGestureRecognizer {
     private weak var groundView: UIView?
     private var gestureGap: CGPoint?
     private let margin: CGFloat = 16
-    public enum Edge {
+    public enum Edge: Sendable {
         case top
         //        case center
         case bottom
@@ -26,7 +26,7 @@ public class FloatingItemGestureRecognizer: UIPanGestureRecognizer {
 
     }
 
-    deinit {
+    @MainActor deinit {
         self.removeTarget(self, action: #selector(pan(_:)))
     }
 

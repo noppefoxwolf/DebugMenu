@@ -1,8 +1,8 @@
 import Foundation
 import Metal
 
-class GPU {
-    static var current: GPU = .init()
+final class GPU {
+    static var current: GPU { GPU() }
     let device: MTLDevice
 
     init() {

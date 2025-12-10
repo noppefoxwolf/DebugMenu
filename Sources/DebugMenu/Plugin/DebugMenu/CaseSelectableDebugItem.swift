@@ -1,8 +1,8 @@
 import UIKit
 
-public struct CaseSelectableDebugItem<T: CaseIterable & RawRepresentable>: DebugItem
+public struct CaseSelectableDebugItem<T: CaseIterable & RawRepresentable & Sendable>: DebugItem
 where T.RawValue: Equatable {
-    public init(currentValue: T, didSelected: @escaping (T) -> Void) {
+    public init(currentValue: T, didSelected: @escaping @Sendable @MainActor (T) -> Void) {
         self.action = .didSelect { controller in
             let vc = CaseSelectableTableController<T>(
                 currentValue: currentValue,

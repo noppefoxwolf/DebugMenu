@@ -1,7 +1,7 @@
 import UIKit
 
 public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
-    public enum PresentationMode {
+    public enum PresentationMode: Sendable {
         case present
         case push
     }
