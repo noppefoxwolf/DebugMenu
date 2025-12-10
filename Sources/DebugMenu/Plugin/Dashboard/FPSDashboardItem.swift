@@ -1,7 +1,8 @@
 import Foundation
 import QuartzCore
 
-public class FPSDashboardItem: DashboardItem {
+@MainActor
+public final class FPSDashboardItem: DashboardItem {
     public let title: String = "FPS"
     var displayLink: CADisplayLink?
     var lastupdated: CFTimeInterval = 0

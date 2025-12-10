@@ -1,7 +1,7 @@
 import UIKit
 
 public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
-    public enum PresentationMode {
+    public enum PresentationMode: Sendable {
         case present
         case push
     }
@@ -13,13 +13,13 @@ public struct ViewControllerDebugItem<T: UIViewController>: DebugItem {
     ) {
         debugItemTitle = title ?? String(describing: T.self)
         action = .didSelect { controller in
-            let viewController = await builder(T.self)
+            let viewController = builder(T.self)
             switch presentationMode {
             case .present:
-                await controller.present(viewController, animated: true)
+                controller.present(viewController, animated: true)
                 return .success()
             case .push:
-                await controller.navigationController?
+                controller.navigationController?
                     .pushViewController(viewController, animated: true)
                 return .success()
             }

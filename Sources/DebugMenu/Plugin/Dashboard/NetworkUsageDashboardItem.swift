@@ -1,7 +1,8 @@
 import Combine
 import Foundation
 
-public class NetworkUsageDashboardItem: DashboardItem {
+@MainActor
+public final class NetworkUsageDashboardItem: DashboardItem {
     public init() {}
     public let title: String = "Network"
     var lastNetworkUsage: NetworkUsage? = nil

@@ -4,7 +4,8 @@ import UIKit
 protocol TouchThrowing {}
 
 @available(iOSApplicationExtension, unavailable)
-public class InAppDebuggerWindow: UIWindow {
+@MainActor
+public final class InAppDebuggerWindow: UIWindow {
     internal static var windows: [InAppDebuggerWindow] = []
 
     internal static func install(

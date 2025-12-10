@@ -13,12 +13,12 @@ public struct GroupDebugItem: DebugItem, HasDebugItems {
     public var debugItemTitle: String
     public var action: DebugItemAction {
         .didSelect { controller in
-            let vc = await InAppDebuggerViewController(
+            let vc = InAppDebuggerViewController(
                 title: self.debugItemTitle,
                 debuggerItems: self.debugItems,
                 options: []
             )
-            await controller.navigationController?.pushViewController(vc, animated: true)
+            controller.navigationController?.pushViewController(vc, animated: true)
             return .success()
         }
     }

@@ -2,6 +2,8 @@ import UIKit
 
 @available(iOSApplicationExtension, unavailable)
 public struct DebugMenu {
+    
+    @MainActor
     public static func install(
         windowScene: UIWindowScene? = nil,
         items: [DebugItem] = [],

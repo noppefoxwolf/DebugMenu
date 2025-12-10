@@ -1,12 +1,12 @@
 import Foundation
 import UIKit
 
-public enum Options {
+public enum Options: Sendable {
     case showsWidgetOnLaunch
     case showsRecentItems
     case launchIcon(LaunchIcon)
 
-    public struct LaunchIcon {
+    public struct LaunchIcon: Sendable {
         public typealias Position = FloatingItemGestureRecognizer.Edge
 
         let image: UIImage?
@@ -21,7 +21,7 @@ public enum Options {
         }
     }
 
-    public static var `default`: [Options] = [.showsRecentItems]
+    public static var `default`: [Options] { [.showsRecentItems] }
 
     var isShowsWidgetOnLaunch: Bool {
         if case .showsWidgetOnLaunch = self { return true }

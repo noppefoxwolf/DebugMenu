@@ -1,6 +1,7 @@
 import Foundation
 
-public class CPUUsageDashboardItem: DashboardItem {
+@MainActor
+public final class CPUUsageDashboardItem: DashboardItem {
     public init() {}
     public let title: String = "CPU"
     private var text: String = ""

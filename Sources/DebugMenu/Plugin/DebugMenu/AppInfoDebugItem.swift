@@ -4,7 +4,7 @@ public struct AppInfoDebugItem: DebugItem {
     public init() {}
     public var debugItemTitle: String = "App Info"
     public var action: DebugItemAction = .didSelect { parent in
-        let vc = await EnvelopePreviewTableViewController {
+        let vc = EnvelopePreviewTableViewController {
             [
                 "App Name": Application.current.appName,
                 "Version": Application.current.version,
@@ -18,7 +18,7 @@ public struct AppInfoDebugItem: DebugItem {
             .map({ Envelope.init(key: $0.key, value: $0.value) })
             .sorted(by: { $0.key < $1.key })
         }
-        await parent.navigationController?.pushViewController(vc, animated: true)
+        parent.navigationController?.pushViewController(vc, animated: true)
         return .success()
     }
 

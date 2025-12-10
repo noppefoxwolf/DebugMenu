@@ -4,7 +4,7 @@ public struct DeviceInfoDebugItem: DebugItem {
     public init() {}
     public var debugItemTitle: String = "Device Info"
     public var action: DebugItemAction = .didSelect { parent in
-        let vc = await EnvelopePreviewTableViewController {
+        let vc = EnvelopePreviewTableViewController {
             [
                 "Name": Device.current.name,
                 "Battery level": Device.current.localizedBatteryLevel,
@@ -22,7 +22,7 @@ public struct DeviceInfoDebugItem: DebugItem {
             ]
             .map({ Envelope(key: $0.key, value: $0.value) }).sorted(by: { $0.key < $1.key })
         }
-        await parent.navigationController?.pushViewController(vc, animated: true)
+        parent.navigationController?.pushViewController(vc, animated: true)
         return .success()
     }
 

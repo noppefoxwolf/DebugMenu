@@ -3,12 +3,12 @@ import Foundation
 public struct KeyValueDebugItem: DebugItem {
     public init(
         title: String,
-        fetcher: @escaping () async -> [Envelope]
+        fetcher: @escaping @Sendable @MainActor () async -> [Envelope]
     ) {
         self.title = title
         self.action = .didSelect(operation: { parent in
-            let vc = await EnvelopePreviewTableViewController(fetcher: fetcher)
-            await parent.navigationController?.pushViewController(vc, animated: true)
+            let vc = EnvelopePreviewTableViewController(fetcher: fetcher)
+            parent.navigationController?.pushViewController(vc, animated: true)
             return .success()
         })
     }

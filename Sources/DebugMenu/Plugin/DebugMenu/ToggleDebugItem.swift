@@ -1,7 +1,11 @@
 import Foundation
 
 public struct ToggleDebugItem: DebugItem {
-    public init(title: String, current: @escaping () -> Bool, onChange: @escaping (Bool) -> Void) {
+    public init(
+        title: String,
+        current: @escaping @Sendable () -> Bool,
+        onChange: @escaping @Sendable (Bool) -> Void
+    ) {
         self.title = title
         self.action = .toggle(
             current: current,

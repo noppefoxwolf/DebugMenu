@@ -1,14 +1,14 @@
 import Foundation
 import UIKit
 
-public class CaseSelectableTableController<T: CaseIterable & RawRepresentable>:
+public class CaseSelectableTableController<T: CaseIterable & RawRepresentable & Sendable>:
     UITableViewController
 where T.RawValue: Equatable {
     public let currentValue: T
     public let didSelected: (T) -> Void
     private var selectedIndex: IndexPath? = nil
 
-    public init(currentValue: T, didSelected: @escaping (T) -> Void) {
+    public init(currentValue: T, didSelected: @escaping @Sendable @MainActor (T) -> Void) {
         self.currentValue = currentValue
         self.didSelected = didSelected
         super.init(style: .grouped)

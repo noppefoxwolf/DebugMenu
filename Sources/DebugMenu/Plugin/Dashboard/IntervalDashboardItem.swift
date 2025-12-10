@@ -1,7 +1,8 @@
 import Combine
 import Foundation
 
-public class IntervalDashboardItem: DashboardItem {
+@MainActor
+public final class IntervalDashboardItem: DashboardItem {
     public init(title: String, name: String) {
         self.title = title
         self.name = Notification.Name(name)
